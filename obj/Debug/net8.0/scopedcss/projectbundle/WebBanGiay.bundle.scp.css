@@ -1,0 +1,171 @@
+/* _content/WebBanGiay/Areas/Admin/Views/Shared/_AdminLayout.cshtml.rz.scp.css */
+*[b-pttdmuwvfo] {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body[b-pttdmuwvfo] {
+    background: #f1f5f9;
+    color: #1f2937;
+}
+
+/* LAYOUT */
+.admin-container[b-pttdmuwvfo] {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar[b-pttdmuwvfo] {
+    width: 260px;
+    background: linear-gradient(180deg, #111827, #1f2937);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.brand[b-pttdmuwvfo] {
+    padding: 20px;
+    font-size: 22px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.brand i[b-pttdmuwvfo] {
+    color: #38bdf8;
+}
+
+/* MENU */
+.menu[b-pttdmuwvfo] {
+    padding: 15px 0;
+}
+
+.menu a[b-pttdmuwvfo] {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 22px;
+    color: #cbd5f5;
+    text-decoration: none;
+    transition: 0.25s;
+}
+
+.menu a i[b-pttdmuwvfo] {
+    width: 22px;
+    font-size: 16px;
+}
+
+.menu a:hover[b-pttdmuwvfo],
+.menu a.active[b-pttdmuwvfo] {
+    background: rgba(56,189,248,0.15);
+    color: #38bdf8;
+    border-left: 4px solid #38bdf8;
+}
+
+/* LOGOUT */
+.logout[b-pttdmuwvfo] {
+    padding: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.logout a[b-pttdmuwvfo] {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fca5a5;
+    text-decoration: none;
+}
+
+.logout a:hover[b-pttdmuwvfo] {
+    color: #fecaca;
+}
+
+/* MAIN */
+.main[b-pttdmuwvfo] {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOPBAR */
+.topbar[b-pttdmuwvfo] {
+    height: 64px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.page-title[b-pttdmuwvfo] {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.user[b-pttdmuwvfo] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+/* CONTENT */
+.content[b-pttdmuwvfo] {
+    padding: 25px;
+}
+/* _content/WebBanGiay/Areas/Customer/Views/Shared/_CustomerLayout.cshtml.rz.scp.css */
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-6d9t7b5g9a] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-6d9t7b5g9a] {
+  color: #0077cc;
+}
+
+.btn-primary[b-6d9t7b5g9a] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-6d9t7b5g9a], .nav-pills .show > .nav-link[b-6d9t7b5g9a] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-6d9t7b5g9a] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-6d9t7b5g9a] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-6d9t7b5g9a] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-6d9t7b5g9a] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-6d9t7b5g9a] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
