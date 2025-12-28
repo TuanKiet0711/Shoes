@@ -3,17 +3,25 @@ using WebBanGiay.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// =====================
+// SERVICES
+// =====================
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<WebBanGiayContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// =====================
+// MIDDLEWARE
+// =====================
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -21,22 +29,35 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
+
+// 🔥🔥🔥 QUAN TRỌNG NHẤT – THIẾU LÀ 404 HẾT 🔥🔥🔥
+app.MapControllers();
+
+// =====================
+// ROUTES
+// =====================
+
+// 👉 ROOT "/" → CUSTOMER / TrangChu / Index
 app.MapAreaControllerRoute(
-    name: "customer_default",
+    name: "customer_root",
     areaName: "Customer",
     pattern: "",
-    defaults: new { controller = "Home", action = "Index" }
+    defaults: new { controller = "TrangChu", action = "Index" }
 );
 
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+// 👉 CUSTOMER AREA
+app.MapAreaControllerRoute(
+    name: "customer",
+    areaName: "Customer",
+    pattern: "Customer/{controller=TrangChu}/{action=Index}/{id?}"
 );
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapGet("/", () => Results.Redirect("/Customer/Home"));
+
+// 👉 ADMIN AREA
+app.MapAreaControllerRoute(
+    name: "admin",
+    areaName: "Admin",
+    pattern: "Admin/{controller=Home}/{action=Index}/{id?}"
+);
 
 app.Run();
