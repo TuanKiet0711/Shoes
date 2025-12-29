@@ -1,64 +1,62 @@
 ﻿@model List<WebBanGiay.Models.SanPham>
 
 @{
-    ViewData["Title"] = "Trang chủ - ";
+    ViewData["Title"] = "Trang chủ ";
 }
-
+<link rel="stylesheet" href="~/css/Customer/TrangChu.css" asp-append-version="true" />
 <!-- ================= BANNER SLIDER CSS ================= -->
-<style>
-    .slide {
-        opacity: 0;
-        position: absolute;
-        inset: 0;
-        transition: opacity 1s ease;
-    }
-    .slide.active {
-        opacity: 1;
-        z-index: 10;
-    }
-    .slide img {
-        animation: zoomSoft 8s ease-in-out infinite alternate;
-    }
-    @@keyframes zoomSoft {
-        from { transform: scale(1); }
-        to { transform: scale(1.1); }
-    }
-    .fade-slide {
-        animation: fadeSlideUp 1s ease forwards;
-        opacity: 0;
-    }
-    @@keyframes fadeSlideUp {
-        from { opacity: 0; transform: translateY(40px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .delay-1 { animation-delay: .2s; }
-    .delay-2 { animation-delay: .4s; }
-    .delay-3 { animation-delay: .6s; }
-</style>
 
-<!-- ================= BANNER SLIDER ================= -->
-<section class="relative h-[520px] rounded-3xl overflow-hidden mb-20">
-    <div class="relative w-full h-full">
-
+<!-- ================= BANNER SLIDER (thụt 1cm mỗi bên + bo góc) ================= -->
+<section class="relative h-[520px] overflow-hidden mb-20
+                w-[calc(100vw-2cm)] left-1/2 -translate-x-1/2">
+    <div class="relative w-full h-full rounded-3xl md:rounded-[2rem] overflow-hidden">
         <!-- SLIDE 1 -->
-        <div class="slide active">
-            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-indigo-700/50"></div>
-            <div class="absolute inset-0 flex items-center px-12 text-white">
-                <div class="max-w-3xl">
-                    <span class="bg-indigo-600 px-4 py-2 rounded-full text-xs fade-slide delay-1">Bộ sưu tập mới</span>
-                    <h1 class="text-5xl font-extrabold my-6 fade-slide delay-2">
-                        Phong cách <span class="text-indigo-300">thể thao</span>
-                    </h1>
-                    <p class="mb-8 text-gray-200 fade-slide delay-3">Giày chính hãng – Thiết kế hiện đại – Giá tốt</p>
-                    <a class="bg-indigo-600 px-8 py-4 rounded-full font-semibold">Mua ngay</a>
-                </div>
-            </div>
+   <!-- SLIDE 1 (NHIỀU MÃ GIẢM GIÁ) -->
+<div class="slide active">
+    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+         class="w-full h-full object-cover" />
+
+    <div class="absolute inset-0 bg-gradient-to-r from-black/85 to-rose-700/50"></div>
+
+    <div class="absolute inset-0 flex items-center px-12 text-white">
+        <div class="max-w-3xl">
+
+            <!-- BADGE -->
+            <span class="bg-rose-600 px-4 py-2 rounded-full text-xs font-bold fade-slide delay-1">
+                🎉 ƯU ĐÃI ĐẶC BIỆT
+            </span>
+
+            <!-- TITLE -->
+            <h1 class="text-5xl font-extrabold my-6 fade-slide delay-2">
+                Nhiều mã giảm giá <br />
+                <span class="text-rose-300">lên đến 30%</span>
+            </h1>
+
+            <!-- DESC -->
+            <p class="mb-8 text-gray-200 fade-slide delay-3">
+                Áp dụng cho nhiều sản phẩm chính hãng.<br />
+                Số lượng mã có hạn – nhanh tay kẻo lỡ!
+            </p>
+
+            <!-- LIST MÃ (visual) -->
+           
+
+            <!-- CTA -->
+            <a href="/Customer/TrangChu"
+               class="inline-flex items-center gap-3 bg-rose-600 hover:bg-rose-700
+                      px-10 py-5 rounded-full font-extrabold text-lg transition">
+                <i class="fa-solid fa-bag-shopping"></i>
+                Mua ngay
+            </a>
+
         </div>
+    </div>
+</div>
 
         <!-- SLIDE 2 -->
         <div class="slide">
-            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519" class="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"
+                 class="w-full h-full object-cover" />
             <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-pink-600/50"></div>
             <div class="absolute inset-0 flex items-center px-12 text-white">
                 <div class="max-w-3xl">
@@ -67,14 +65,15 @@
                         Nâng tầm <span class="text-pink-300">phong cách</span>
                     </h1>
                     <p class="mb-8 text-gray-200 fade-slide delay-3">Sẵn sàng cho mọi bước đi</p>
-                    <a class="bg-pink-600 px-8 py-4 rounded-full font-semibold">Mua ngay</a>
+                    <a href="/Customer/TrangChu" class="bg-pink-600 px-8 py-4 rounded-full font-semibold">Mua ngay</a>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 3 -->
         <div class="slide">
-            <img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f" class="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f"
+                 class="w-full h-full object-cover" />
             <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-green-600/50"></div>
             <div class="absolute inset-0 flex items-center px-12 text-white">
                 <div class="max-w-3xl">
@@ -83,23 +82,12 @@
                         Bước đi <span class="text-green-300">tự tin</span>
                     </h1>
                     <p class="mb-8 text-gray-200 fade-slide delay-3">Đường dẫn đến phong cách hoàn hảo</p>
-                    <a class="bg-green-600 px-8 py-4 rounded-full font-semibold">Mua ngay</a>
+                    <a href="/Customer/TrangChu" class="bg-green-600 px-8 py-4 rounded-full font-semibold">Mua ngay</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<script>
-    const slides = document.querySelectorAll('.slide');
-    let current = 0;
-    setInterval(() => {
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
-    }, 3000);
-</script>
-
 <!-- ================= SẢN PHẨM ================= -->
 <section class="mb-24">
     <div class="max-w-7xl mx-auto px-6">
@@ -200,13 +188,6 @@
     </div>
 </section>
 
-
-        <!-- ROW 2 -->
-       
-    </div>
-</section>
-
-<!-- ================= FAQ + BLOG (2 CỘT) ================= -->
 <!-- ================= FAQ + SERVICE (2 CỘT) ================= -->
 <section class="bg-white py-24 border-t">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20">
@@ -233,7 +214,6 @@
                             <span class="text-2xl text-indigo-600">+</span>
                         </button>
                         <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 mt-4 text-gray-600 leading-relaxed">
-
                             @item.A
                         </div>
                     </div>
@@ -279,21 +259,7 @@
     </div>
 </section>
 
-<!-- FAQ SCRIPT -->
-<script>
-    document.querySelectorAll('.faq-question').forEach(btn => {
-        btn.onclick = () => {
-            const ans = btn.nextElementSibling;
-            const icon = btn.querySelector('span');
-
-            if (ans.style.maxHeight) {
-                ans.style.maxHeight = null;
-                icon.textContent = '+';
-            } else {
-                ans.style.maxHeight = ans.scrollHeight + "px";
-                icon.textContent = '−';
-            }
-        };
-    });
-</script>
-
+@section Scripts{
+    <script src="~/js/Customer/TrangChu.js" asp-append-version="true"></script>
+    
+}

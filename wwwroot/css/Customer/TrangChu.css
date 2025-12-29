@@ -1,0 +1,28 @@
+  .slide {
+        opacity: 0;
+        position: absolute;
+        inset: 0;
+        transition: opacity 1s ease;
+    }
+    .slide.active {
+        opacity: 1;
+        z-index: 10;
+    }
+    .slide img {
+        animation: zoomSoft 8s ease-in-out infinite alternate;
+    }
+    @keyframes zoomSoft {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+    }
+    .fade-slide {
+        animation: fadeSlideUp 1s ease forwards;
+        opacity: 0;
+    }
+    @keyframes fadeSlideUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .delay-1 { animation-delay: .2s; }
+    .delay-2 { animation-delay: .4s; }
+    .delay-3 { animation-delay: .6s; }
