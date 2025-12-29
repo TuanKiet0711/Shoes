@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using WebBanGiay.Models;
 using Microsoft.EntityFrameworkCore;
+using WebBanGiay.Models;
 
 namespace WebBanGiay.Areas.Customer.Controllers
 {
@@ -16,10 +16,19 @@ namespace WebBanGiay.Areas.Customer.Controllers
 
         public async Task<IActionResult> Index()
         {
+            // ===== LOAD DANH MỤC & THƯƠNG HIỆU =====
             ViewBag.DanhMuc = await _context.DanhMuc.ToListAsync();
             ViewBag.ThuongHieu = await _context.ThuongHieu.ToListAsync();
 
-            return View();
+            // ===== SẢN PHẨM NỔI BẬT (KHÔNG FILTER) =====
+            var sanPhamNoiBat = await _context.SanPham
+                .Include(sp => sp.HinhAnhSanPham)
+                .Include(sp => sp.MaThuongHieuNavigation)
+                .OrderByDescending(sp => sp.NgayTao ?? DateTime.MinValue)
+                .Take(8)
+                .ToListAsync();
+
+            return View(sanPhamNoiBat);
         }
     }
 }
