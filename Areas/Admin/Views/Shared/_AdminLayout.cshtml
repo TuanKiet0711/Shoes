@@ -1,104 +1,174 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var curArea = (ViewContext.RouteData.Values["area"]?.ToString() ?? "").ToLower();
+    var curController = (ViewContext.RouteData.Values["controller"]?.ToString() ?? "").ToLower();
+    var curAction = (ViewContext.RouteData.Values["action"]?.ToString() ?? "").ToLower();
+
+    bool IsActive(string controller, string action = "Index")
+    => curArea == "admin"
+    && curController == controller.ToLower()
+    && curAction == action.ToLower();
+
+    bool IsController(string controller)
+    => curArea == "admin"
+    && curController == controller.ToLower();
+}
+
+<!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"] - Admin LeeShoes</title>
+    <title>@ViewData["Title"] Admin LeeShoes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/Admin/_AdminLayout.css" asp-append-version="true" />
-
 </head>
+
 <body>
+    <div class="admin-root">
 
-<div class="admin-root">
-    <aside class="sidebar">
-        <div class="logo">
-            <i class="fa-solid fa-bolt text-primary"></i>
-            <span>LeeShoes</span>
-        </div>
-
-        <div class="menu-container">
-            <div class="menu-label">Tổng quan</div>
-            <ul class="menu">
-                <li class="active">
-                    <a asp-area="Admin" asp-controller="Home" asp-action="Index">
-                        <div class="menu-left"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></div>
-                    </a>
-                </li>
-            </ul>
-
-            <div class="menu-label">Quản lý kho</div>
-            <ul class="menu">
-                <li class="has-sub">
-                    <a href="javascript:void(0)" onclick="toggleMenu(this)">
-                        <div class="menu-left"><i class="fa-solid fa-box"></i><span>Sản phẩm</span></div>
-                        <i class="fa-solid fa-chevron-down menu-arrow"></i>
-                    </a>
-                    <ul class="submenu">
-                        <li><a href="#">Danh sách</a></li>
-                        <li><a href="#">Biến thể</a></li>
-                        <li><a href="#">Hình ảnh</a></li>
-                    </ul>
-                </li>
-                <li><a href="#"><div class="menu-left"><i class="fa-solid fa-layer-group"></i><span>Danh mục</span></div></a></li>
-                <li><a href="#"><div class="menu-left"><i class="fa-solid fa-copyright"></i><span>Thương hiệu</span></div></a></li>
-            </ul>
-
-            <div class="menu-label">Đơn hàng</div>
-            <ul class="menu">
-                <li><a href="#"><div class="menu-left"><i class="fa-solid fa-receipt"></i><span>Đơn hàng mới</span></div></a></li>
-                <li><a href="#"><div class="menu-left"><i class="fa-solid fa-ticket"></i><span>Mã giảm giá</span></div></a></li>
-            </ul>
-
-            <div class="menu-label">Giao nhận</div>
-            <ul class="menu">
-                <li class="has-sub">
-                    <a href="javascript:void(0)" onclick="toggleMenu(this)">
-                        <div class="menu-left"><i class="fa-solid fa-truck-fast"></i><span>Tài xế</span></div>
-                        <i class="fa-solid fa-chevron-down menu-arrow"></i>
-                    </a>
-                    <ul class="submenu">
-                        <li><a href="#">Đội ngũ</a></li>
-                        <li><a href="#">Phân công</a></li>
-                    </ul>
-                </li>
-            </ul>
-
-            <div class="menu-label">Hệ thống</div>
-            <ul class="menu">
-                <li><a href="#"><div class="menu-left"><i class="fa-solid fa-user-group"></i><span>Tài khoản</span></div></a></li>
-                <li><a href="/"><div class="menu-left"><i class="fa-solid fa-globe"></i><span>Website</span></div></a></li>
-            </ul>
-        </div>
-    </aside>
-
-    <div class="main">
-        <header class="topbar">
-            <div class="title">@ViewData["Title"]</div>
-
-            <div class="user-dropdown">
-                <div class="user-btn" onclick="toggleUserMenu(this)">
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=3b82f6&color=fff">
-                    <span class="fw-semibold">Quản trị viên</span>
-                    <i class="fa-solid fa-angle-down opacity-50"></i>
-                </div>
-                <div class="user-menu">
-                    <a href="#"><i class="fa-solid fa-user-circle"></i> Tài khoản</a>
-                    <a href="#" class="text-danger"><i class="fa-solid fa-sign-out-alt"></i> Đăng xuất</a>
-                </div>
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-bolt text-primary"></i>
+                <span>LeeShoes</span>
             </div>
-        </header>
 
-        <main class="content">
-            @RenderBody()
-        </main>
+            <div class="menu-container">
+
+                <div class="menu-label">Tổng quan</div>
+                <ul class="menu">
+                    <li class="@(IsActive("Home", "Index") ? "active" : "")">
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                            <div class="menu-left">
+                                <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="menu-label">Quản lý kho</div>
+                <ul class="menu">
+                    @{
+                        var sanPhamParentActive = IsController("SanPham");
+                    }
+                    <li class="has-sub @(sanPhamParentActive ? "active open" : "")">
+                        <a href="javascript:void(0)" onclick="toggleMenu(this)">
+                            <div class="menu-left"><i class="fa-solid fa-box"></i><span>Sản phẩm</span></div>
+                            <i class="fa-solid fa-chevron-down menu-arrow"></i>
+                        </a>
+
+                        <ul class="submenu">
+                            <li class="@(IsActive("SanPham", "Index") ? "active" : "")">
+                                <a asp-area="Admin" asp-controller="SanPham" asp-action="Index">
+                                    Danh sách
+                                </a>
+                            </li>
+                            <li><a href="#">Biến thể</a></li>
+                            <li><a href="#">Hình ảnh</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="@(IsController("DanhMuc") ? "active" : "")">
+                        <a href="#">
+                            <div class="menu-left"><i class="fa-solid fa-layer-group"></i><span>Danh mục</span></div>
+                        </a>
+                    </li>
+
+                    <li class="@(IsController("ThuongHieu") ? "active" : "")">
+                        <a href="#">
+                            <div class="menu-left"><i class="fa-solid fa-copyright"></i><span>Thương hiệu</span></div>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="menu-label">Đơn hàng</div>
+                <ul class="menu">
+                    <li><a href="#">
+                            <div class="menu-left"><i class="fa-solid fa-receipt"></i><span>Đơn hàng mới</span></div>
+                        </a></li>
+                    <li><a href="#">
+                            <div class="menu-left"><i class="fa-solid fa-ticket"></i><span>Mã giảm giá</span></div>
+                        </a></li>
+                </ul>
+
+                <div class="menu-label">Giao nhận</div>
+                <ul class="menu">
+                    <li class="has-sub">
+                        <a href="javascript:void(0)" onclick="toggleMenu(this)">
+                            <div class="menu-left"><i class="fa-solid fa-truck-fast"></i><span>Tài xế</span></div>
+                            <i class="fa-solid fa-chevron-down menu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="#">Đội ngũ</a></li>
+                            <li><a href="#">Phân công</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="menu-label">Hệ thống</div>
+                <ul class="menu">
+                    <li><a href="#">
+                            <div class="menu-left"><i class="fa-solid fa-user-group"></i><span>Tài khoản</span></div>
+                        </a></li>
+                    <li><a href="/">
+                            <div class="menu-left"><i class="fa-solid fa-globe"></i><span>Website</span></div>
+                        </a></li>
+                </ul>
+
+            </div>
+        </aside>
+
+        <div class="main">
+            <header class="topbar">
+                <div class="title">@ViewData["Title"]</div>
+
+                <div class="user-dropdown">
+                    <div class="user-btn" onclick="toggleUserMenu(this)">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=3b82f6&color=fff">
+                        <span class="fw-semibold">Quản trị viên</span>
+                        <i class="fa-solid fa-angle-down opacity-50"></i>
+                    </div>
+                    <div class="user-menu">
+                        <a href="#"><i class="fa-solid fa-user-circle"></i> Tài khoản</a>
+                        <a href="#" class="text-danger"><i class="fa-solid fa-sign-out-alt"></i> Đăng xuất</a>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content">
+                @RenderBody()
+            </main>
+        </div>
     </div>
-</div>
+    <!-- TOAST (TOP RIGHT) -->
+<!-- TOAST (TOP RIGHT) -->
+@if (TempData["ToastMessage"] != null)
+{
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000;">
+        <div id="appToast"
+             class="toast align-items-center text-bg-@(TempData["ToastType"] ?? "success") border-0"
+             role="alert"
+             aria-live="assertive"
+             aria-atomic="true"
+             data-bs-delay="2500">
+            <div class="d-flex">
+                <div class="toast-body">
+                    @TempData["ToastMessage"]
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+}
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/Admin/_AdminLayout.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>

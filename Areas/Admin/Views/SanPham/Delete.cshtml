@@ -1,0 +1,97 @@
+@model WebBanGiay.Models.SanPham
+@{
+    ViewData["Title"] = "Xóa sản phẩm";
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white fw-semibold d-flex align-items-center justify-content-between">
+        <div>
+            <i class="fa-solid fa-trash text-danger me-2"></i> Xóa sản phẩm
+        </div>
+        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+            Hành động không thể hoàn tác
+        </span>
+    </div>
+
+    <div class="card-body">
+        <div class="alert alert-warning d-flex align-items-start gap-2" role="alert">
+            <i class="fa-solid fa-triangle-exclamation mt-1"></i>
+            <div>
+                Bạn có chắc muốn xóa sản phẩm này không?
+                <div class="small text-muted">Nếu xóa, dữ liệu sẽ mất vĩnh viễn.</div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Mã sản phẩm</label>
+                <div class="form-control bg-light">@Model.MaSanPham</div>
+            </div>
+
+            <div class="col-md-8">
+                <label class="form-label text-muted small">Tên sản phẩm</label>
+                <div class="form-control bg-light">@Model.TenSanPham</div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Danh mục</label>
+                <div class="form-control bg-light">
+                    @(Model.MaDanhMucNavigation?.TenDanhMuc ?? "-")
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Thương hiệu</label>
+                <div class="form-control bg-light">
+                    @(Model.MaThuongHieuNavigation?.TenThuongHieu ?? "-")
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Giới tính</label>
+                <div class="form-control bg-light">
+                    @(string.IsNullOrWhiteSpace(Model.GioiTinh) ? "-" : Model.GioiTinh)
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Giá</label>
+                <div class="form-control bg-light">@Model.Gia.ToString("N0") đ</div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Trạng thái</label>
+                <div class="form-control bg-light">
+                    @(Model.TrangThai == "HetHang" ? "Hết hàng" : "Còn hàng")
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label text-muted small">Mô tả</label>
+                <div class="form-control bg-light" style="min-height: 80px;">
+                    @(string.IsNullOrWhiteSpace(Model.MoTa) ? "-" : Model.MoTa)
+                </div>
+            </div>
+        </div>
+
+        <form asp-area="Admin"
+              asp-controller="SanPham"
+              asp-action="Delete"
+              asp-route-id="@Model.MaSanPham"
+              method="post"
+              class="mt-4 d-flex gap-2">
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-trash me-1"></i> Xóa
+            </button>
+
+            <a asp-area="Admin"
+               asp-controller="SanPham"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Hủy
+            </a>
+        </form>
+    </div>
+</div>

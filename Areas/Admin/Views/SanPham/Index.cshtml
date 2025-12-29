@@ -1,0 +1,163 @@
+@model IEnumerable<WebBanGiay.Models.SanPham>
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+
+        <!-- TOOLBAR -->
+        <form method="get" class="px-4 py-3 border-bottom">
+            <div class="row g-2 align-items-end">
+
+                <!-- SEARCH -->
+                <div class="col-md-3">
+                    <label class="form-label small text-muted">Tìm kiếm</label>
+                    <div class="input-group">
+                        <button type="submit" class="input-group-text bg-light">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                        <input type="text" name="q" value="@ViewBag.Query" class="form-control"
+                            placeholder="Mã hoặc tên sản phẩm" />
+                    </div>
+                </div>
+
+                <!-- DANH MỤC -->
+                <div class="col-md-2">
+                    <label class="form-label small text-muted">Danh mục</label>
+                    <select name="danhMuc" class="form-select">
+                        <option value="">-- Tất cả --</option>
+                        @foreach (var dm in ViewBag.DanhMucList)
+                        {
+                            <option value="@dm.MaDanhMuc" selected="@(ViewBag.DanhMuc == dm.MaDanhMuc)">
+                                @dm.TenDanhMuc
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- THƯƠNG HIỆU -->
+                <div class="col-md-2">
+                    <label class="form-label small text-muted">Thương hiệu</label>
+                    <select name="thuongHieu" class="form-select">
+                        <option value="">-- Tất cả --</option>
+                        @foreach (var th in ViewBag.ThuongHieuList)
+                        {
+                            <option value="@th.MaThuongHieu" selected="@(ViewBag.ThuongHieu == th.MaThuongHieu)">
+                                @th.TenThuongHieu
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- TRẠNG THÁI -->
+                <div class="col-md-2">
+                    <label class="form-label small text-muted">Trạng thái</label>
+                    <select name="trangThai" class="form-select">
+                        <option value="">-- Tất cả --</option>
+                        <option value="con" selected="@(ViewBag.TrangThai == "con")">Còn hàng</option>
+                        <option value="het" selected="@(ViewBag.TrangThai == "het")">Hết hàng</option>
+                    </select>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="col-md-3 d-flex align-items-end justify-content-end gap-2">
+                    <button type="submit" class="btn btn-primary d-flex align-items-center gap-2 px-3">
+                        <i class="fa-solid fa-filter"></i>
+                        <span>Lọc</span>
+                    </button>
+
+                    <a asp-area="Admin" asp-controller="SanPham" asp-action="Index"
+                        class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Hủy</span>
+                    </a>
+
+                    <a asp-area="Admin" asp-controller="SanPham" asp-action="Create"
+                        class="btn btn-success d-flex align-items-center gap-2 px-3">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Thêm</span>
+                    </a>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- INFO -->
+        <div class="px-4 py-2 text-muted small border-bottom">
+            Tổng: <b>@(Model?.Count() ?? 0)</b> sản phẩm
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4" style="width:140px;">Mã SP</th>
+                        <th>Tên sản phẩm</th>
+                        <th class="text-center" style="width:120px;">Giới tính</th>
+                        <th class="text-center" style="width:170px;">Danh mục</th>
+                        <th class="text-center" style="width:170px;">Thương hiệu</th>
+                        <th class="text-end" style="width:140px;">Giá</th>
+                        <th class="text-center" style="width:130px;">Tình trạng</th>
+                        <th class="text-center pe-4" style="width:150px;">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var sp in Model)
+                        {
+                            var isHet = (sp.TrangThai == "HetHang");
+                            var badgeClass = isHet ? "danger" : "success";
+                            var label = isHet ? "Hết hàng" : "Còn hàng";
+
+                            <tr>
+                                <td class="ps-4 fw-semibold">@sp.MaSanPham</td>
+                                <td class="fw-semibold">@sp.TenSanPham</td>
+
+                                <td class="text-center">
+                                    @(string.IsNullOrWhiteSpace(sp.GioiTinh) ? "-" : sp.GioiTinh)
+                                </td>
+
+                                <td class="text-center">@sp.MaDanhMucNavigation?.TenDanhMuc</td>
+                                <td class="text-center">@sp.MaThuongHieuNavigation?.TenThuongHieu</td>
+                                <td class="text-end fw-semibold">@sp.Gia.ToString("N0") đ</td>
+
+                                <td class="text-center">
+                                    <span class="badge bg-@badgeClass px-3 py-2 rounded-pill">@label</span>
+                                </td>
+
+                                <td class="text-center pe-4">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a class="btn btn-outline-primary btn-sm" asp-area="Admin" asp-controller="SanPham"
+                                            asp-action="Edit" asp-route-id="@sp.MaSanPham">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+
+
+                                        <a class="btn btn-outline-danger btn-sm" asp-area="Admin" asp-controller="SanPham"
+                                            asp-action="Delete" asp-route-id="@sp.MaSanPham">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-5">
+                                Không có sản phẩm nào
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

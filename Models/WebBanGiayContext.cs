@@ -273,6 +273,7 @@ public partial class WebBanGiayContext : DbContext
             entity.Property(e => e.MaSanPham)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.GioiTinh).HasMaxLength(20);
             entity.Property(e => e.MaDanhMuc)
                 .HasMaxLength(50)
                 .IsUnicode(false);

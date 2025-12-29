@@ -1,0 +1,95 @@
+@model WebBanGiay.Models.SanPham
+@{
+    ViewData["Title"] = "Sửa sản phẩm";
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white fw-semibold">
+        <i class="fa-solid fa-pen me-2"></i> Sửa sản phẩm
+    </div>
+
+    <div class="card-body">
+        <form asp-area="Admin"
+              asp-controller="SanPham"
+              asp-action="Edit"
+              asp-route-id="@Model.MaSanPham"
+              method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Mã sản phẩm</label>
+                    <input asp-for="MaSanPham" class="form-control" readonly />
+                </div>
+
+                <div class="col-md-8">
+                    <label class="form-label">Tên sản phẩm</label>
+                    <input asp-for="TenSanPham" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Danh mục</label>
+                    <select asp-for="MaDanhMuc" class="form-select">
+                        <option value="">-- Chọn --</option>
+                        @foreach (var dm in ViewBag.DanhMucList)
+                        {
+                            <option value="@dm.MaDanhMuc" selected="@(Model.MaDanhMuc == dm.MaDanhMuc)">
+                                @dm.TenDanhMuc
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Thương hiệu</label>
+                    <select asp-for="MaThuongHieu" class="form-select">
+                        <option value="">-- Chọn --</option>
+                        @foreach (var th in ViewBag.ThuongHieuList)
+                        {
+                            <option value="@th.MaThuongHieu" selected="@(Model.MaThuongHieu == th.MaThuongHieu)">
+                                @th.TenThuongHieu
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Giới tính</label>
+                    <select asp-for="GioiTinh" class="form-select">
+                        <option value="">-- Chọn --</option>
+                        <option value="Nam" selected="@(Model.GioiTinh == "Nam")">Nam</option>
+                        <option value="Nữ" selected="@(Model.GioiTinh == "Nữ")">Nữ</option>
+                        <option value="Unisex" selected="@(Model.GioiTinh == "Unisex")">Unisex</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Giá</label>
+                    <input asp-for="Gia" type="number" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Trạng thái</label>
+                    <select asp-for="TrangThai" class="form-select">
+                        <option value="ConHang" selected="@(Model.TrangThai == "ConHang")">Còn hàng</option>
+                        <option value="HetHang" selected="@(Model.TrangThai == "HetHang")">Hết hàng</option>
+                    </select>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Mô tả</label>
+                    <textarea asp-for="MoTa" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-save me-1"></i> Lưu
+                </button>
+                <a asp-area="Admin" asp-controller="SanPham" asp-action="Index" class="btn btn-outline-secondary">
+                    Quay lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
