@@ -14,12 +14,26 @@ namespace WebBanGiay.Areas.Admin.Controllers
             _context = context;
         }
 
+        // ✅ Update trạng thái sản phẩm theo biến thể (optional: để DB cũng đúng)
+        private async Task UpdateTrangThaiSanPhamAsync(string maSanPham)
+        {
+            var conHang = await _context.BienTheSanPham
+                .AsNoTracking()
+                .AnyAsync(x => x.MaSanPham == maSanPham && (x.SoLuong ?? 0) > 0);
+
+            var sp = await _context.SanPham.FirstOrDefaultAsync(x => x.MaSanPham == maSanPham);
+            if (sp == null) return;
+
+            sp.TrangThai = conHang ? "ConHang" : "HetHang";
+            await _context.SaveChangesAsync();
+        }
+
         // GET: /Admin/SanPham
         public async Task<IActionResult> Index(
             string? q,
             string? danhMuc,
             string? thuongHieu,
-            string? trangThai,
+            string? trangThai, // "con" | "het"
             string? gioiTinh)
         {
             ViewData["Title"] = "Danh sách sản phẩm";
@@ -49,14 +63,22 @@ namespace WebBanGiay.Areas.Admin.Controllers
             if (!string.IsNullOrWhiteSpace(gioiTinh))
                 query = query.Where(x => x.GioiTinh == gioiTinh);
 
-            // 📦 Trạng thái (DB: ConHang / HetHang)
-            if (!string.IsNullOrWhiteSpace(trangThai))
-            {
-                if (trangThai == "con")
-                    query = query.Where(x => x.TrangThai == "ConHang");
-                else if (trangThai == "het")
-                    query = query.Where(x => x.TrangThai == "HetHang");
-            }
+            // ✅ Lọc trạng thái theo BIẾN THỂ (không dùng sp.TrangThai)
+            // ✅ Lọc trạng thái theo biến thể (NHANH - KHÔNG TREO)
+if (!string.IsNullOrWhiteSpace(trangThai))
+{
+    var maConHang = await _context.BienTheSanPham
+        .AsNoTracking()
+        .GroupBy(x => x.MaSanPham)
+        .Where(g => g.Sum(x => x.SoLuong ?? 0) > 0)
+        .Select(g => g.Key)
+        .ToListAsync();
+
+    if (trangThai == "con")
+        query = query.Where(sp => maConHang.Contains(sp.MaSanPham));
+    else if (trangThai == "het")
+        query = query.Where(sp => !maConHang.Contains(sp.MaSanPham));
+}
 
             // giữ filter
             ViewBag.Query = q;
@@ -71,6 +93,18 @@ namespace WebBanGiay.Areas.Admin.Controllers
             var data = await query
                 .OrderByDescending(x => x.NgayTao)
                 .ToListAsync();
+
+            // ✅ Tính tồn kho theo biến thể để view hiển thị nhanh
+            var maSps = data.Select(x => x.MaSanPham).ToList();
+
+            var tonKho = await _context.BienTheSanPham
+                .AsNoTracking()
+                .Where(x => x.MaSanPham != null && maSps.Contains(x.MaSanPham))
+                .GroupBy(x => x.MaSanPham)
+                .Select(g => new { MaSanPham = g.Key!, Tong = g.Sum(x => x.SoLuong ?? 0) })
+                .ToDictionaryAsync(x => x.MaSanPham, x => x.Tong);
+
+            ViewBag.TonKho = tonKho;
 
             return View(data);
         }
@@ -91,17 +125,9 @@ namespace WebBanGiay.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SanPham model)
         {
-            // 🔒 đảm bảo đúng constraint DB
-            if (!string.IsNullOrWhiteSpace(model.TrangThai))
-            {
-                model.TrangThai = model.TrangThai.Trim();
-                if (model.TrangThai != "ConHang" && model.TrangThai != "HetHang")
-                    model.TrangThai = "ConHang";
-            }
-            else
-            {
-                model.TrangThai = "ConHang";
-            }
+            // ✅ Không nhập trạng thái thủ công nữa
+            // Nếu chưa có biến thể => mặc định Hết hàng
+            model.TrangThai = "HetHang";
 
             if (!ModelState.IsValid)
             {
@@ -115,10 +141,8 @@ namespace WebBanGiay.Areas.Admin.Controllers
             _context.SanPham.Add(model);
             await _context.SaveChangesAsync();
 
-            // ✅ TOAST
             TempData["ToastType"] = "success";
             TempData["ToastMessage"] = "✅ Thêm sản phẩm thành công!";
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -151,18 +175,8 @@ namespace WebBanGiay.Areas.Admin.Controllers
             if (id != model.MaSanPham)
                 return BadRequest();
 
-            // 🔒 đảm bảo đúng constraint DB (ConHang/HetHang)
-            if (!string.IsNullOrWhiteSpace(model.TrangThai))
-            {
-                model.TrangThai = model.TrangThai.Trim();
-                if (model.TrangThai != "ConHang" && model.TrangThai != "HetHang")
-                    model.TrangThai = "ConHang";
-            }
-            else
-            {
-                model.TrangThai = "ConHang";
-            }
-
+            // ✅ Không cho sửa TrangThai thủ công
+            // Giữ lại trạng thái hiện tại trong DB, rồi cuối cùng update theo biến thể
             if (!ModelState.IsValid)
             {
                 ViewBag.DanhMucList = await _context.DanhMuc.AsNoTracking().ToListAsync();
@@ -178,16 +192,38 @@ namespace WebBanGiay.Areas.Admin.Controllers
             sp.MaThuongHieu = model.MaThuongHieu;
             sp.Gia = model.Gia;
             sp.GioiTinh = model.GioiTinh;
-            sp.TrangThai = model.TrangThai;
             sp.MoTa = model.MoTa;
 
             await _context.SaveChangesAsync();
 
-            // ✅ TOAST
+            // ✅ cập nhật lại trạng thái theo biến thể
+            await UpdateTrangThaiSanPhamAsync(id);
+
             TempData["ToastType"] = "success";
             TempData["ToastMessage"] = "✅ Cập nhật sản phẩm thành công!";
-
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: /Admin/SanPham/Details/id
+        public async Task<IActionResult> Details(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return NotFound();
+
+            ViewData["Title"] = "Chi tiết sản phẩm";
+
+            var sp = await _context.SanPham
+                .AsNoTracking()
+                .Include(x => x.MaDanhMucNavigation)
+                .Include(x => x.MaThuongHieuNavigation)
+                .Include(x => x.HinhAnhSanPham)
+                .Include(x => x.BienTheSanPham)
+                .FirstOrDefaultAsync(x => x.MaSanPham == id);
+
+            if (sp == null)
+                return NotFound();
+
+            return View(sp);
         }
 
         // GET: /Admin/SanPham/Delete/id
@@ -225,10 +261,8 @@ namespace WebBanGiay.Areas.Admin.Controllers
             _context.SanPham.Remove(sp);
             await _context.SaveChangesAsync();
 
-            // ✅ TOAST (đỏ cho xóa)
             TempData["ToastType"] = "success";
             TempData["ToastMessage"] = "🗑️ Xóa sản phẩm thành công!";
-
             return RedirectToAction(nameof(Index));
         }
     }

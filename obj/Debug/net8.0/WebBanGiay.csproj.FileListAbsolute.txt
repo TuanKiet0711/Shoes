@@ -124,9 +124,7 @@ E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\WebBanGiay.sourcelink.js
 E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\rjimswa.dswa.cache.json
 E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
-E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\scopedcss\Areas\Customer\Views\Shared\_CustomerLayout.cshtml.rz.scp.css
 E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\scopedcss\bundle\WebBanGiay.styles.css
-E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\scopedcss\projectbundle\WebBanGiay.bundle.scp.css
 E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\staticwebassets.build.json
 E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\staticwebassets.build.json.cache
 E:\DoAnCaNhan\DoAnTotNghiep\WebBanGiay\obj\Debug\net8.0\staticwebassets.development.json

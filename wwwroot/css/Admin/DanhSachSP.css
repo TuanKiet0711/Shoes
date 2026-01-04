@@ -1,0 +1,25 @@
+/* ===== Dropdown searchable: chữ đen ===== */
+
+/* Text trong button (label đang chọn) */
+
+/* Item trong dropdown */
+.dd-wrap .dropdown-item {
+    color: #000 !important;
+}
+
+/* Hover / active vẫn đen (không bị xám) */
+.dd-wrap .dropdown-item:hover,
+.dd-wrap .dropdown-item.active {
+    color: #000 !important;
+    background-color: rgba(13,110,253,.12); /* xanh nhạt cho dễ nhìn */
+}
+
+/* Text trong ô search */
+.dd-wrap .dd-search {
+    color: #000;
+}
+
+/* Placeholder nhạt hơn một chút cho UX */
+.dd-wrap .dd-search::placeholder {
+    color: #6c757d; /* xám nhạt */
+}

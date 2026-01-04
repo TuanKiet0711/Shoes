@@ -52,8 +52,12 @@
                 <div class="menu-label">Quản lý kho</div>
                 <ul class="menu">
                     @{
-                        var sanPhamParentActive = IsController("SanPham");
-                    }
+    var sanPhamParentActive =
+        IsController("SanPham") ||
+        IsController("BienTheSanPham") ||
+        IsController("HinhAnhSanPham");
+}
+
                     <li class="has-sub @(sanPhamParentActive ? "active open" : "")">
                         <a href="javascript:void(0)" onclick="toggleMenu(this)">
                             <div class="menu-left"><i class="fa-solid fa-box"></i><span>Sản phẩm</span></div>
@@ -66,7 +70,12 @@
                                     Danh sách
                                 </a>
                             </li>
-                            <li><a href="#">Biến thể</a></li>
+                          <li class="@(IsActive("BienTheSanPham", "Index") ? "active" : "")">
+    <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index">
+        Biến thể
+    </a>
+</li>
+
                             <li><a href="#">Hình ảnh</a></li>
                         </ul>
                     </li>

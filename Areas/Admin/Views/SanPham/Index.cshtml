@@ -1,8 +1,9 @@
 @model IEnumerable<WebBanGiay.Models.SanPham>
 @{
     ViewData["Title"] = "Danh sách sản phẩm";
+    var tonKho = ViewBag.TonKho as Dictionary<string, int> ?? new Dictionary<string, int>();
 }
-
+<link rel="stylesheet" href="~/css/Admin/DanhSachSP.css" />
 <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
 
@@ -18,47 +19,123 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                         <input type="text" name="q" value="@ViewBag.Query" class="form-control"
-                            placeholder="Mã hoặc tên sản phẩm" />
+                               placeholder="Mã hoặc tên sản phẩm" />
                     </div>
                 </div>
 
                 <!-- DANH MỤC -->
-                <div class="col-md-2">
-                    <label class="form-label small text-muted">Danh mục</label>
-                    <select name="danhMuc" class="form-select">
-                        <option value="">-- Tất cả --</option>
-                        @foreach (var dm in ViewBag.DanhMucList)
-                        {
-                            <option value="@dm.MaDanhMuc" selected="@(ViewBag.DanhMuc == dm.MaDanhMuc)">
-                                @dm.TenDanhMuc
-                            </option>
-                        }
-                    </select>
-                </div>
+                @* ====== DANH MỤC (searchable dropdown) ====== *@
+<div class="col-md-2">
+    <label class="form-label small text-muted">Danh mục</label>
 
-                <!-- THƯƠNG HIỆU -->
-                <div class="col-md-2">
-                    <label class="form-label small text-muted">Thương hiệu</label>
-                    <select name="thuongHieu" class="form-select">
-                        <option value="">-- Tất cả --</option>
-                        @foreach (var th in ViewBag.ThuongHieuList)
-                        {
-                            <option value="@th.MaThuongHieu" selected="@(ViewBag.ThuongHieu == th.MaThuongHieu)">
-                                @th.TenThuongHieu
-                            </option>
-                        }
-                    </select>
-                </div>
+    <div class="dropdown w-100 dd-wrap">
+        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                type="button"
+                id="dmBtn"
+                data-bs-toggle="dropdown"
+                data-dd="danhMuc"
+                aria-expanded="false">
+            <span class="dd-label" id="dmLabel">-- Tất cả --</span>
+        </button>
 
-                <!-- TRẠNG THÁI -->
-                <div class="col-md-2">
-                    <label class="form-label small text-muted">Trạng thái</label>
-                    <select name="trangThai" class="form-select">
-                        <option value="">-- Tất cả --</option>
-                        <option value="con" selected="@(ViewBag.TrangThai == "con")">Còn hàng</option>
-                        <option value="het" selected="@(ViewBag.TrangThai == "het")">Hết hàng</option>
-                    </select>
-                </div>
+        <div class="dropdown-menu w-100 p-2 shadow-sm" aria-labelledby="dmBtn" style="max-height:320px; overflow:auto;">
+            <input type="text"
+                   class="form-control form-control-sm mb-2 dd-search"
+                   placeholder="Gõ để tìm danh mục..."
+                   autocomplete="off" />
+
+            <div class="dd-list">
+                <button type="button"
+                        class="dropdown-item dd-item"
+                        data-value=""
+                        data-label="-- Tất cả --">-- Tất cả --</button>
+
+                @foreach (var dm in ViewBag.DanhMucList)
+                {
+                    <button type="button"
+                            class="dropdown-item dd-item"
+                            data-value="@dm.MaDanhMuc"
+                            data-label="@dm.TenDanhMuc">@dm.TenDanhMuc</button>
+                }
+            </div>
+        </div>
+
+        <input type="hidden" name="danhMuc" id="danhMucHidden" value="@(ViewBag.DanhMuc ?? "")" />
+    </div>
+</div>
+
+
+@* ====== THƯƠNG HIỆU (searchable dropdown) ====== *@
+<div class="col-md-2">
+    <label class="form-label small text-muted">Thương hiệu</label>
+
+    <div class="dropdown w-100 dd-wrap">
+        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                type="button"
+                id="thBtn"
+                data-bs-toggle="dropdown"
+                data-dd="thuongHieu"
+                aria-expanded="false">
+            <span class="dd-label" id="thLabel">-- Tất cả --</span>
+        </button>
+
+        <div class="dropdown-menu w-100 p-2 shadow-sm" aria-labelledby="thBtn" style="max-height:320px; overflow:auto;">
+            <input type="text"
+                   class="form-control form-control-sm mb-2 dd-search"
+                   placeholder="Gõ để tìm thương hiệu..."
+                   autocomplete="off" />
+
+            <div class="dd-list">
+                <button type="button"
+                        class="dropdown-item dd-item"
+                        data-value=""
+                        data-label="-- Tất cả --">-- Tất cả --</button>
+
+                @foreach (var th in ViewBag.ThuongHieuList)
+                {
+                    <button type="button"
+                            class="dropdown-item dd-item"
+                            data-value="@th.MaThuongHieu"
+                            data-label="@th.TenThuongHieu">@th.TenThuongHieu</button>
+                }
+            </div>
+        </div>
+
+        <input type="hidden" name="thuongHieu" id="thuongHieuHidden" value="@(ViewBag.ThuongHieu ?? "")" />
+    </div>
+</div>
+
+
+@* ====== TRẠNG THÁI (searchable dropdown) ====== *@
+<div class="col-md-2">
+    <label class="form-label small text-muted">Trạng thái</label>
+
+    <div class="dropdown w-100 dd-wrap">
+        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                type="button"
+                id="ttBtn"
+                data-bs-toggle="dropdown"
+                data-dd="trangThai"
+                aria-expanded="false">
+            <span class="dd-label" id="ttLabel">-- Tất cả --</span>
+        </button>
+
+        <div class="dropdown-menu w-100 p-2 shadow-sm" aria-labelledby="ttBtn" style="max-height:240px; overflow:auto;">
+            <input type="text"
+                   class="form-control form-control-sm mb-2 dd-search"
+                   placeholder="Gõ để tìm trạng thái..."
+                   autocomplete="off" />
+
+            <div class="dd-list">
+                <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Tất cả --">-- Tất cả --</button>
+                <button type="button" class="dropdown-item dd-item" data-value="con" data-label="Còn hàng">Còn hàng</button>
+                <button type="button" class="dropdown-item dd-item" data-value="het" data-label="Hết hàng">Hết hàng</button>
+            </div>
+        </div>
+
+        <input type="hidden" name="trangThai" id="trangThaiHidden" value="@(ViewBag.TrangThai ?? "")" />
+    </div>
+</div>
 
                 <!-- BUTTONS -->
                 <div class="col-md-3 d-flex align-items-end justify-content-end gap-2">
@@ -68,13 +145,13 @@
                     </button>
 
                     <a asp-area="Admin" asp-controller="SanPham" asp-action="Index"
-                        class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
+                       class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
                         <i class="fa-solid fa-rotate-left"></i>
                         <span>Hủy</span>
                     </a>
 
                     <a asp-area="Admin" asp-controller="SanPham" asp-action="Create"
-                        class="btn btn-success d-flex align-items-center gap-2 px-3">
+                       class="btn btn-success d-flex align-items-center gap-2 px-3">
                         <i class="fa-solid fa-plus"></i>
                         <span>Thêm</span>
                     </a>
@@ -109,7 +186,8 @@
                     {
                         foreach (var sp in Model)
                         {
-                            var isHet = (sp.TrangThai == "HetHang");
+                            var tong = tonKho.ContainsKey(sp.MaSanPham) ? tonKho[sp.MaSanPham] : 0;
+                            var isHet = tong <= 0;
                             var badgeClass = isHet ? "danger" : "success";
                             var label = isHet ? "Hết hàng" : "Còn hàng";
 
@@ -131,17 +209,23 @@
 
                                 <td class="text-center pe-4">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a class="btn btn-outline-primary btn-sm" asp-area="Admin" asp-controller="SanPham"
-                                            asp-action="Edit" asp-route-id="@sp.MaSanPham">
+                                        <a class="btn btn-outline-secondary btn-sm"
+                                           asp-area="Admin" asp-controller="SanPham"
+                                           asp-action="Details" asp-route-id="@sp.MaSanPham">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+
+                                        <a class="btn btn-outline-primary btn-sm"
+                                           asp-area="Admin" asp-controller="SanPham"
+                                           asp-action="Edit" asp-route-id="@sp.MaSanPham">
                                             <i class="fa-solid fa-pen"></i>
                                         </a>
 
-
-                                        <a class="btn btn-outline-danger btn-sm" asp-area="Admin" asp-controller="SanPham"
-                                            asp-action="Delete" asp-route-id="@sp.MaSanPham">
+                                        <a class="btn btn-outline-danger btn-sm"
+                                           asp-area="Admin" asp-controller="SanPham"
+                                           asp-action="Delete" asp-route-id="@sp.MaSanPham">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
-
                                     </div>
                                 </td>
                             </tr>
@@ -161,3 +245,7 @@
 
     </div>
 </div>
+@section Scripts{
+    <script src="~/js/Admin/DanhSachSP.js" asp-append-version="true"></script>
+    
+}
