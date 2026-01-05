@@ -58,8 +58,9 @@ namespace WebBanGiay.Areas.Admin.Controllers
                 .OrderBy(x => x.TenSanPham)
                 .ToListAsync();
 
+            // sort (nhóm theo sản phẩm)
             var data = await query
-                .OrderBy(x => x.MaSanPham)
+                .OrderBy(x => x.MaSanPhamNavigation!.TenSanPham)
                 .ThenBy(x => x.Size)
                 .ThenBy(x => x.MauSac)
                 .ToListAsync();
@@ -81,19 +82,47 @@ namespace WebBanGiay.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: /Admin/BienTheSanPham/Create  (BỎ VALIDATE)
+        // POST: /Admin/BienTheSanPham/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BienTheSanPham model)
         {
-            // Không validate gì cả, lưu luôn (DB not null/unique thì tự báo lỗi)
+            // ✅ Bật validate để Required chạy (tránh MaBienThe null -> crash)
+            if (!ModelState.IsValid)
+            {
+                ViewBag.SanPhamList = await _context.SanPham
+                    .AsNoTracking()
+                    .OrderBy(x => x.TenSanPham)
+                    .ToListAsync();
+
+                ViewBag.MaSanPham = model.MaSanPham;
+                return View(model);
+            }
+
+            // ✅ (Bonus) báo trùng mã biến thể cho đẹp
+            var exists = await _context.BienTheSanPham
+                .AsNoTracking()
+                .AnyAsync(x => x.MaBienThe == model.MaBienThe);
+
+            if (exists)
+            {
+                ModelState.AddModelError(nameof(BienTheSanPham.MaBienThe), "Mã biến thể đã tồn tại!");
+                ViewBag.SanPhamList = await _context.SanPham
+                    .AsNoTracking()
+                    .OrderBy(x => x.TenSanPham)
+                    .ToListAsync();
+
+                ViewBag.MaSanPham = model.MaSanPham;
+                return View(model);
+            }
+
             _context.BienTheSanPham.Add(model);
             await _context.SaveChangesAsync();
 
             TempData["ToastType"] = "success";
             TempData["ToastMessage"] = "✅ Thêm biến thể thành công!";
 
-            return RedirectToAction(nameof(Index), new { maSanPham = model.MaSanPham });
+            return RedirectToAction(nameof(Index));
         }
     }
 }

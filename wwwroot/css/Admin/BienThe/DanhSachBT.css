@@ -1,0 +1,51 @@
+.dd-wrap .dropdown-toggle {
+    height: 38px;
+}
+
+.dd-wrap .dd-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.dd-wrap .dropdown-menu {
+    border-radius: 10px;
+}
+
+.dd-search:focus {
+    box-shadow: none;
+}
+
+.dd-item {
+    white-space: normal;
+    color: #000 !important;
+    cursor: pointer;
+}
+
+.dd-item.active,
+.dd-item:hover {
+    background: rgba(13, 110, 253, .12);
+    color: #000 !important;
+}
+
+/* pager đẹp */
+.dd-pager .btn {
+    border-radius: 999px;
+    padding: 6px 10px;
+    line-height: 1;
+}
+
+.dd-pager .btn:focus {
+    box-shadow: none;
+}
+
+.dd-pager .btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.dd-pageinfo b {
+    color: #111;
+}

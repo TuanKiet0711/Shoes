@@ -2,7 +2,18 @@
 @{
     ViewData["Title"] = "Danh sách biến thể";
     var sanPhamList = ViewBag.SanPhamList as List<WebBanGiay.Models.SanPham>;
+
+    var selectedMaSanPham = (ViewBag.MaSanPham ?? "").ToString();
+    var selectedTenSanPham = "-- Tất cả --";
+
+    if (sanPhamList != null && !string.IsNullOrEmpty(selectedMaSanPham))
+    {
+        var spSelected = sanPhamList.FirstOrDefault(x => x.MaSanPham == selectedMaSanPham);
+        if (spSelected != null) selectedTenSanPham = spSelected.TenSanPham;
+    }
 }
+
+<link rel="stylesheet" href="~/css/Admin/BienThe/DanhSachBT.css" />
 
 <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
@@ -29,29 +40,79 @@
                 <!-- SẢN PHẨM -->
                 <div class="col-md-3">
                     <label class="form-label small text-muted">Sản phẩm</label>
-                    <select name="maSanPham" class="form-select">
-                        <option value="">-- Tất cả --</option>
-                        @if (sanPhamList != null)
-                        {
-                            foreach (var sp in sanPhamList)
-                            {
-                                <option value="@sp.MaSanPham"
-                                        selected="@(ViewBag.MaSanPham == sp.MaSanPham)">
-                                    @sp.TenSanPham
-                                </option>
-                            }
-                        }
-                    </select>
+
+                    <div class="dropdown w-100 dd-wrap">
+                        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                data-dd="maSanPham"
+                                aria-expanded="false">
+                            <span class="dd-label">@selectedTenSanPham</span>
+                        </button>
+
+                        <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu" style="max-height:320px; overflow:auto;">
+                            <input type="text"
+                                   class="form-control form-control-sm mb-2 dd-search"
+                                   placeholder="Gõ để tìm sản phẩm..."
+                                   autocomplete="off" />
+
+                            <div class="dd-list">
+                                <button type="button"
+                                        class="dropdown-item dd-item"
+                                        data-value=""
+                                        data-label="-- Tất cả --">
+                                    -- Tất cả --
+                                </button>
+
+                                @if (sanPhamList != null)
+                                {
+                                    foreach (var sp in sanPhamList)
+                                    {
+                                        <button type="button"
+                                                class="dropdown-item dd-item"
+                                                data-value="@sp.MaSanPham"
+                                                data-label="@sp.TenSanPham">
+                                            @sp.TenSanPham
+                                        </button>
+                                    }
+                                }
+                            </div>
+
+                            <!-- PAGER: nằm cuối danh sách (scroll xuống mới thấy) -->
+                            <div class="dd-pager mt-2 pt-2 border-top">
+                                <div class="d-flex justify-content-between align-items-center gap-2">
+                                    <button type="button" class="btn btn-light btn-sm dd-prev" title="Trang trước">
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </button>
+
+                                    <div class="dd-pageinfo small text-muted">
+                                        Trang <b class="dd-page">1</b>/<b class="dd-total">1</b>
+                                        <span class="ms-1">( <span class="dd-count">0</span> SP )</span>
+                                    </div>
+
+                                    <button type="button" class="btn btn-light btn-sm dd-next" title="Trang sau">
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- input thật để submit GET -->
+                        <input type="hidden"
+                               name="maSanPham"
+                               value="@selectedMaSanPham"
+                               data-dd-hidden="maSanPham" />
+                    </div>
                 </div>
 
-                <!-- SIZE (NGẮN) -->
+                <!-- SIZE -->
                 <div class="col-md-1">
                     <label class="form-label small text-muted">Size</label>
                     <input type="number"
                            name="size"
                            class="form-control text-center"
                            value="@(ViewBag.Size ?? "")"
-                           placeholder="42" />
+                           placeholder="size" />
                 </div>
 
                 <!-- MÀU -->
@@ -61,31 +122,23 @@
                            name="mauSac"
                            class="form-control"
                            value="@ViewBag.MauSac"
-                           placeholder="VD: Đen" />
+                           placeholder="Nhập màu sắc" />
                 </div>
 
                 <!-- BUTTONS -->
                 <div class="col-md-3 d-flex align-items-end justify-content-end gap-2">
-                    <button type="submit"
-                            class="btn btn-primary d-flex align-items-center gap-2 px-3">
-                        <i class="fa-solid fa-filter"></i>
-                        <span>Lọc</span>
+                    <button type="submit" class="btn btn-primary d-flex align-items-center gap-2 px-3">
+                        <i class="fa-solid fa-filter"></i><span>Lọc</span>
                     </button>
 
-                    <a asp-area="Admin"
-                       asp-controller="BienTheSanPham"
-                       asp-action="Index"
+                    <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index"
                        class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
-                        <i class="fa-solid fa-rotate-left"></i>
-                        <span>Hủy</span>
+                        <i class="fa-solid fa-rotate-left"></i><span>Hủy</span>
                     </a>
 
-                    <a asp-area="Admin"
-                       asp-controller="BienTheSanPham"
-                       asp-action="Create"
+                    <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Create"
                        class="btn btn-success d-flex align-items-center gap-2 px-3">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Thêm</span>
+                        <i class="fa-solid fa-plus"></i><span>Thêm</span>
                     </a>
                 </div>
 
@@ -110,7 +163,6 @@
                         <th class="text-center pe-4" style="width:140px;">Thao tác</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @if (Model != null && Model.Any())
                     {
@@ -122,41 +174,20 @@
 
                             <tr>
                                 <td class="ps-4 fw-semibold">@bt.MaBienThe</td>
-
                                 <td>
-                                    <div class="fw-semibold">
-                                        @bt.MaSanPhamNavigation?.TenSanPham
-                                    </div>
-                                    <div class="text-muted small">
-                                        Mã SP: @bt.MaSanPham
-                                    </div>
+                                    <div class="fw-semibold">@bt.MaSanPhamNavigation?.TenSanPham</div>
+                                    <div class="text-muted small">Mã SP: @bt.MaSanPham</div>
                                 </td>
-
-                                <td class="text-center">
-                                    @(bt.Size?.ToString() ?? "-")
-                                </td>
-
-                                <td class="text-center">
-                                    @(string.IsNullOrWhiteSpace(bt.MauSac) ? "-" : bt.MauSac)
-                                </td>
-
+                                <td class="text-center">@(bt.Size?.ToString() ?? "-")</td>
+                                <td class="text-center">@(string.IsNullOrWhiteSpace(bt.MauSac) ? "-" : bt.MauSac)</td>
                                 <td class="text-end">
-                                    <span class="badge bg-@badge px-3 py-2 rounded-pill">
-                                        @text
-                                    </span>
+                                    <span class="badge bg-@badge px-3 py-2 rounded-pill">@text</span>
                                 </td>
-
                                 <td class="text-center pe-4">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a class="btn btn-outline-secondary btn-sm" href="#">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a class="btn btn-outline-primary btn-sm" href="#">
-                                            <i class="fa-solid fa-pen"></i>
-                                        </a>
-                                        <a class="btn btn-outline-danger btn-sm" href="#">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
+                                        <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa-solid fa-eye"></i></a>
+                                        <a class="btn btn-outline-primary btn-sm" href="#"><i class="fa-solid fa-pen"></i></a>
+                                        <a class="btn btn-outline-danger btn-sm" href="#"><i class="fa-solid fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -165,9 +196,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="6" class="text-center text-muted py-5">
-                                Không có biến thể nào
-                            </td>
+                            <td colspan="6" class="text-center text-muted py-5">Không có biến thể nào</td>
                         </tr>
                     }
                 </tbody>
@@ -176,3 +205,7 @@
 
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/Admin/BienThe/DanhSachBT.js" asp-append-version="true"></script>
+}

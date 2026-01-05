@@ -21,12 +21,17 @@
         <form asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Create" method="post">
             @Html.AntiForgeryToken()
 
+            <!-- ✅ Hiện lỗi tổng (nếu có) -->
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
             <div class="row g-3">
 
                 <div class="col-md-4">
                     <label class="form-label">Mã biến thể</label>
                     <input asp-for="MaBienThe" class="form-control"
                            placeholder="Ví dụ: BT001, AF1-WHITE-42" />
+                    <!-- ✅ Hiện lỗi ngay dưới input -->
+                    <span asp-validation-for="MaBienThe" class="text-danger small"></span>
                 </div>
 
                 <div class="col-md-8">
@@ -37,31 +42,38 @@
                         {
                             foreach (var sp in sanPhamList)
                             {
-                                var isSelected = (Model?.MaSanPham == sp.MaSanPham) || (selectedMaSanPham == sp.MaSanPham);
+                                var isSelected =
+                                    (Model?.MaSanPham == sp.MaSanPham) ||
+                                    (selectedMaSanPham == sp.MaSanPham);
+
                                 <option value="@sp.MaSanPham" selected="@isSelected">
                                     @sp.TenSanPham
                                 </option>
                             }
                         }
                     </select>
+                    <span asp-validation-for="MaSanPham" class="text-danger small"></span>
                 </div>
 
                 <div class="col-md-4">
                     <label class="form-label">Size</label>
                     <input asp-for="Size" type="number" min="1" class="form-control"
                            placeholder="Ví dụ: 39, 40, 41, 42..." />
+                    <span asp-validation-for="Size" class="text-danger small"></span>
                 </div>
 
                 <div class="col-md-4">
                     <label class="form-label">Màu sắc</label>
                     <input asp-for="MauSac" class="form-control"
                            placeholder="Ví dụ: Trắng, Đen, Xanh..." />
+                    <span asp-validation-for="MauSac" class="text-danger small"></span>
                 </div>
 
                 <div class="col-md-4">
                     <label class="form-label">Số lượng</label>
                     <input asp-for="SoLuong" type="number" min="0" class="form-control"
                            placeholder="Ví dụ: 10" />
+                    <span asp-validation-for="SoLuong" class="text-danger small"></span>
                 </div>
 
             </div>
@@ -78,3 +90,8 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <!-- ✅ BẮT BUỘC để Required hiện cảnh báo client-side -->
+    <partial name="_ValidationScriptsPartial" />
+}

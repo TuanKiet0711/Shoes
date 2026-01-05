@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Thêm sản phẩm";
 }
-
+<link rel="stylesheet" href="~/css/Admin/SanPham/Create.css" />
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white fw-semibold">
         <i class="fa-solid fa-plus me-2"></i> Thêm sản phẩm
@@ -14,143 +14,137 @@
             <div class="row g-3">
                 <div class="col-md-4">
                     <label class="form-label">Mã sản phẩm</label>
-                    <input asp-for="MaSanPham" class="form-control"
-                           placeholder="Nhập mã sản phẩm" />
+                    <input asp-for="MaSanPham" class="form-control" placeholder="Nhập mã sản phẩm" />
                     <span asp-validation-for="MaSanPham" class="text-danger small"></span>
                 </div>
 
                 <div class="col-md-8">
                     <label class="form-label">Tên sản phẩm</label>
-                    <input asp-for="TenSanPham" class="form-control"
-                           placeholder="Nhập tên sản phẩm" />
+                    <input asp-for="TenSanPham" class="form-control" placeholder="Nhập tên sản phẩm" />
                     <span asp-validation-for="TenSanPham" class="text-danger small"></span>
                 </div>
 
-               <div class="col-md-4">
-    <label class="form-label">Danh mục</label>
+                <div class="col-md-4">
+                    <label class="form-label">Danh mục</label>
 
-    <div class="dropdown w-100 dd-wrap">
-        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                type="button"
-                data-bs-toggle="dropdown"
-                data-dd="MaDanhMuc"
-                aria-expanded="false">
-            <span class="dd-label">-- Chọn danh mục --</span>
-        </button>
+                    <div class="dropdown w-100 dd-wrap">
+                        <button
+                            class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="dropdown" data-dd="MaDanhMuc" aria-expanded="false">
+                            <span class="dd-label">-- Chọn danh mục --</span>
+                        </button>
 
-        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:320px; overflow:auto;">
-            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                   placeholder="Gõ để tìm danh mục..." autocomplete="off" />
+                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:320px; overflow:auto;">
+                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                placeholder="Gõ để tìm danh mục..." autocomplete="off" />
 
-            <div class="dd-list">
-                <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn danh mục --">
-                    -- Chọn danh mục --
-                </button>
+                            <div class="dd-list">
+                                <button type="button" class="dropdown-item dd-item" data-value=""
+                                    data-label="-- Chọn danh mục --">
+                                    -- Chọn danh mục --
+                                </button>
 
-                @foreach (var dm in ViewBag.DanhMucList)
-                {
-                    <button type="button" class="dropdown-item dd-item"
-                            data-value="@dm.MaDanhMuc"
-                            data-label="@dm.TenDanhMuc">
-                        @dm.TenDanhMuc
-                    </button>
-                }
-            </div>
-        </div>
+                                @foreach (var dm in ViewBag.DanhMucList)
+                                {
+                                    <button type="button" class="dropdown-item dd-item" data-value="@dm.MaDanhMuc"
+                                        data-label="@dm.TenDanhMuc">
+                                        @dm.TenDanhMuc
+                                    </button>
+                                }
+                            </div>
+                        </div>
 
-        <!-- model binding giữ nguyên -->
-        <input type="hidden" asp-for="MaDanhMuc" />
-    </div>
+                        <!-- model binding giữ nguyên -->
+                        <input type="hidden" asp-for="MaDanhMuc" />
+                    </div>
 
-    <span asp-validation-for="MaDanhMuc" class="text-danger small"></span>
-</div>
+                    <span asp-validation-for="MaDanhMuc" class="text-danger small"></span>
+                </div>
 
 
                 <div class="col-md-4">
-    <label class="form-label">Thương hiệu</label>
+                    <label class="form-label">Thương hiệu</label>
 
-    <div class="dropdown w-100 dd-wrap">
-        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                type="button"
-                data-bs-toggle="dropdown"
-                data-dd="MaThuongHieu"
-                aria-expanded="false">
-            <span class="dd-label">-- Chọn thương hiệu --</span>
-        </button>
+                    <div class="dropdown w-100 dd-wrap">
+                        <button
+                            class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="dropdown" data-dd="MaThuongHieu" aria-expanded="false">
+                            <span class="dd-label">-- Chọn thương hiệu --</span>
+                        </button>
 
-        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:320px; overflow:auto;">
-            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                   placeholder="Gõ để tìm thương hiệu..." autocomplete="off" />
+                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:320px; overflow:auto;">
+                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                placeholder="Gõ để tìm thương hiệu..." autocomplete="off" />
 
-            <div class="dd-list">
-                <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn thương hiệu --">
-                    -- Chọn thương hiệu --
-                </button>
+                            <div class="dd-list">
+                                <button type="button" class="dropdown-item dd-item" data-value=""
+                                    data-label="-- Chọn thương hiệu --">
+                                    -- Chọn thương hiệu --
+                                </button>
 
-                @foreach (var th in ViewBag.ThuongHieuList)
-                {
-                    <button type="button" class="dropdown-item dd-item"
-                            data-value="@th.MaThuongHieu"
-                            data-label="@th.TenThuongHieu">
-                        @th.TenThuongHieu
-                    </button>
-                }
-            </div>
-        </div>
+                                @foreach (var th in ViewBag.ThuongHieuList)
+                                {
+                                    <button type="button" class="dropdown-item dd-item" data-value="@th.MaThuongHieu"
+                                        data-label="@th.TenThuongHieu">
+                                        @th.TenThuongHieu
+                                    </button>
+                                }
+                            </div>
+                        </div>
 
-        <input type="hidden" asp-for="MaThuongHieu" />
-    </div>
+                        <input type="hidden" asp-for="MaThuongHieu" />
+                    </div>
 
-    <span asp-validation-for="MaThuongHieu" class="text-danger small"></span>
-</div>
+                    <span asp-validation-for="MaThuongHieu" class="text-danger small"></span>
+                </div>
 
 
-               <div class="col-md-4">
-    <label class="form-label">Giới tính</label>
+                <div class="col-md-4">
+                    <label class="form-label">Giới tính</label>
 
-    <div class="dropdown w-100 dd-wrap">
-        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                type="button"
-                data-bs-toggle="dropdown"
-                data-dd="GioiTinh"
-                aria-expanded="false">
-            <span class="dd-label">-- Chọn giới tính --</span>
-        </button>
+                    <div class="dropdown w-100 dd-wrap">
+                        <button
+                            class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="dropdown" data-dd="GioiTinh" aria-expanded="false">
+                            <span class="dd-label">-- Chọn giới tính --</span>
+                        </button>
 
-        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:240px; overflow:auto;">
-            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                   placeholder="Gõ để tìm giới tính..." autocomplete="off" />
+                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:240px; overflow:auto;">
+                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                placeholder="Gõ để tìm giới tính..." autocomplete="off" />
 
-            <div class="dd-list">
-                <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn giới tính --">
-                    -- Chọn giới tính --
-                </button>
-                <button type="button" class="dropdown-item dd-item" data-value="Nam" data-label="Nam">Nam</button>
-                <button type="button" class="dropdown-item dd-item" data-value="Nữ" data-label="Nữ">Nữ</button>
-                <button type="button" class="dropdown-item dd-item" data-value="Unisex" data-label="Unisex">Unisex</button>
-            </div>
-        </div>
+                            <div class="dd-list">
+                                <button type="button" class="dropdown-item dd-item" data-value=""
+                                    data-label="-- Chọn giới tính --">
+                                    -- Chọn giới tính --
+                                </button>
+                                <button type="button" class="dropdown-item dd-item" data-value="Nam"
+                                    data-label="Nam">Nam</button>
+                                <button type="button" class="dropdown-item dd-item" data-value="Nữ"
+                                    data-label="Nữ">Nữ</button>
+                                <button type="button" class="dropdown-item dd-item" data-value="Unisex"
+                                    data-label="Unisex">Unisex</button>
+                            </div>
+                        </div>
 
-        <input type="hidden" asp-for="GioiTinh" />
-    </div>
+                        <input type="hidden" asp-for="GioiTinh" />
+                    </div>
 
-    <span asp-validation-for="GioiTinh" class="text-danger small"></span>
-</div>
+                    <span asp-validation-for="GioiTinh" class="text-danger small"></span>
+                </div>
 
 
                 <div class="col-md-4">
                     <label class="form-label">Giá</label>
-                    <input asp-for="Gia" type="number" min="0" class="form-control"
-                           placeholder="Nhập giá" />
+                    <input asp-for="Gia" type="number" min="0" class="form-control" placeholder="Nhập giá" />
                     <span asp-validation-for="Gia" class="text-danger small"></span>
                 </div>
 
-                
+
 
                 <div class="col-md-12">
                     <label class="form-label">Mô tả</label>
-                    <textarea asp-for="MoTa" rows="6" class="form-control"
-                              placeholder="Nhập mô tả"></textarea>
+                    <textarea asp-for="MoTa" rows="6" class="form-control" placeholder="Nhập mô tả"></textarea>
                     <span asp-validation-for="MoTa" class="text-danger small"></span>
                 </div>
             </div>
@@ -169,167 +163,6 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
-<style>
-  .dd-search:focus { box-shadow: none; }
-  .dd-item { white-space: normal; color:#000 !important; }
-  .dd-item.active, .dd-item:hover { background: rgba(13,110,253,.12); color:#000 !important; }
-</style>
-<script>
-function normalizeVN(str) {
-  return (str || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/đ/g, 'd')
-    .replace(/[^a-z0-9\s]/g, '')
-    .trim();
+    <script src="~/js/Admin/SanPham/Create.js" asp-append-version="true"></script>
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-
-  function getHidden(wrapper, ddKey) {
-    // Với asp-for hidden input => name đúng ddKey
-    return wrapper.querySelector(`input[type="hidden"][name="${ddKey}"]`);
-  }
-
-  function setButtonLabel(wrapper, label) {
-    const el = wrapper.querySelector('.dd-label');
-    if (el) el.textContent = label || '-- Chọn --';
-  }
-
-  function getVisibleItems(wrapper) {
-    return Array.from(wrapper.querySelectorAll('.dd-item'))
-      .filter(x => !x.classList.contains('d-none'));
-  }
-
-  function clearActive(wrapper) {
-    wrapper.querySelectorAll('.dd-item').forEach(x => x.classList.remove('active'));
-  }
-
-  function setActiveItem(wrapper, idx) {
-    const items = getVisibleItems(wrapper);
-    clearActive(wrapper);
-    if (!items.length) return -1;
-    const i = Math.max(0, Math.min(idx, items.length - 1));
-    items[i].classList.add('active');
-    items[i].scrollIntoView({ block: 'nearest' });
-    return i;
-  }
-
-  function getActiveIndex(wrapper) {
-    const items = getVisibleItems(wrapper);
-    return items.findIndex(x => x.classList.contains('active'));
-  }
-
-  // ===== INIT label theo hidden value (để giữ khi validation fail / reload) =====
-  document.querySelectorAll('.dd-wrap').forEach(wrapper => {
-    const btn = wrapper.querySelector('button[data-dd]');
-    const ddKey = btn?.dataset.dd;
-    if (!ddKey) return;
-
-    const hidden = getHidden(wrapper, ddKey);
-    const value = (hidden?.value ?? '').toString();
-
-    const match = wrapper.querySelector(`.dd-item[data-value="${CSS.escape(value)}"]`);
-    if (match) {
-      setButtonLabel(wrapper, match.dataset.label || match.textContent.trim());
-      clearActive(wrapper);
-      match.classList.add('active');
-    }
-  });
-
-  // ===== open dropdown: focus search, giữ active hiện tại =====
-  document.querySelectorAll('.dd-wrap').forEach(wrapper => {
-    wrapper.addEventListener('shown.bs.dropdown', () => {
-      const search = wrapper.querySelector('.dd-search');
-      if (!search) return;
-
-      wrapper.querySelectorAll('.dd-item').forEach(it => it.classList.remove('d-none'));
-      search.value = '';
-      search.focus();
-
-      const visible = getVisibleItems(wrapper);
-      const idx = visible.findIndex(x => x.classList.contains('active'));
-      setActiveItem(wrapper, idx >= 0 ? idx : 0);
-    });
-  });
-
-  // ===== search + keyboard =====
-  document.querySelectorAll('.dd-search').forEach(inp => {
-    inp.addEventListener('input', () => {
-      const wrapper = inp.closest('.dd-wrap');
-      if (!wrapper) return;
-
-      const q = normalizeVN(inp.value);
-      wrapper.querySelectorAll('.dd-item').forEach(item => {
-        const text = normalizeVN(item.textContent);
-        item.classList.toggle('d-none', q && !text.includes(q));
-      });
-
-      setActiveItem(wrapper, 0);
-    });
-
-    inp.addEventListener('keydown', (e) => {
-      const wrapper = inp.closest('.dd-wrap');
-      if (!wrapper) return;
-
-      const items = getVisibleItems(wrapper);
-      const btn = wrapper.querySelector('button[data-dd]');
-
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        if (!items.length) return;
-        setActiveItem(wrapper, Math.min(getActiveIndex(wrapper) + 1, items.length - 1));
-      }
-
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        if (!items.length) return;
-        setActiveItem(wrapper, Math.max(getActiveIndex(wrapper) - 1, 0));
-      }
-
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        if (!items.length) return;
-        const idx = getActiveIndex(wrapper);
-        (items[idx >= 0 ? idx : 0])?.click();
-      }
-
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        btn?.click();
-      }
-    });
-  });
-
-  // ===== click item =====
-  document.querySelectorAll('.dd-item').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      const wrapper = item.closest('.dd-wrap');
-      if (!wrapper) return;
-      clearActive(wrapper);
-      item.classList.add('active');
-    });
-
-    item.addEventListener('click', () => {
-      const wrapper = item.closest('.dd-wrap');
-      if (!wrapper) return;
-
-      const btn = wrapper.querySelector('button[data-dd]');
-      const ddKey = btn?.dataset.dd;
-      if (!ddKey) return;
-
-      const hidden = getHidden(wrapper, ddKey);
-      if (hidden) hidden.value = item.dataset.value ?? '';
-
-      setButtonLabel(wrapper, item.dataset.label || item.textContent.trim());
-      clearActive(wrapper);
-      item.classList.add('active');
-
-      btn?.click();
-    });
-  });
-
-});
-</script>
