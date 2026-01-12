@@ -1,0 +1,43 @@
+
+    @keyframes bannerZoom { from { transform: scale(1.08); } to { transform: scale(1.24); } }
+    .animate-bannerZoom { animation: bannerZoom 22s ease-in-out infinite alternate; }
+
+    @keyframes lightMove { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
+    .animate-lightMove { animation: lightMove 10s linear infinite; }
+
+    @keyframes parallaxMove {
+        0% { transform: translate3d(-1.5%, -1%, 0) scale(1.06); }
+        50% { transform: translate3d(1.5%, 1%, 0) scale(1.07); }
+        100% { transform: translate3d(-1.5%, -1%, 0) scale(1.06); }
+    }
+    .animate-parallaxMove { animation: parallaxMove 14s ease-in-out infinite; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fadeUp { opacity: 0; animation: fadeUp .8s ease forwards; }
+
+    .bokeh{
+        position:absolute;
+        width: 180px; height: 180px;
+        border-radius:999px;
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%);
+        filter: blur(1px);
+        opacity: .55;
+        animation: bokehFloat 9s ease-in-out infinite;
+        mix-blend-mode: screen;
+    }
+    @keyframes bokehFloat{
+        0%,100%{ transform: translateY(0) translateX(0) scale(1); opacity:.45; }
+        50%{ transform: translateY(-22px) translateX(12px) scale(1.06); opacity:.7; }
+    }
+    .b1{ top: 12%; left: 8%;  animation-duration: 10s; }
+    .b2{ top: 18%; right: 12%; width: 140px; height: 140px; animation-duration: 12s; }
+    .b3{ bottom: 8%; left: 18%; width: 220px; height: 220px; animation-duration: 13s; opacity:.4; }
+    .b4{ bottom: 18%; right: 22%; width: 160px; height: 160px; animation-duration: 11s; }
+    .b5{ top: 42%; left: 44%; width: 120px; height: 120px; animation-duration: 9s; opacity:.35; }
+
+    @media (prefers-reduced-motion: reduce){
+        .animate-bannerZoom, .animate-lightMove, .animate-parallaxMove { animation: none !important; }
+        .bokeh { display:none; }
+        .animate-fadeUp { animation:none; opacity:1; }
+    }
+

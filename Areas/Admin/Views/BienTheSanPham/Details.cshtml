@@ -1,0 +1,67 @@
+@model WebBanGiay.Models.BienTheSanPham
+@{
+    ViewData["Title"] = "Chi tiết biến thể";
+}
+<link rel="stylesheet" href="~/css/Admin/BienThe/Create.css" />
+<div class="bt-page">
+<div class="card border-0 shadow-sm bt-form bt-form--hero">
+    <div class="card-header bt-hero">
+        <div class="bt-hero-content">
+            <div class="bt-hero-left">
+                <span class="bt-icon">
+                    <i class="fa-solid fa-eye"></i>
+                </span>
+                <div>
+                    <div class="bt-title">Chi tiết biến thể</div>
+                    <div class="bt-subtitle">Xem thông tin phiên bản sản phẩm</div>
+                </div>
+            </div>
+
+            <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index"
+               class="btn btn-light btn-sm bt-back">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="bt-section">
+            <div class="row g-3 bt-stack">
+                <div class="col-12">
+                    <div class="text-muted small">Mã biến thể</div>
+                    <div class="fw-semibold">@Model.MaBienThe</div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small">Sản phẩm</div>
+                    <div class="fw-semibold">@Model.MaSanPhamNavigation?.TenSanPham</div>
+                    <div class="text-muted small">Mã SP: @Model.MaSanPham</div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small">Size</div>
+                    <div class="fw-semibold">@(Model.Size?.ToString() ?? "-")</div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small">Màu sắc</div>
+                    <div class="fw-semibold">@((string.IsNullOrWhiteSpace(Model.MauSac) ? "-" : Model.MauSac))</div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small">Số lượng</div>
+                    <div class="fw-semibold">@((Model.SoLuong ?? 0).ToString())</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Edit"
+               asp-route-id="@Model.MaBienThe"
+               class="btn btn-success btn-glow bt-primary">
+                <i class="fa-solid fa-pen me-1"></i> Sửa
+            </a>
+            <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index"
+               class="btn btn-outline-secondary">
+                Quay lại
+            </a>
+        </div>
+    </div>
+</div>
+</div>

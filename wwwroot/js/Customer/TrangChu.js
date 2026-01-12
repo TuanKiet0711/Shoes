@@ -1,12 +1,16 @@
 //================== SLIDER ================= //
+document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slide');
-    let current = 0;
-    setInterval(() => {
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
-    }, 3000);
-//================== FAQ ================= //
+    if (slides.length > 1) {
+        let current = 0;
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 3000);
+    }
+
+    //================== FAQ ================= //
     document.querySelectorAll('.faq-question').forEach(btn => {
         btn.onclick = () => {
             const ans = btn.nextElementSibling;
@@ -21,4 +25,5 @@
             }
         };
     });
+});
 

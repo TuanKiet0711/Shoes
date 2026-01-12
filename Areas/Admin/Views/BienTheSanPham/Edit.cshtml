@@ -1,20 +1,21 @@
 @model WebBanGiay.Models.BienTheSanPham
 @{
-    ViewData["Title"] = "Thêm biến thể";
+    ViewData["Title"] = "Sửa biến thể";
     var sanPhamList = ViewBag.SanPhamList as List<WebBanGiay.Models.SanPham>;
     var selectedMaSanPham = ViewBag.MaSanPham as string;
 }
 <link rel="stylesheet" href="~/css/Admin/BienThe/Create.css" />
+<div class="bt-page">
 <div class="card border-0 shadow-sm bt-form bt-form--hero">
     <div class="card-header bt-hero">
         <div class="bt-hero-content">
             <div class="bt-hero-left">
                 <span class="bt-icon">
-                    <i class="fa-solid fa-shoe-prints"></i>
+                    <i class="fa-solid fa-pen"></i>
                 </span>
                 <div>
-                    <div class="bt-title">Thêm biến thể</div>
-                    <div class="bt-subtitle">Tạo phiên bản size, màu cho sản phẩm</div>
+                    <div class="bt-title">Sửa biến thể</div>
+                    <div class="bt-subtitle">Cập nhật size, màu cho sản phẩm</div>
                 </div>
             </div>
 
@@ -26,8 +27,10 @@
     </div>
 
     <div class="card-body">
-        <form asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Create" method="post">
+        <form asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Edit" method="post">
             @Html.AntiForgeryToken()
+
+            <input type="hidden" name="id" value="@Model.MaBienThe" />
 
             <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
 
@@ -36,8 +39,7 @@
 
                     <div class="col-12">
                         <label class="form-label">Mã biến thể</label>
-                        <input asp-for="MaBienThe" class="form-control"
-                               placeholder="Nhập mã biến thể" />
+                        <input asp-for="MaBienThe" class="form-control" readonly />
                         <span asp-validation-for="MaBienThe" class="text-danger small"></span>
                     </div>
 
@@ -131,13 +133,14 @@
                 <button type="submit" class="btn btn-success btn-glow bt-primary">
                     <i class="fa-solid fa-save me-1"></i> Lưu
                 </button>
-               <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index"
+                <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index"
                    class="btn btn-outline-secondary">
                     Hủy
                 </a>
             </div>
         </form>
     </div>
+</div>
 </div>
 
 @section Scripts {

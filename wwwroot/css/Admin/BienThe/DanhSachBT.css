@@ -1,51 +1,57 @@
-.dd-wrap .dropdown-toggle {
-    height: 38px;
+.dd-wrap { width: 100%; }
+
+.dd-wrap .dropdown-toggle { height: 38px; }
+
+.dd-wrap .dd-label{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    max-width:100%;
 }
 
-.dd-wrap .dd-label {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: inline-block;
-    max-width: 100%;
+/* ✅ Menu KHÔNG được scroll */
+.dd-wrap .dd-menu{
+    border-radius:10px;
+    max-height: none !important;
+    overflow: visible !important;   /* quan trọng: tắt scroll ở menu */
 }
 
-.dd-wrap .dropdown-menu {
-    border-radius: 10px;
+/* ✅ Ô search đứng yên (thực ra không cần sticky vì menu không scroll,
+   nhưng để an toàn nếu Bootstrap can thiệp gì đó) */
+.dd-wrap .dd-search{
+    box-shadow:none;
+    position: relative;
+    z-index: 2;
+    background:#fff;
 }
 
-.dd-search:focus {
-    box-shadow: none;
+/* ✅ CHỈ danh sách sản phẩm scroll */
+.dd-wrap .dd-list{
+    max-height: 240px;              /* ~6 item, chỉnh tuỳ */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
 }
 
-.dd-item {
+/* item */
+.dd-wrap .dd-item{
     white-space: normal;
-    color: #000 !important;
-    cursor: pointer;
+    color:#000 !important;
+    cursor:pointer;
+    padding: 8px 10px;
+    border-radius: 8px;
 }
 
-.dd-item.active,
-.dd-item:hover {
-    background: rgba(13, 110, 253, .12);
-    color: #000 !important;
+.dd-wrap .dd-item:hover,
+.dd-wrap .dd-item.active{
+    background: rgba(13,110,253,.12);
+    color:#000 !important;
 }
 
-/* pager đẹp */
-.dd-pager .btn {
+/* scrollbar đẹp */
+.dd-wrap .dd-list::-webkit-scrollbar{ width: 8px; }
+.dd-wrap .dd-list::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,.18);
     border-radius: 999px;
-    padding: 6px 10px;
-    line-height: 1;
 }
-
-.dd-pager .btn:focus {
-    box-shadow: none;
-}
-
-.dd-pager .btn:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-}
-
-.dd-pageinfo b {
-    color: #111;
-}
+.dd-wrap .dd-list{ scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.25) transparent; }

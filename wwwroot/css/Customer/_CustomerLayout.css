@@ -1,0 +1,34 @@
+  /* chạy ngang liên tục */
+  .marquee{
+    animation: marquee 22s linear infinite;
+  }
+  /* hover vào vùng strip => pause */
+  .group:hover .marquee{
+    animation-play-state: paused;
+  }
+  @keyframes marquee{
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); } /* vì ta duplicate 2 set */
+  }
+
+  /* tile ảnh nhỏ - dài ngang */
+  .tile{
+    width: 220px;           /* chỉnh độ “dài” mỗi ô */
+    height: 88px;           /* chỉnh độ “mỏng” */
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,.15);
+    flex: 0 0 auto;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .tile img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display:block;
+    filter: saturate(1.05);
+  }
+  .tile:hover{
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  }

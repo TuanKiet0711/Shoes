@@ -1,0 +1,177 @@
+/* ===== Dropdown wrapper ===== */
+.dd-wrap { width: 100%; }
+
+.dd-wrap .dropdown-toggle {
+    height: 38px;
+}
+
+/* ===== Form polish ===== */
+.bt-form .card-header{
+    border-bottom: 1px solid #eef1f4;
+}
+.bt-form--hero .card-header{
+    border-bottom: none;
+    padding: 0;
+}
+.bt-hero{
+    background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+.bt-hero::before{
+    content: "";
+    position: absolute;
+    right: -30%;
+    top: -60%;
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,.2) 0%, transparent 70%);
+}
+.bt-hero-content{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+}
+.bt-hero-left{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.bt-back{
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.45);
+    background: rgba(255,255,255,.15);
+    color: #fff;
+}
+.bt-back:hover{
+    background: rgba(255,255,255,.25);
+    color: #fff;
+}
+.bt-form .bt-icon{
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.2);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.bt-form .bt-title{
+    font-size: 1rem;
+    line-height: 1.2;
+}
+.bt-form .bt-subtitle{
+    font-size: 0.8rem;
+    color: rgba(255,255,255,.85);
+}
+.bt-form .bt-section{
+    background: #f8fafc;
+    border: 1px solid #eef1f4;
+    border-radius: 14px;
+    padding: 16px;
+}
+.bt-form .sp-thumb-wrap{
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto;
+}
+.bt-form .sp-thumb{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+.bt-form .form-label{
+    font-weight: 600;
+    color: #2b2f33;
+}
+.bt-form .form-control,
+.bt-form .dropdown-toggle{
+    border-radius: 10px;
+}
+.bt-form .form-control:focus,
+.bt-form .dropdown-toggle:focus{
+    border-color: #6ea8fe;
+    box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+}
+.bt-form .btn-glow{
+    box-shadow: 0 8px 16px rgba(25,135,84,.18);
+}
+.bt-form .bt-primary{
+    background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+    border: none;
+}
+.bt-form .bt-primary:hover{
+    background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+}
+
+/* Label trên button */
+.dd-wrap .dd-label{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    display:inline-block;
+    max-width:100%;
+}
+
+/* ===== Menu: KHÔNG scroll ===== */
+.dd-wrap .dd-menu{
+    border-radius:10px;
+    max-height: none !important;
+    overflow: visible !important;   /* disable menu scroll */
+}
+
+/* ===== Search: dung yen ===== */
+.dd-wrap .dd-search{
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    color: #000;
+}
+
+.dd-wrap .dd-search:focus{ box-shadow:none; }
+.dd-wrap .dd-search::placeholder{ color:#6c757d; }
+
+/* ===== List: CHỈ LIST scroll ===== */
+.dd-wrap .dd-list{
+    max-height: 240px;               /* ~6 sản phẩm, chỉnh tuỳ */
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    padding-right: 4px;              /* chừa chỗ scrollbar */
+}
+
+/* ===== Item ===== */
+.dd-wrap .dd-item,
+.dd-wrap .dropdown-item{
+    white-space: normal;
+    color: #000 !important;
+    cursor: pointer !important;
+    user-select: none;
+    border-radius: 8px;
+}
+
+/* Hover/active */
+.dd-wrap .dd-item:hover,
+.dd-wrap .dd-item.active,
+.dd-wrap .dropdown-item:hover,
+.dd-wrap .dropdown-item.active{
+    color: #000 !important;
+    background: rgba(13,110,253,.12) !important;
+}
+
+/* Scrollbar đẹp */
+.dd-wrap .dd-list::-webkit-scrollbar{ width: 8px; }
+.dd-wrap .dd-list::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,.20);
+    border-radius: 999px;
+}
+.dd-wrap .dd-list{ scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.25) transparent; }
+
+

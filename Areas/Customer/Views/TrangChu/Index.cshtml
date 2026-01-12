@@ -14,7 +14,10 @@
    <!-- SLIDE 1 (NHIỀU MÃ GIẢM GIÁ) -->
 <div class="slide active">
     <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
-         class="w-full h-full object-cover" />
+         class="w-full h-full object-cover"
+         loading="eager"
+         decoding="async"
+         fetchpriority="high" />
 
     <div class="absolute inset-0 bg-gradient-to-r from-black/85 to-rose-700/50"></div>
 
@@ -56,7 +59,9 @@
         <!-- SLIDE 2 -->
         <div class="slide">
             <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"
-                 class="w-full h-full object-cover" />
+                 class="w-full h-full object-cover"
+                 loading="lazy"
+                 decoding="async" />
             <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-pink-600/50"></div>
             <div class="absolute inset-0 flex items-center px-12 text-white">
                 <div class="max-w-3xl">
@@ -73,7 +78,9 @@
         <!-- SLIDE 3 -->
         <div class="slide">
             <img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f"
-                 class="w-full h-full object-cover" />
+                 class="w-full h-full object-cover"
+                 loading="lazy"
+                 decoding="async" />
             <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-green-600/50"></div>
             <div class="absolute inset-0 flex items-center px-12 text-white">
                 <div class="max-w-3xl">
@@ -105,11 +112,13 @@
                         ? sp.HinhAnhSanPham.First().DuongDanAnh
                         : "https://via.placeholder.com/400";
 
-                    <div class="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden">
+                    <div class="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden tc-tilt">
                         <img src="@hinh"
-                             class="h-56 w-full object-cover" />
+                             class="h-56 w-full object-cover tc-tilt-img"
+                             loading="lazy"
+                             decoding="async" />
 
-                        <div class="p-5">
+                        <div class="p-5 tc-tilt-body">
                             <h3 class="font-semibold text-lg">
                                 @sp.TenSanPham
                             </h3>
@@ -170,14 +179,16 @@
                     : "https://via.placeholder.com/600x800";
 
                 <a href="@Url.Action("Index", "TrangChu", new { brand = th.TenThuongHieu })"
-                   class="group relative overflow-hidden rounded-3xl shadow-lg">
+                   class="group relative overflow-hidden rounded-3xl shadow-lg tc-tilt">
 
                     <img src="@img"
-                         class="w-full h-[520px] object-cover transition duration-700 group-hover:scale-110" />
+                         class="w-full h-[520px] object-cover transition duration-700 group-hover:scale-110 tc-tilt-img"
+                         loading="lazy"
+                         decoding="async" />
 
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
 
-                    <div class="absolute bottom-8 left-1/2 -translate-x-1/2
+                    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 tc-tilt-body
                                 bg-white/90 backdrop-blur px-10 py-4 rounded-full
                                 font-extrabold text-xl tracking-wide">
                         @th.TenThuongHieu

@@ -24,7 +24,6 @@ namespace WebBanGiay.Areas.Admin.Controllers
                 .Include(x => x.MaSanPhamNavigation)
                 .AsQueryable();
 
-            // 🔍 Tìm theo: mã biến thể / mã SP / tên SP / màu
             if (!string.IsNullOrWhiteSpace(q))
             {
                 q = q.Trim();
@@ -121,6 +120,125 @@ namespace WebBanGiay.Areas.Admin.Controllers
 
             TempData["ToastType"] = "success";
             TempData["ToastMessage"] = "✅ Thêm biến thể thành công!";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: /Admin/BienTheSanPham/Edit/id
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return NotFound();
+
+            ViewData["Title"] = "Sửa biến thể";
+
+            var bt = await _context.BienTheSanPham
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.MaBienThe == id);
+
+            if (bt == null)
+                return NotFound();
+
+            ViewBag.SanPhamList = await _context.SanPham
+                .AsNoTracking()
+                .OrderBy(x => x.TenSanPham)
+                .ToListAsync();
+
+            ViewBag.MaSanPham = bt.MaSanPham;
+            return View(bt);
+        }
+
+        // POST: /Admin/BienTheSanPham/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, BienTheSanPham model)
+        {
+            if (id != model.MaBienThe)
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.SanPhamList = await _context.SanPham
+                    .AsNoTracking()
+                    .OrderBy(x => x.TenSanPham)
+                    .ToListAsync();
+
+                ViewBag.MaSanPham = model.MaSanPham;
+                return View(model);
+            }
+
+            var bt = await _context.BienTheSanPham
+                .FirstOrDefaultAsync(x => x.MaBienThe == id);
+
+            if (bt == null)
+                return NotFound();
+
+            bt.MaSanPham = model.MaSanPham;
+            bt.Size = model.Size;
+            bt.MauSac = model.MauSac;
+            bt.SoLuong = model.SoLuong;
+
+            await _context.SaveChangesAsync();
+
+            TempData["ToastType"] = "success";
+            TempData["ToastMessage"] = "✅ Cập nhật biến thể thành công!";
+
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Details(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return NotFound();
+
+            ViewData["Title"] = "Chi tiết biến thể";
+
+            var bt = await _context.BienTheSanPham
+                .AsNoTracking()
+                .Include(x => x.MaSanPhamNavigation)
+                .FirstOrDefaultAsync(x => x.MaBienThe == id);
+
+            if (bt == null)
+                return NotFound();
+
+            return View(bt);
+        }
+    
+        // GET: /Admin/BienTheSanPham/Delete/id
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return NotFound();
+
+            ViewData["Title"] = "Xóa biến thể";
+
+            var bt = await _context.BienTheSanPham
+                .AsNoTracking()
+                .Include(x => x.MaSanPhamNavigation)
+                .FirstOrDefaultAsync(x => x.MaBienThe == id);
+
+            if (bt == null)
+                return NotFound();
+
+            return View(bt);
+        }
+
+        // POST: /Admin/BienTheSanPham/Delete/id
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return NotFound();
+
+            var bt = await _context.BienTheSanPham.FirstOrDefaultAsync(x => x.MaBienThe == id);
+            if (bt == null)
+                return NotFound();
+
+            _context.BienTheSanPham.Remove(bt);
+            await _context.SaveChangesAsync();
+
+            TempData["ToastType"] = "success";
+            TempData["ToastMessage"] = "✅ Xóa biến thể thành công!";
 
             return RedirectToAction(nameof(Index));
         }

@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Sửa sản phẩm";
 
-    // Convert ViewBag list về kiểu IEnumerable<dynamic> để lấy tên hiển thị
     var danhMucList = ViewBag.DanhMucList as IEnumerable<dynamic>;
     var thuongHieuList = ViewBag.ThuongHieuList as IEnumerable<dynamic>;
 
@@ -10,167 +9,158 @@
     var tenThuongHieu = thuongHieuList?.FirstOrDefault(x => x.MaThuongHieu == Model.MaThuongHieu)?.TenThuongHieu as string;
 }
 <link rel="stylesheet" href="~/css/Admin/SanPham/Edit.css" />
+<div class="bt-page">
+<div class="card border-0 shadow-sm bt-form bt-form--hero">
+    <div class="card-header bt-hero">
+        <div class="bt-hero-content">
+            <div class="bt-hero-left">
+                <span class="bt-icon">
+                    <i class="fa-solid fa-pen"></i>
+                </span>
+                <div>
+                    <div class="bt-title">Sửa sản phẩm</div>
+                    <div class="bt-subtitle">Cập nhật thông tin sản phẩm</div>
+                </div>
+            </div>
 
-<div class="card border-0 shadow-sm">
-    <div class="card-header bg-white fw-semibold">
-        <i class="fa-solid fa-pen me-2"></i> Sửa sản phẩm
+            <a asp-area="Admin" asp-controller="SanPham" asp-action="Index"
+               class="btn btn-light btn-sm bt-back">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
     </div>
 
     <div class="card-body">
-        <form asp-area="Admin"
-              asp-controller="SanPham"
-              asp-action="Edit"
-              asp-route-id="@Model.MaSanPham"
-              method="post">
+        <form asp-area="Admin" asp-controller="SanPham" asp-action="Edit" asp-route-id="@Model.MaSanPham" method="post">
             @Html.AntiForgeryToken()
 
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Mã sản phẩm</label>
-                    <input asp-for="MaSanPham" class="form-control" readonly />
-                </div>
+            <div class="bt-section">
+                <div class="row g-3 bt-stack">
+                    <div class="col-12">
+                        <label class="form-label">Mã sản phẩm</label>
+                        <input asp-for="MaSanPham" class="form-control" readonly />
+                    </div>
 
-                <div class="col-md-8">
-                    <label class="form-label">Tên sản phẩm</label>
-                    <input asp-for="TenSanPham" class="form-control" />
-                </div>
+                    <div class="col-12">
+                        <label class="form-label">Tên sản phẩm</label>
+                        <input asp-for="TenSanPham" class="form-control" />
+                        <span asp-validation-for="TenSanPham" class="text-danger small"></span>
+                    </div>
 
-                <!-- ========== DANH MỤC ========== -->
-                <div class="col-md-4">
-                    <label class="form-label">Danh mục</label>
+                    <div class="col-12">
+                        <label class="form-label">Danh mục</label>
+                        <div class="dropdown w-100 dd-wrap">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="dropdown" data-dd="MaDanhMuc" aria-expanded="false">
+                                <span class="dd-label">@(!string.IsNullOrEmpty(tenDanhMuc) ? tenDanhMuc : "-- Chọn --")</span>
+                            </button>
 
-                    <div class="dropdown w-100 dd-wrap">
-                        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                                data-dd="MaDanhMuc"
-                                aria-expanded="false">
-                            <!-- Label hiển thị sẵn theo Model -->
-                            <span class="dd-label">@(!string.IsNullOrEmpty(tenDanhMuc) ? tenDanhMuc : "-- Chọn --")</span>
-                        </button>
+                            <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu">
+                                <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                       placeholder="Gõ để tìm danh mục..." autocomplete="off" />
 
-                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:320px; overflow:auto;">
-                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                                   placeholder="Gõ để tìm danh mục..." autocomplete="off" />
-
-                            <div class="dd-list">
-                                <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn --">-- Chọn --</button>
-
-                                @if (danhMucList != null)
-                                {
-                                    foreach (var dm in danhMucList)
+                                <div class="dd-list">
+                                    <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn --">-- Chọn --</button>
+                                    @if (danhMucList != null)
                                     {
-                                        <button type="button" class="dropdown-item dd-item"
-                                                data-value="@dm.MaDanhMuc"
-                                                data-label="@dm.TenDanhMuc">
-                                            @dm.TenDanhMuc
-                                        </button>
+                                        foreach (var dm in danhMucList)
+                                        {
+                                            <button type="button" class="dropdown-item dd-item" data-value="@dm.MaDanhMuc"
+                                                    data-label="@dm.TenDanhMuc">
+                                                @dm.TenDanhMuc
+                                            </button>
+                                        }
                                     }
-                                }
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- GIỮ MODEL BINDING -->
-                        <input type="hidden" asp-for="MaDanhMuc" data-dd-hidden="MaDanhMuc" />
+                            <input type="hidden" asp-for="MaDanhMuc" data-dd-hidden="MaDanhMuc" />
+                        </div>
+                        <span asp-validation-for="MaDanhMuc" class="text-danger small"></span>
                     </div>
 
-                    <span asp-validation-for="MaDanhMuc" class="text-danger small"></span>
-                </div>
+                    <div class="col-12">
+                        <label class="form-label">Thương hiệu</label>
+                        <div class="dropdown w-100 dd-wrap">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="dropdown" data-dd="MaThuongHieu" aria-expanded="false">
+                                <span class="dd-label">@(!string.IsNullOrEmpty(tenThuongHieu) ? tenThuongHieu : "-- Chọn --")</span>
+                            </button>
 
-                <!-- ========== THƯƠNG HIỆU ========== -->
-                <div class="col-md-4">
-                    <label class="form-label">Thương hiệu</label>
+                            <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu">
+                                <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                       placeholder="Gõ để tìm thương hiệu..." autocomplete="off" />
 
-                    <div class="dropdown w-100 dd-wrap">
-                        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                                data-dd="MaThuongHieu"
-                                aria-expanded="false">
-                            <span class="dd-label">@(!string.IsNullOrEmpty(tenThuongHieu) ? tenThuongHieu : "-- Chọn --")</span>
-                        </button>
-
-                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:320px; overflow:auto;">
-                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                                   placeholder="Gõ để tìm thương hiệu..." autocomplete="off" />
-
-                            <div class="dd-list">
-                                <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn --">-- Chọn --</button>
-
-                                @if (thuongHieuList != null)
-                                {
-                                    foreach (var th in thuongHieuList)
+                                <div class="dd-list">
+                                    <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn --">-- Chọn --</button>
+                                    @if (thuongHieuList != null)
                                     {
-                                        <button type="button" class="dropdown-item dd-item"
-                                                data-value="@th.MaThuongHieu"
-                                                data-label="@th.TenThuongHieu">
-                                            @th.TenThuongHieu
-                                        </button>
+                                        foreach (var th in thuongHieuList)
+                                        {
+                                            <button type="button" class="dropdown-item dd-item" data-value="@th.MaThuongHieu"
+                                                    data-label="@th.TenThuongHieu">
+                                                @th.TenThuongHieu
+                                            </button>
+                                        }
                                     }
-                                }
+                                </div>
                             </div>
-                        </div>
 
-                        <input type="hidden" asp-for="MaThuongHieu" data-dd-hidden="MaThuongHieu" />
+                            <input type="hidden" asp-for="MaThuongHieu" data-dd-hidden="MaThuongHieu" />
+                        </div>
+                        <span asp-validation-for="MaThuongHieu" class="text-danger small"></span>
                     </div>
 
-                    <span asp-validation-for="MaThuongHieu" class="text-danger small"></span>
-                </div>
+                    <div class="col-12">
+                        <label class="form-label">Giới tính</label>
+                        <div class="dropdown w-100 dd-wrap">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="dropdown" data-dd="GioiTinh" aria-expanded="false">
+                                <span class="dd-label">@(!string.IsNullOrWhiteSpace(Model.GioiTinh) ? Model.GioiTinh : "-- Chọn --")</span>
+                            </button>
 
-                <!-- ========== GIỚI TÍNH ========== -->
-                <div class="col-md-4">
-                    <label class="form-label">Giới tính</label>
+                            <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu">
+                                <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                       placeholder="Gõ để tìm giới tính..." autocomplete="off" />
 
-                    <div class="dropdown w-100 dd-wrap">
-                        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                                data-dd="GioiTinh"
-                                aria-expanded="false">
-                            <span class="dd-label">@(!string.IsNullOrWhiteSpace(Model.GioiTinh) ? Model.GioiTinh : "-- Chọn --")</span>
-                        </button>
-
-                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:240px; overflow:auto;">
-                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                                   placeholder="Gõ để tìm giới tính..." autocomplete="off" />
-
-                            <div class="dd-list">
-                                <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn --">-- Chọn --</button>
-
-                                <!-- Lưu ý: data-value nên trùng đúng giá trị bạn lưu trong DB -->
-                                <button type="button" class="dropdown-item dd-item" data-value="Nam" data-label="Nam">Nam</button>
-                                <button type="button" class="dropdown-item dd-item" data-value="Nữ" data-label="Nữ">Nữ</button>
-                                <button type="button" class="dropdown-item dd-item" data-value="Unisex" data-label="Unisex">Unisex</button>
+                                <div class="dd-list">
+                                    <button type="button" class="dropdown-item dd-item" data-value="" data-label="-- Chọn --">-- Chọn --</button>
+                                    <button type="button" class="dropdown-item dd-item" data-value="Nam" data-label="Nam">Nam</button>
+                                    <button type="button" class="dropdown-item dd-item" data-value="Nữ" data-label="Nữ">Nữ</button>
+                                    <button type="button" class="dropdown-item dd-item" data-value="Unisex" data-label="Unisex">Unisex</button>
+                                </div>
                             </div>
-                        </div>
 
-                        <input type="hidden" asp-for="GioiTinh" data-dd-hidden="GioiTinh" />
+                            <input type="hidden" asp-for="GioiTinh" data-dd-hidden="GioiTinh" />
+                        </div>
+                        <span asp-validation-for="GioiTinh" class="text-danger small"></span>
                     </div>
 
-                    <span asp-validation-for="GioiTinh" class="text-danger small"></span>
-                </div>
+                    <div class="col-12">
+                        <label class="form-label">Giá</label>
+                        <input asp-for="Gia" type="number" class="form-control" />
+                        <span asp-validation-for="Gia" class="text-danger small"></span>
+                    </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">Giá</label>
-                    <input asp-for="Gia" type="number" class="form-control" />
-                </div>
-
-                <div class="col-md-12">
-                    <label class="form-label">Mô tả</label>
-                    <textarea asp-for="MoTa" class="form-control" rows="3"></textarea>
+                    <div class="col-12">
+                        <label class="form-label">Mô tả</label>
+                        <textarea asp-for="MoTa" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="MoTa" class="text-danger small"></span>
+                    </div>
                 </div>
             </div>
 
             <div class="mt-4 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-success btn-glow bt-primary">
                     <i class="fa-solid fa-save me-1"></i> Lưu
                 </button>
                 <a asp-area="Admin" asp-controller="SanPham" asp-action="Index" class="btn btn-outline-secondary">
-                    Quay lại
+                    Hủy
                 </a>
             </div>
         </form>
     </div>
+</div>
 </div>
 
 @section Scripts{

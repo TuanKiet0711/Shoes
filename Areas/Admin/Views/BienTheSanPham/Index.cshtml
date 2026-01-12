@@ -50,7 +50,9 @@
                             <span class="dd-label">@selectedTenSanPham</span>
                         </button>
 
-                        <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu" style="max-height:320px; overflow:auto;">
+                     <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu">
+
+
                             <input type="text"
                                    class="form-control form-control-sm mb-2 dd-search"
                                    placeholder="Gõ để tìm sản phẩm..."
@@ -79,22 +81,7 @@
                             </div>
 
                             <!-- PAGER: nằm cuối danh sách (scroll xuống mới thấy) -->
-                            <div class="dd-pager mt-2 pt-2 border-top">
-                                <div class="d-flex justify-content-between align-items-center gap-2">
-                                    <button type="button" class="btn btn-light btn-sm dd-prev" title="Trang trước">
-                                        <i class="fa-solid fa-chevron-left"></i>
-                                    </button>
-
-                                    <div class="dd-pageinfo small text-muted">
-                                        Trang <b class="dd-page">1</b>/<b class="dd-total">1</b>
-                                        <span class="ms-1">( <span class="dd-count">0</span> SP )</span>
-                                    </div>
-
-                                    <button type="button" class="btn btn-light btn-sm dd-next" title="Trang sau">
-                                        <i class="fa-solid fa-chevron-right"></i>
-                                    </button>
-                                </div>
-                            </div>
+                          
                         </div>
 
                         <!-- input thật để submit GET -->
@@ -185,9 +172,21 @@
                                 </td>
                                 <td class="text-center pe-4">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa-solid fa-eye"></i></a>
-                                        <a class="btn btn-outline-primary btn-sm" href="#"><i class="fa-solid fa-pen"></i></a>
-                                        <a class="btn btn-outline-danger btn-sm" href="#"><i class="fa-solid fa-trash"></i></a>
+                                        <a class="btn btn-outline-secondary btn-sm"
+                                           asp-area="Admin"
+                                           asp-controller="BienTheSanPham"
+                                           asp-action="Details"
+                                           asp-route-id="@bt.MaBienThe">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                        <a class="btn btn-outline-primary btn-sm"
+                                           asp-area="Admin"
+                                           asp-controller="BienTheSanPham"
+                                           asp-action="Edit"
+                                           asp-route-id="@bt.MaBienThe">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger btn-sm" asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Delete" asp-route-id="@bt.MaBienThe"><i class="fa-solid fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>

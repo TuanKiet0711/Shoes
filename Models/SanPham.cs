@@ -10,19 +10,19 @@ public partial class SanPham
     public string MaSanPham { get; set; } = null!;
     [Required(ErrorMessage = "Vui lòng nhập tên sản phẩm")]
     public string TenSanPham { get; set; } = null!;
-    [Required(ErrorMessage = "Vui lòng chọn danh mục")]
+    
     public string? MaDanhMuc { get; set; }
-    [Required(ErrorMessage = "Vui lòng chọn thương hiệu")]
+    
     public string? MaThuongHieu { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập giá")]
+    
     public int Gia { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập mô tả")]
+  
     public string? MoTa { get; set; }
 
     public string? TrangThai { get; set; }
 
     public DateTime? NgayTao { get; set; }
-    [Required(ErrorMessage = "Vui lòng chọn giới tính")]
+    
     public string? GioiTinh { get; set; }
 
     public virtual ICollection<BienTheSanPham> BienTheSanPham { get; set; } = new List<BienTheSanPham>();

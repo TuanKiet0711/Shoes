@@ -1,0 +1,83 @@
+@model WebBanGiay.Models.BienTheSanPham
+@{
+    ViewData["Title"] = "Xóa biến thể";
+}
+<link rel="stylesheet" href="~/css/Admin/BienThe/Create.css" />
+<div class="bt-page">
+<div class="card border-0 shadow-sm bt-form bt-form--hero">
+    <div class="card-header bt-hero">
+        <div class="bt-hero-content">
+            <div class="bt-hero-left">
+                <span class="bt-icon">
+                    <i class="fa-solid fa-trash"></i>
+                </span>
+                <div>
+                    <div class="bt-title">Xóa biến thể</div>
+                    <div class="bt-subtitle">Hành động không thể hoàn tác</div>
+                </div>
+            </div>
+
+            <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index"
+               class="btn btn-light btn-sm bt-back">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="alert alert-warning d-flex align-items-start gap-2" role="alert">
+            <i class="fa-solid fa-triangle-exclamation mt-1"></i>
+            <div>
+                Bạn có chắc muốn xóa biến thể này không?
+                <div class="small text-muted">Nếu xóa, dữ liệu sẽ mất vĩnh viễn.</div>
+            </div>
+        </div>
+
+        <div class="bt-section">
+            <div class="row g-3 bt-stack">
+                <div class="col-12">
+                    <label class="form-label">Mã biến thể</label>
+                    <div class="form-control bg-light">@Model.MaBienThe</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Sản phẩm</label>
+                    <div class="form-control bg-light">@Model.MaSanPhamNavigation?.TenSanPham</div>
+                    <div class="small text-muted mt-1">Mã SP: @Model.MaSanPham</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Size</label>
+                    <div class="form-control bg-light">@(Model.Size?.ToString() ?? "-")</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Màu sắc</label>
+                    <div class="form-control bg-light">@(string.IsNullOrWhiteSpace(Model.MauSac) ? "-" : Model.MauSac)</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Số lượng</label>
+                    <div class="form-control bg-light">@((Model.SoLuong ?? 0).ToString())</div>
+                </div>
+            </div>
+        </div>
+
+        <form asp-area="Admin"
+              asp-controller="BienTheSanPham"
+              asp-action="Delete"
+              asp-route-id="@Model.MaBienThe"
+              method="post"
+              class="mt-4 d-flex gap-2">
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-trash me-1"></i> Xóa
+            </button>
+
+            <a asp-area="Admin"
+               asp-controller="BienTheSanPham"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Hủy
+            </a>
+        </form>
+    </div>
+</div>
+</div>

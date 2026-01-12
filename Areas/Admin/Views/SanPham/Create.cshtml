@@ -3,166 +3,170 @@
     ViewData["Title"] = "Thêm sản phẩm";
 }
 <link rel="stylesheet" href="~/css/Admin/SanPham/Create.css" />
-<div class="card border-0 shadow-sm">
-    <div class="card-header bg-white fw-semibold">
-        <i class="fa-solid fa-plus me-2"></i> Thêm sản phẩm
+<div class="bt-page">
+<div class="card border-0 shadow-sm bt-form bt-form--hero">
+    <div class="card-header bt-hero">
+        <div class="bt-hero-content">
+            <div class="bt-hero-left">
+                <span class="bt-icon">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+                <div>
+                    <div class="bt-title">Thêm sản phẩm</div>
+                    <div class="bt-subtitle">Tạo mới sản phẩm cho cửa hàng giày</div>
+                </div>
+            </div>
+
+            <a asp-area="Admin" asp-controller="SanPham" asp-action="Index"
+               class="btn btn-light btn-sm bt-back">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
     </div>
+
     <div class="card-body">
-        <form asp-action="Create" method="post">
+        <form asp-area="Admin" asp-controller="SanPham" asp-action="Create" method="post">
             @Html.AntiForgeryToken()
 
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Mã sản phẩm</label>
-                    <input asp-for="MaSanPham" class="form-control" placeholder="Nhập mã sản phẩm" />
-                    <span asp-validation-for="MaSanPham" class="text-danger small"></span>
-                </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
 
-                <div class="col-md-8">
-                    <label class="form-label">Tên sản phẩm</label>
-                    <input asp-for="TenSanPham" class="form-control" placeholder="Nhập tên sản phẩm" />
-                    <span asp-validation-for="TenSanPham" class="text-danger small"></span>
-                </div>
+            <div class="bt-section">
+                <div class="row g-3 bt-stack">
+                    <div class="col-12">
+                        <label class="form-label">Mã sản phẩm</label>
+                        <input asp-for="MaSanPham" class="form-control" placeholder="Nhập mã sản phẩm" />
+                        <span asp-validation-for="MaSanPham" class="text-danger small"></span>
+                    </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">Danh mục</label>
+                    <div class="col-12">
+                        <label class="form-label">Tên sản phẩm</label>
+                        <input asp-for="TenSanPham" class="form-control" placeholder="Nhập tên sản phẩm" />
+                        <span asp-validation-for="TenSanPham" class="text-danger small"></span>
+                    </div>
 
-                    <div class="dropdown w-100 dd-wrap">
-                        <button
-                            class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                            type="button" data-bs-toggle="dropdown" data-dd="MaDanhMuc" aria-expanded="false">
-                            <span class="dd-label">-- Chọn danh mục --</span>
-                        </button>
+                    <div class="col-12">
+                        <label class="form-label">Danh mục</label>
+                        <div class="dropdown w-100 dd-wrap">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="dropdown" data-dd="MaDanhMuc" aria-expanded="false">
+                                <span class="dd-label">-- Chọn danh mục --</span>
+                            </button>
 
-                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:320px; overflow:auto;">
-                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                                placeholder="Gõ để tìm danh mục..." autocomplete="off" />
+                            <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu">
+                                <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                       placeholder="Gõ để tìm danh mục..." autocomplete="off" />
 
-                            <div class="dd-list">
-                                <button type="button" class="dropdown-item dd-item" data-value=""
-                                    data-label="-- Chọn danh mục --">
-                                    -- Chọn danh mục --
-                                </button>
-
-                                @foreach (var dm in ViewBag.DanhMucList)
-                                {
-                                    <button type="button" class="dropdown-item dd-item" data-value="@dm.MaDanhMuc"
-                                        data-label="@dm.TenDanhMuc">
-                                        @dm.TenDanhMuc
+                                <div class="dd-list">
+                                    <button type="button" class="dropdown-item dd-item" data-value=""
+                                            data-label="-- Chọn danh mục --">
+                                        -- Chọn danh mục --
                                     </button>
-                                }
-                            </div>
-                        </div>
 
-                        <!-- model binding giữ nguyên -->
-                        <input type="hidden" asp-for="MaDanhMuc" />
+                                    @foreach (var dm in ViewBag.DanhMucList)
+                                    {
+                                        <button type="button" class="dropdown-item dd-item" data-value="@dm.MaDanhMuc"
+                                                data-label="@dm.TenDanhMuc">
+                                            @dm.TenDanhMuc
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+
+                            <input type="hidden" asp-for="MaDanhMuc" />
+                        </div>
+                        <span asp-validation-for="MaDanhMuc" class="text-danger small"></span>
                     </div>
 
-                    <span asp-validation-for="MaDanhMuc" class="text-danger small"></span>
-                </div>
+                    <div class="col-12">
+                        <label class="form-label">Thương hiệu</label>
+                        <div class="dropdown w-100 dd-wrap">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="dropdown" data-dd="MaThuongHieu" aria-expanded="false">
+                                <span class="dd-label">-- Chọn thương hiệu --</span>
+                            </button>
 
+                            <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu">
+                                <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                       placeholder="Gõ để tìm thương hiệu..." autocomplete="off" />
 
-                <div class="col-md-4">
-                    <label class="form-label">Thương hiệu</label>
-
-                    <div class="dropdown w-100 dd-wrap">
-                        <button
-                            class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                            type="button" data-bs-toggle="dropdown" data-dd="MaThuongHieu" aria-expanded="false">
-                            <span class="dd-label">-- Chọn thương hiệu --</span>
-                        </button>
-
-                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:320px; overflow:auto;">
-                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                                placeholder="Gõ để tìm thương hiệu..." autocomplete="off" />
-
-                            <div class="dd-list">
-                                <button type="button" class="dropdown-item dd-item" data-value=""
-                                    data-label="-- Chọn thương hiệu --">
-                                    -- Chọn thương hiệu --
-                                </button>
-
-                                @foreach (var th in ViewBag.ThuongHieuList)
-                                {
-                                    <button type="button" class="dropdown-item dd-item" data-value="@th.MaThuongHieu"
-                                        data-label="@th.TenThuongHieu">
-                                        @th.TenThuongHieu
+                                <div class="dd-list">
+                                    <button type="button" class="dropdown-item dd-item" data-value=""
+                                            data-label="-- Chọn thương hiệu --">
+                                        -- Chọn thương hiệu --
                                     </button>
-                                }
-                            </div>
-                        </div>
 
-                        <input type="hidden" asp-for="MaThuongHieu" />
+                                    @foreach (var th in ViewBag.ThuongHieuList)
+                                    {
+                                        <button type="button" class="dropdown-item dd-item" data-value="@th.MaThuongHieu"
+                                                data-label="@th.TenThuongHieu">
+                                            @th.TenThuongHieu
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+
+                            <input type="hidden" asp-for="MaThuongHieu" />
+                        </div>
+                        <span asp-validation-for="MaThuongHieu" class="text-danger small"></span>
                     </div>
 
-                    <span asp-validation-for="MaThuongHieu" class="text-danger small"></span>
-                </div>
+                    <div class="col-12">
+                        <label class="form-label">Giới tính</label>
+                        <div class="dropdown w-100 dd-wrap">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="dropdown" data-dd="GioiTinh" aria-expanded="false">
+                                <span class="dd-label">-- Chọn giới tính --</span>
+                            </button>
 
+                            <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu">
+                                <input type="text" class="form-control form-control-sm mb-2 dd-search"
+                                       placeholder="Gõ để tìm giới tính..." autocomplete="off" />
 
-                <div class="col-md-4">
-                    <label class="form-label">Giới tính</label>
-
-                    <div class="dropdown w-100 dd-wrap">
-                        <button
-                            class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
-                            type="button" data-bs-toggle="dropdown" data-dd="GioiTinh" aria-expanded="false">
-                            <span class="dd-label">-- Chọn giới tính --</span>
-                        </button>
-
-                        <div class="dropdown-menu w-100 p-2 shadow-sm" style="max-height:240px; overflow:auto;">
-                            <input type="text" class="form-control form-control-sm mb-2 dd-search"
-                                placeholder="Gõ để tìm giới tính..." autocomplete="off" />
-
-                            <div class="dd-list">
-                                <button type="button" class="dropdown-item dd-item" data-value=""
-                                    data-label="-- Chọn giới tính --">
-                                    -- Chọn giới tính --
-                                </button>
-                                <button type="button" class="dropdown-item dd-item" data-value="Nam"
-                                    data-label="Nam">Nam</button>
-                                <button type="button" class="dropdown-item dd-item" data-value="Nữ"
-                                    data-label="Nữ">Nữ</button>
-                                <button type="button" class="dropdown-item dd-item" data-value="Unisex"
-                                    data-label="Unisex">Unisex</button>
+                                <div class="dd-list">
+                                    <button type="button" class="dropdown-item dd-item" data-value=""
+                                            data-label="-- Chọn giới tính --">
+                                        -- Chọn giới tính --
+                                    </button>
+                                    <button type="button" class="dropdown-item dd-item" data-value="Nam" data-label="Nam">Nam</button>
+                                    <button type="button" class="dropdown-item dd-item" data-value="Nữ" data-label="Nữ">Nữ</button>
+                                    <button type="button" class="dropdown-item dd-item" data-value="Unisex" data-label="Unisex">Unisex</button>
+                                </div>
                             </div>
-                        </div>
 
-                        <input type="hidden" asp-for="GioiTinh" />
+                            <input type="hidden" asp-for="GioiTinh" />
+                        </div>
+                        <span asp-validation-for="GioiTinh" class="text-danger small"></span>
                     </div>
 
-                    <span asp-validation-for="GioiTinh" class="text-danger small"></span>
-                </div>
+                    <div class="col-12">
+                        <label class="form-label">Giá</label>
+                        <input asp-for="Gia" type="number" min="0" class="form-control" placeholder="Nhập giá" />
+                        <span asp-validation-for="Gia" class="text-danger small"></span>
+                    </div>
 
-
-                <div class="col-md-4">
-                    <label class="form-label">Giá</label>
-                    <input asp-for="Gia" type="number" min="0" class="form-control" placeholder="Nhập giá" />
-                    <span asp-validation-for="Gia" class="text-danger small"></span>
-                </div>
-
-
-
-                <div class="col-md-12">
-                    <label class="form-label">Mô tả</label>
-                    <textarea asp-for="MoTa" rows="6" class="form-control" placeholder="Nhập mô tả"></textarea>
-                    <span asp-validation-for="MoTa" class="text-danger small"></span>
+                    <div class="col-12">
+                        <label class="form-label">Mô tả</label>
+                        <textarea asp-for="MoTa" rows="5" class="form-control" placeholder="Nhập mô tả"></textarea>
+                        <span asp-validation-for="MoTa" class="text-danger small"></span>
+                    </div>
                 </div>
             </div>
 
             <div class="mt-4 d-flex gap-2">
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-success btn-glow bt-primary">
                     <i class="fa-solid fa-save me-1"></i> Lưu
                 </button>
-                <a asp-action="Index" class="btn btn-outline-secondary">
-                    Quay lại
+                <a asp-area="Admin" asp-controller="SanPham" asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Hủy
                 </a>
             </div>
         </form>
     </div>
+</div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/Admin/SanPham/Create.js" asp-append-version="true"></script>
 }
-

@@ -10,11 +10,11 @@ public partial class BienTheSanPham
     public string MaBienThe { get; set; } = null!;
     [Required(ErrorMessage = "Vui lòng nhập tên sản phẩm")]
     public string? MaSanPham { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập size giày")]
+    
     public int? Size { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập màu sắc")]
+    
     public string? MauSac { get; set; }
-    [Required(ErrorMessage = "Vui lòng nhập số lượng")]
+    
     public int? SoLuong { get; set; }
 
     public virtual ICollection<ChiTietDonHang> ChiTietDonHang { get; set; } = new List<ChiTietDonHang>();
