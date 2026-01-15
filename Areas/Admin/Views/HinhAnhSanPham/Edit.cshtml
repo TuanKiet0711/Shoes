@@ -1,0 +1,139 @@
+@model WebBanGiay.Models.HinhAnhSanPham
+@{
+    ViewData["Title"] = "Sửa hình ảnh";
+    var sanPhamList = ViewBag.SanPhamList as List<WebBanGiay.Models.SanPham>;
+    var currentMaSanPham = (Model?.MaSanPham ?? "").ToString();
+    var currentLabel = "-- Chọn sản phẩm --";
+    if (sanPhamList != null && !string.IsNullOrEmpty(currentMaSanPham))
+    {
+        var sp = sanPhamList.FirstOrDefault(x => x.MaSanPham == currentMaSanPham);
+        if (sp != null) currentLabel = sp.TenSanPham;
+    }
+}
+<link rel="stylesheet" href="~/css/Admin/HinhAnh/Create.css" />
+
+<div class="card border-0 shadow-sm ha-card">
+    <div class="card-body p-0">
+        <div class="ha-header px-4 py-3 border-bottom d-flex align-items-center justify-content-between">
+            <div>
+                <div class="ha-title">Sửa hình ảnh</div>
+                <div class="ha-subtitle">Cập nhật ảnh sản phẩm</div>
+            </div>
+            <a asp-area="Admin" asp-controller="HinhAnhSanPham" asp-action="Index"
+               class="btn btn-outline-secondary btn-sm">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+
+        <form asp-area="Admin" asp-controller="HinhAnhSanPham" asp-action="Edit" asp-route-id="@Model.MaHinhAnh" method="post"
+              enctype="multipart/form-data" class="ha-form px-4 py-4">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <div class="ha-section">
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <label class="form-label">Mã hình ảnh</label>
+                        <input asp-for="MaHinhAnh" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="form-label">Sản phẩm</label>
+                        <div class="dropdown w-100 dd-wrap">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    data-dd="MaSanPham"
+                                    aria-expanded="false">
+                                <span class="dd-label">@currentLabel</span>
+                            </button>
+
+                            <div class="dropdown-menu w-100 p-2 shadow-sm dd-menu">
+                                <input type="text"
+                                       class="form-control form-control-sm mb-2 dd-search"
+                                       placeholder="Gõ để tìm sản phẩm..."
+                                       autocomplete="off" />
+
+                                <div class="dd-list">
+                                    <button type="button"
+                                            class="dropdown-item dd-item"
+                                            data-value=""
+                                            data-label="-- Chọn sản phẩm --">
+                                        -- Chọn sản phẩm --
+                                    </button>
+
+                                    @if (sanPhamList != null)
+                                    {
+                                        foreach (var sp in sanPhamList)
+                                        {
+                                            var active = sp.MaSanPham == currentMaSanPham ? "active" : "";
+                                            <button type="button"
+                                                    class="dropdown-item dd-item @active"
+                                                    data-value="@sp.MaSanPham"
+                                                    data-label="@sp.TenSanPham">
+                                                @sp.TenSanPham
+                                            </button>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <input asp-for="MaSanPham" type="hidden" value="@currentMaSanPham" data-dd-hidden="MaSanPham" />
+                        </div>
+                        <span asp-validation-for="MaSanPham" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Chọn ảnh mới (nếu cần)</label>
+                        <input type="file" name="anhFile" id="AnhFile" class="form-control" accept="image/*,.avif" />
+                        <div class="small text-muted mt-1">Bỏ trống để giữ ảnh hiện tại.</div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Ảnh đại diện</label>
+                        <div class="form-check form-switch mt-1">
+                            <input type="hidden" name="LaAnhDaiDien" value="false" />
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="LaAnhDaiDien"
+                                   value="true"
+                                   checked="@(Model.LaAnhDaiDien == true)" />
+                            <label class="form-check-label">Đặt làm ảnh đại diện</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Xem trước</label>
+                        <div class="img-preview-wrap">
+                            <img id="AnhPreview" class="img-preview"
+                                 src="@(string.IsNullOrWhiteSpace(Model.DuongDanAnh) ? "https://via.placeholder.com/600x600" : Model.DuongDanAnh)"
+                                 data-placeholder="https://via.placeholder.com/600x600"
+                                 data-current="@Model.DuongDanAnh"
+                                 alt="Xem trước" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-save"></i>
+                    <span>Lưu</span>
+                </button>
+                <a asp-area="Admin" asp-controller="HinhAnhSanPham" asp-action="Index"
+                   class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Hủy</span>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Admin/HinhAnh/Edit.js" asp-append-version="true"></script>
+}

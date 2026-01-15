@@ -1,0 +1,52 @@
+@model WebBanGiay.Models.DanhMuc
+@{
+    ViewData["Title"] = "Chi tiết danh mục";
+}
+<link rel="stylesheet" href="~/css/Admin/DanhMuc/Details.css" />
+
+<div class="card border-0 shadow-sm dm-card">
+    <div class="card-body p-0">
+        <div class="dm-header px-4 py-3 border-bottom d-flex align-items-center justify-content-between">
+            <div>
+                <div class="dm-title">Chi tiết danh mục</div>
+                <div class="dm-subtitle">Thông tin danh mục sản phẩm</div>
+            </div>
+            <a asp-area="Admin" asp-controller="DanhMuc" asp-action="Index"
+               class="btn btn-outline-secondary btn-sm">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+
+        <div class="dm-form px-4 py-4">
+            <div class="dm-section">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Mã danh mục</label>
+                        <div class="form-control dm-readonly">@Model.MaDanhMuc</div>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label">Tên danh mục</label>
+                        <div class="form-control dm-readonly">@Model.TenDanhMuc</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <a asp-area="Admin" asp-controller="DanhMuc" asp-action="Edit" asp-route-id="@Model.MaDanhMuc"
+                   class="btn btn-primary d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-pen"></i>
+                    <span>Sửa</span>
+                </a>
+                <a asp-area="Admin" asp-controller="DanhMuc" asp-action="Index"
+                   class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Đóng</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Admin/DanhMuc/Details.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,52 @@
+@model WebBanGiay.Models.ThuongHieu
+@{
+    ViewData["Title"] = "Chi tiết thương hiệu";
+}
+<link rel="stylesheet" href="~/css/Admin/ThuongHieu/Details.css" />
+
+<div class="card border-0 shadow-sm th-card">
+    <div class="card-body p-0">
+        <div class="th-header px-4 py-3 border-bottom d-flex align-items-center justify-content-between">
+            <div>
+                <div class="th-title">Chi tiết thương hiệu</div>
+                <div class="th-subtitle">Thông tin thương hiệu sản phẩm</div>
+            </div>
+            <a asp-area="Admin" asp-controller="ThuongHieu" asp-action="Index"
+               class="btn btn-outline-secondary btn-sm">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+
+        <div class="th-form px-4 py-4">
+            <div class="th-section">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Mã thương hiệu</label>
+                        <div class="form-control th-readonly">@Model.MaThuongHieu</div>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label">Tên thương hiệu</label>
+                        <div class="form-control th-readonly">@Model.TenThuongHieu</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <a asp-area="Admin" asp-controller="ThuongHieu" asp-action="Edit" asp-route-id="@Model.MaThuongHieu"
+                   class="btn btn-primary d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-pen"></i>
+                    <span>Sửa</span>
+                </a>
+                <a asp-area="Admin" asp-controller="ThuongHieu" asp-action="Index"
+                   class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Đóng</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Admin/ThuongHieu/Details.js" asp-append-version="true"></script>
+}

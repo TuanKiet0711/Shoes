@@ -1,4 +1,4 @@
-﻿@{
+@{
     var curArea = (ViewContext.RouteData.Values["area"]?.ToString() ?? "").ToLower();
     var curController = (ViewContext.RouteData.Values["controller"]?.ToString() ?? "").ToLower();
     var curAction = (ViewContext.RouteData.Values["action"]?.ToString() ?? "").ToLower();
@@ -52,11 +52,11 @@
                 <div class="menu-label">Quản lý kho</div>
                 <ul class="menu">
                     @{
-    var sanPhamParentActive =
-        IsController("SanPham") ||
-        IsController("BienTheSanPham") ||
-        IsController("HinhAnhSanPham");
-}
+                        var sanPhamParentActive =
+                        IsController("SanPham") ||
+                        IsController("BienTheSanPham") ||
+                        IsController("HinhAnhSanPham");
+                    }
 
                     <li class="has-sub @(sanPhamParentActive ? "active open" : "")">
                         <a href="javascript:void(0)" onclick="toggleMenu(this)">
@@ -70,24 +70,28 @@
                                     Danh sách
                                 </a>
                             </li>
-                          <li class="@(IsActive("BienTheSanPham", "Index") ? "active" : "")">
-    <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index">
-        Biến thể
-    </a>
-</li>
+                            <li class="@(IsActive("BienTheSanPham", "Index") ? "active" : "")">
+                                <a asp-area="Admin" asp-controller="BienTheSanPham" asp-action="Index">
+                                    Biến thể
+                                </a>
+                            </li>
 
-                            <li><a href="#">Hình ảnh</a></li>
+                            <li class="@(IsActive("HinhAnhSanPham", "Index") ? "active" : "")">
+                                <a asp-area="Admin" asp-controller="HinhAnhSanPham" asp-action="Index">
+                                    Hình ảnh
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
                     <li class="@(IsController("DanhMuc") ? "active" : "")">
-                        <a href="#">
+                        <a asp-area="Admin" asp-controller="DanhMuc" asp-action="Index">
                             <div class="menu-left"><i class="fa-solid fa-layer-group"></i><span>Danh mục</span></div>
                         </a>
                     </li>
 
                     <li class="@(IsController("ThuongHieu") ? "active" : "")">
-                        <a href="#">
+                        <a asp-area="Admin" asp-controller="ThuongHieu" asp-action="Index">
                             <div class="menu-left"><i class="fa-solid fa-copyright"></i><span>Thương hiệu</span></div>
                         </a>
                     </li>
@@ -153,26 +157,22 @@
         </div>
     </div>
     <!-- TOAST (TOP RIGHT) -->
-<!-- TOAST (TOP RIGHT) -->
-@if (TempData["ToastMessage"] != null)
-{
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000;">
-        <div id="appToast"
-             class="toast align-items-center text-bg-@(TempData["ToastType"] ?? "success") border-0"
-             role="alert"
-             aria-live="assertive"
-             aria-atomic="true"
-             data-bs-delay="2500">
-            <div class="d-flex">
-                <div class="toast-body">
-                    @TempData["ToastMessage"]
+    <!-- TOAST (TOP RIGHT) -->
+    @if (TempData["ToastMessage"] != null)
+    {
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000;">
+            <div id="appToast" class="toast align-items-center text-bg-@(TempData["ToastType"] ?? "success") border-0"
+                role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2500">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        @TempData["ToastMessage"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                        data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-    </div>
-}
+    }
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

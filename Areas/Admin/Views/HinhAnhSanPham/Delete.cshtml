@@ -1,0 +1,78 @@
+@model WebBanGiay.Models.HinhAnhSanPham
+@{
+    ViewData["Title"] = "Xóa hình ảnh";
+}
+<link rel="stylesheet" href="~/css/Admin/HinhAnh/Create.css" />
+<div class="bt-page">
+<div class="card border-0 shadow-sm bt-form bt-form--hero">
+    <div class="card-header bt-hero">
+        <div class="bt-hero-content">
+            <div class="bt-hero-left">
+                <span class="bt-icon">
+                    <i class="fa-solid fa-trash"></i>
+                </span>
+                <div>
+                    <div class="bt-title">Xóa hình ảnh</div>
+                    <div class="bt-subtitle">Hành động không thể hoàn tác</div>
+                </div>
+            </div>
+
+            <a asp-area="Admin" asp-controller="HinhAnhSanPham" asp-action="Index"
+               class="btn btn-light btn-sm bt-back">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="alert alert-warning d-flex align-items-start gap-2" role="alert">
+            <i class="fa-solid fa-triangle-exclamation mt-1"></i>
+            <div>
+                Bạn có chắc muốn xóa hình ảnh này không?
+                <div class="small text-muted">Nếu xóa, dữ liệu sẽ mất vĩnh viễn.</div>
+            </div>
+        </div>
+
+        <div class="bt-section">
+            <div class="row g-3 bt-stack">
+                <div class="col-12">
+                    <label class="form-label">Mã hình ảnh</label>
+                    <div class="form-control bg-light">@Model.MaHinhAnh</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Sản phẩm</label>
+                    <div class="form-control bg-light">@Model.MaSanPhamNavigation?.TenSanPham</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Đường dẫn ảnh</label>
+                    <div class="form-control bg-light">@Model.DuongDanAnh</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Ảnh đại diện</label>
+                    <div class="form-control bg-light">@(Model.LaAnhDaiDien == true ? "Có" : "Không")</div>
+                </div>
+            </div>
+        </div>
+
+        <form asp-area="Admin"
+              asp-controller="HinhAnhSanPham"
+              asp-action="Delete"
+              asp-route-id="@Model.MaHinhAnh"
+              method="post"
+              class="mt-4 d-flex gap-2">
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-trash me-1"></i> Xóa
+            </button>
+
+            <a asp-area="Admin"
+               asp-controller="HinhAnhSanPham"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Hủy
+            </a>
+        </form>
+    </div>
+</div>
+</div>

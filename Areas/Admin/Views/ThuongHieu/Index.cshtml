@@ -1,0 +1,100 @@
+@model IEnumerable<WebBanGiay.Models.ThuongHieu>
+@{
+    ViewData["Title"] = "Thương hiệu";
+}
+<link rel="stylesheet" href="~/css/Admin/ThuongHieu/Index.css" />
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+
+        <form method="get" class="px-4 py-3 border-bottom">
+            <div class="row g-2 align-items-end">
+
+                <div class="col-md-4">
+                    <label class="form-label small text-muted">Tìm kiếm</label>
+                    <div class="input-group">
+                        <button type="submit" class="input-group-text bg-light">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                        <input type="text" name="q" value="@ViewBag.Query" class="form-control"
+                               placeholder="Mã thương hiệu / tên thương hiệu" />
+                    </div>
+                </div>
+
+                <div class="col-md-8 d-flex align-items-end justify-content-end gap-2">
+                    <button type="submit" class="btn btn-primary d-flex align-items-center gap-2 px-3">
+                        <i class="fa-solid fa-filter"></i>
+                        <span>Lọc</span>
+                    </button>
+
+                    <a asp-area="Admin" asp-controller="ThuongHieu" asp-action="Index"
+                       class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Hủy</span>
+                    </a>
+
+                    <a asp-area="Admin" asp-controller="ThuongHieu" asp-action="Create"
+                       class="btn btn-success d-flex align-items-center gap-2 px-3">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Thêm</span>
+                    </a>
+                </div>
+            </div>
+        </form>
+
+        <div class="px-4 py-2 text-muted small border-bottom">
+            Tổng: <b>@(Model?.Count() ?? 0)</b> thương hiệu
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4" style="width:180px;">Mã thương hiệu</th>
+                        <th>Tên thương hiệu</th>
+                        <th class="text-center pe-4" style="width:160px;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var th in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-semibold">@th.MaThuongHieu</td>
+                                <td class="fw-semibold">@th.TenThuongHieu</td>
+                                <td class="text-center pe-4">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a class="btn btn-outline-secondary btn-sm"
+                                           asp-area="Admin" asp-controller="ThuongHieu" asp-action="Details" asp-route-id="@th.MaThuongHieu">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                        <a class="btn btn-outline-primary btn-sm"
+                                           asp-area="Admin" asp-controller="ThuongHieu" asp-action="Edit" asp-route-id="@th.MaThuongHieu">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger btn-sm"
+                                           asp-area="Admin" asp-controller="ThuongHieu" asp-action="Delete" asp-route-id="@th.MaThuongHieu">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-5">Không có thương hiệu nào</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Admin/ThuongHieu/Index.js" asp-append-version="true"></script>
+}

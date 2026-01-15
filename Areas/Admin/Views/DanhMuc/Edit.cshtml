@@ -1,0 +1,59 @@
+@model WebBanGiay.Models.DanhMuc
+@{
+    ViewData["Title"] = "Sửa danh mục";
+}
+<link rel="stylesheet" href="~/css/Admin/DanhMuc/Edit.css" />
+
+<div class="card border-0 shadow-sm dm-card">
+    <div class="card-body p-0">
+        <div class="dm-header px-4 py-3 border-bottom d-flex align-items-center justify-content-between">
+            <div>
+                <div class="dm-title">Sửa danh mục</div>
+                <div class="dm-subtitle">Cập nhật thông tin danh mục</div>
+            </div>
+            <a asp-area="Admin" asp-controller="DanhMuc" asp-action="Index"
+               class="btn btn-outline-secondary btn-sm">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+
+        <form asp-area="Admin" asp-controller="DanhMuc" asp-action="Edit" asp-route-id="@Model.MaDanhMuc" method="post"
+              class="dm-form px-4 py-4">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <div class="dm-section">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Mã danh mục</label>
+                        <input asp-for="MaDanhMuc" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="form-label">Tên danh mục</label>
+                        <input asp-for="TenDanhMuc" class="form-control" placeholder="Nhập tên danh mục" />
+                        <span asp-validation-for="TenDanhMuc" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-save"></i>
+                    <span>Lưu</span>
+                </button>
+                <a asp-area="Admin" asp-controller="DanhMuc" asp-action="Index"
+                   class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Hủy</span>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Admin/DanhMuc/Edit.js" asp-append-version="true"></script>
+}

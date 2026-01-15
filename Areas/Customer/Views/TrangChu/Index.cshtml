@@ -7,8 +7,7 @@
 <!-- ================= BANNER SLIDER CSS ================= -->
 
 <!-- ================= BANNER SLIDER (thụt 1cm mỗi bên + bo góc) ================= -->
-<section class="relative h-[520px] overflow-hidden mb-20
-                w-[calc(100vw-2cm)] left-1/2 -translate-x-1/2">
+<section class="relative h-[520px] overflow-hidden mb-20 w-full">
     <div class="relative w-full h-full rounded-3xl md:rounded-[2rem] overflow-hidden">
         <!-- SLIDE 1 -->
    <!-- SLIDE 1 (NHIỀU MÃ GIẢM GIÁ) -->
@@ -108,15 +107,28 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach (var sp in Model)
                 {
-                    var hinh = (sp.HinhAnhSanPham != null && sp.HinhAnhSanPham.Any())
-                        ? sp.HinhAnhSanPham.First().DuongDanAnh
-                        : "https://via.placeholder.com/400";
+                    var imageUrls = (sp.HinhAnhSanPham ?? new List<WebBanGiay.Models.HinhAnhSanPham>())
+                        .Where(x => !string.IsNullOrWhiteSpace(x.DuongDanAnh))
+                        .OrderByDescending(x => x.LaAnhDaiDien == true)
+                        .Select(x => x.DuongDanAnh)
+                        .ToList();
+                    var hinh = imageUrls.Any() ? imageUrls.First() : "https://via.placeholder.com/400";
+                    var hinhAlt = imageUrls.Count > 1 ? imageUrls[1] : "";
 
                     <div class="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden tc-tilt">
-                        <img src="@hinh"
-                             class="h-56 w-full object-cover tc-tilt-img"
-                             loading="lazy"
-                             decoding="async" />
+                        <div class="h-56 w-full tc-swap">
+                            <img src="@hinh"
+                                 class="tc-tilt-img tc-swap-img"
+                                 loading="lazy"
+                                 decoding="async" />
+                            @if (!string.IsNullOrWhiteSpace(hinhAlt))
+                            {
+                                <img src="@hinhAlt"
+                                     class="tc-tilt-img tc-swap-img tc-swap-img--alt"
+                                     loading="lazy"
+                                     decoding="async" />
+                            }
+                        </div>
 
                         <div class="p-5 tc-tilt-body">
                             <h3 class="font-semibold text-lg">

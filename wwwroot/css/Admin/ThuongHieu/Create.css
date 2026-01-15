@@ -1,0 +1,34 @@
+/* ===== Form layout ===== */
+.th-card{
+    border-radius:16px;
+    overflow:hidden;
+}
+.th-header .th-title{
+    font-weight:600;
+    font-size:1.05rem;
+}
+.th-header .th-subtitle{
+    font-size:.85rem;
+    color:#6c757d;
+}
+.th-form .form-label{
+    font-weight:600;
+    color:#2b2f33;
+}
+.th-form .form-control{
+    border-radius:10px;
+    height:44px;
+}
+.th-form .form-control:focus{
+    border-color:#6ea8fe;
+    box-shadow:0 0 0 .2rem rgba(13,110,253,.15);
+}
+.th-section{
+    background:#f8fafc;
+    border:1px solid #eef1f4;
+    border-radius:14px;
+    padding:16px;
+}
+.th-readonly{
+    background:#fff;
+}

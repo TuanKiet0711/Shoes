@@ -1,0 +1,71 @@
+@model WebBanGiay.Models.HinhAnhSanPham
+@{
+    ViewData["Title"] = "Chi tiết hình ảnh";
+}
+<link rel="stylesheet" href="~/css/Admin/HinhAnh/Create.css" />
+<div class="bt-page">
+<div class="card border-0 shadow-sm bt-form bt-form--hero">
+    <div class="card-header bt-hero">
+        <div class="bt-hero-content">
+            <div class="bt-hero-left">
+                <span class="bt-icon">
+                    <i class="fa-solid fa-eye"></i>
+                </span>
+                <div>
+                    <div class="bt-title">Chi tiết hình ảnh</div>
+                    <div class="bt-subtitle">Thông tin ảnh sản phẩm</div>
+                </div>
+            </div>
+
+            <a asp-area="Admin" asp-controller="HinhAnhSanPham" asp-action="Index"
+               class="btn btn-light btn-sm bt-back">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="bt-section">
+            <div class="row g-3 bt-stack">
+                <div class="col-12">
+                    <div class="text-muted small">Mã hình ảnh</div>
+                    <div class="fw-semibold">@Model.MaHinhAnh</div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small">Sản phẩm</div>
+                    <div class="fw-semibold">@Model.MaSanPhamNavigation?.TenSanPham</div>
+                    <div class="text-muted small">Mã SP: @Model.MaSanPham</div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small">Đường dẫn ảnh</div>
+                    <div class="fw-semibold">@Model.DuongDanAnh</div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small">Ảnh đại diện</div>
+                    <div class="fw-semibold">@(Model.LaAnhDaiDien == true ? "Có" : "Không")</div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small">Xem trước</div>
+                    <div class="img-preview-wrap">
+                        <img class="img-preview"
+                             src="@(string.IsNullOrWhiteSpace(Model.DuongDanAnh) ? "https://via.placeholder.com/600x600" : Model.DuongDanAnh)"
+                             data-placeholder="https://via.placeholder.com/600x600"
+                             alt="Xem trước" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <a asp-area="Admin" asp-controller="HinhAnhSanPham" asp-action="Edit" asp-route-id="@Model.MaHinhAnh"
+               class="btn btn-success btn-glow bt-primary">
+                <i class="fa-solid fa-pen me-1"></i> Sửa
+            </a>
+            <a asp-area="Admin" asp-controller="HinhAnhSanPham" asp-action="Index"
+               class="btn btn-outline-secondary">
+                Quay lại
+            </a>
+        </div>
+    </div>
+</div>
+</div>

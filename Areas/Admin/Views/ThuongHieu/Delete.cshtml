@@ -1,0 +1,54 @@
+@model WebBanGiay.Models.ThuongHieu
+@{
+    ViewData["Title"] = "Xóa thương hiệu";
+}
+<link rel="stylesheet" href="~/css/Admin/ThuongHieu/Delete.css" />
+
+<div class="card border-0 shadow-sm th-card">
+    <div class="card-body p-0">
+        <div class="th-header px-4 py-3 border-bottom d-flex align-items-center justify-content-between">
+            <div>
+                <div class="th-title">Xóa thương hiệu</div>
+                <div class="th-subtitle">Xác nhận trước khi xóa</div>
+            </div>
+            <a asp-area="Admin" asp-controller="ThuongHieu" asp-action="Index"
+               class="btn btn-outline-secondary btn-sm">
+                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+
+        <form asp-area="Admin" asp-controller="ThuongHieu" asp-action="Delete" asp-route-id="@Model.MaThuongHieu" method="post"
+              class="th-form px-4 py-4">
+            @Html.AntiForgeryToken()
+
+            <div class="th-section">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Mã thương hiệu</label>
+                        <div class="form-control th-readonly">@Model.MaThuongHieu</div>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label">Tên thương hiệu</label>
+                        <div class="form-control th-readonly">@Model.TenThuongHieu</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-danger d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-trash"></i>
+                    <span>Xóa</span>
+                </button>
+                <a asp-area="Admin" asp-controller="ThuongHieu" asp-action="Index"
+                   class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Hủy</span>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Admin/ThuongHieu/Delete.js" asp-append-version="true"></script>
+}
