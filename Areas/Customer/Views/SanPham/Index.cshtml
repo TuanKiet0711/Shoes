@@ -1,0 +1,218 @@
+@model List<WebBanGiay.Models.SanPham>
+@{
+    ViewData["Title"] = "Sản phẩm";
+    var danhMucList = ViewBag.DanhMuc as List<WebBanGiay.Models.DanhMuc>;
+    var thuongHieuList = ViewBag.ThuongHieu as List<WebBanGiay.Models.ThuongHieu>;
+    var sizeList = ViewBag.SizeList as List<int> ?? new List<int>();
+    var mauSacList = ViewBag.MauSacList as List<string> ?? new List<string>();
+
+    var danhMucSelected = ViewBag.DanhMucSelected as string[] ?? Array.Empty<string>();
+    var thuongHieuSelected = ViewBag.ThuongHieuSelected as string[] ?? Array.Empty<string>();
+    var gioiTinhSelected = ViewBag.GioiTinh as string[] ?? Array.Empty<string>();
+    var sizeSelected = ViewBag.Size as int[] ?? Array.Empty<int>();
+    var mauSacSelected = ViewBag.MauSac as string[] ?? Array.Empty<string>();
+    var tinhTrangSelected = ViewBag.TinhTrang as string[] ?? Array.Empty<string>();
+    var giaSelected = ViewBag.Gia as string[] ?? Array.Empty<string>();
+}
+<link rel="stylesheet" href="~/css/Customer/SanPham.css" asp-append-version="true" />
+
+<section class="max-w-7xl mx-auto">
+    <div class="mb-6"></div>
+
+    <div class="sp-page">
+        <aside class="sp-sidebar">
+            <form id="spFilterForm" method="get" class="sp-filter">
+                <input type="hidden" name="q" value="@ViewBag.Query" />
+
+                <div class="sp-filter-group">
+                    <div class="sp-filter-title">Danh mục</div>
+                    <div class="sp-check-list">
+                        @if (danhMucList != null)
+                        {
+                            foreach (var dm in danhMucList)
+                            {
+                                <label class="sp-check">
+                                    <input type="checkbox" name="danhMuc" value="@dm.MaDanhMuc"
+                                           checked="@danhMucSelected.Contains(dm.MaDanhMuc)" />
+                                    <span>@dm.TenDanhMuc</span>
+                                </label>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="sp-filter-group">
+                    <div class="sp-filter-title">Thương hiệu</div>
+                    <div class="sp-check-list">
+                        @if (thuongHieuList != null)
+                        {
+                            foreach (var th in thuongHieuList)
+                            {
+                                <label class="sp-check">
+                                    <input type="checkbox" name="thuongHieu" value="@th.MaThuongHieu"
+                                           checked="@thuongHieuSelected.Contains(th.MaThuongHieu)" />
+                                    <span>@th.TenThuongHieu</span>
+                                </label>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="sp-filter-group">
+                    <div class="sp-filter-title">Giới tính</div>
+                    <div class="sp-check-list">
+                        <label class="sp-check">
+                            <input type="checkbox" name="gioiTinh" value="Nam"
+                                   checked="@gioiTinhSelected.Contains("Nam")" />
+                            <span>Nam</span>
+                        </label>
+                        <label class="sp-check">
+                            <input type="checkbox" name="gioiTinh" value="Nu"
+                                   checked="@gioiTinhSelected.Contains("Nu")" />
+                            <span>Nữ</span>
+                        </label>
+                        <label class="sp-check">
+                            <input type="checkbox" name="gioiTinh" value="Unisex"
+                                   checked="@gioiTinhSelected.Contains("Unisex")" />
+                            <span>Unisex</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="sp-filter-group">
+                    <div class="sp-filter-title">Size</div>
+                    <div class="sp-check-list sp-check-list--grid">
+                        @foreach (var s in sizeList)
+                        {
+                            <label class="sp-check">
+                                <input type="checkbox" name="size" value="@s"
+                                       checked="@sizeSelected.Contains(s)" />
+                                <span>@s</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+
+                <div class="sp-filter-group">
+                    <div class="sp-filter-title">Màu sắc</div>
+                    <div class="sp-check-list">
+                        @foreach (var m in mauSacList)
+                        {
+                            <label class="sp-check">
+                                <input type="checkbox" name="mauSac" value="@m"
+                                       checked="@mauSacSelected.Contains(m)" />
+                                <span>@m</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+
+                <div class="sp-filter-group">
+                    <div class="sp-filter-title">Tình trạng</div>
+                    <div class="sp-check-list">
+                        <label class="sp-check">
+                            <input type="checkbox" name="tinhTrang" value="con-hang"
+                                   checked="@tinhTrangSelected.Contains("con-hang")" />
+                            <span>Còn hàng</span>
+                        </label>
+                        <label class="sp-check">
+                            <input type="checkbox" name="tinhTrang" value="het-hang"
+                                   checked="@tinhTrangSelected.Contains("het-hang")" />
+                            <span>Hết hàng</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="sp-filter-group">
+                    <div class="sp-filter-title">Khoảng giá</div>
+                    <div class="sp-check-list">
+                        <label class="sp-check">
+                            <input type="checkbox" name="gia" value="under-500"
+                                   checked="@giaSelected.Contains("under-500")" />
+                            <span>Dưới 500.000đ</span>
+                        </label>
+                        <label class="sp-check">
+                            <input type="checkbox" name="gia" value="500-1000"
+                                   checked="@giaSelected.Contains("500-1000")" />
+                            <span>500.000đ - 1.000.000đ</span>
+                        </label>
+                        <label class="sp-check">
+                            <input type="checkbox" name="gia" value="1000-2000"
+                                   checked="@giaSelected.Contains("1000-2000")" />
+                            <span>1.000.000đ - 2.000.000đ</span>
+                        </label>
+                        <label class="sp-check">
+                            <input type="checkbox" name="gia" value="over-2000"
+                                   checked="@giaSelected.Contains("over-2000")" />
+                            <span>Trên 2.000.000đ</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="sp-filter-actions">
+                    <a href="/Customer/SanPham" class="sp-btn sp-btn--ghost w-full">Xóa lọc</a>
+                </div>
+            </form>
+        </aside>
+
+        <div class="sp-products">
+           
+            <div class="sp-toolbar sp-toolbar--card">
+                <span class="sp-toolbar-center">@(Model?.Count ?? 0) kết quả</span>
+                <div class="sp-toolbar-sort">
+                    <span class="sp-toolbar-label">Sắp xếp</span>
+                    <select name="sapXep" form="spFilterForm" class="sp-input sp-input--select">
+                        <option value="" selected="@(string.IsNullOrWhiteSpace(ViewBag.SapXep))">Mới nhất</option>
+                        <option value="price-asc" selected="@(ViewBag.SapXep as string == "price-asc")">Giá tăng dần</option>
+                        <option value="price-desc" selected="@(ViewBag.SapXep as string == "price-desc")">Giá giảm dần</option>
+                        <option value="name-asc" selected="@(ViewBag.SapXep as string == "name-asc")">Tên A-Z</option>
+                        <option value="name-desc" selected="@(ViewBag.SapXep as string == "name-desc")">Tên Z-A</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var sp in Model)
+                    {
+                        var imageUrls = (sp.HinhAnhSanPham ?? new List<WebBanGiay.Models.HinhAnhSanPham>())
+                            .Where(x => !string.IsNullOrWhiteSpace(x.DuongDanAnh))
+                            .OrderByDescending(x => x.LaAnhDaiDien == true)
+                            .Select(x => x.DuongDanAnh)
+                            .ToList();
+                        var hinh = imageUrls.Any() ? imageUrls.First() : "https://via.placeholder.com/400";
+                        var hinhAlt = imageUrls.Count > 1 ? imageUrls[1] : "";
+
+                        <div class="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden">
+                            <div class="sp-swap h-56 w-full">
+                                <img src="@hinh" class="sp-swap-img" loading="lazy" decoding="async" />
+                                @if (!string.IsNullOrWhiteSpace(hinhAlt))
+                                {
+                                    <img src="@hinhAlt" class="sp-swap-img sp-swap-img--alt" loading="lazy" decoding="async" />
+                                }
+                            </div>
+
+                            <div class="p-5">
+                                <h3 class="font-semibold text-lg">@sp.TenSanPham</h3>
+                                <p class="text-sm text-gray-500">@sp.MaThuongHieuNavigation?.TenThuongHieu</p>
+                                <div class="flex justify-between items-center mt-3">
+                                    <span class="text-indigo-600 font-bold">@sp.Gia.ToString("N0") đ</span>
+                                    <i class="fa-solid fa-cart-plus text-indigo-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-span-full text-center text-gray-500">Không có sản phẩm nào.</div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/Customer/SanPham.js" asp-append-version="true"></script>
+}

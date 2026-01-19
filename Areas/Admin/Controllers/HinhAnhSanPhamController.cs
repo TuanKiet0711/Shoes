@@ -1,12 +1,14 @@
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WebBanGiay.Models;
 
 namespace WebBanGiay.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class HinhAnhSanPhamController : Controller
     {
         private readonly WebBanGiayContext _context;

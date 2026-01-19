@@ -1,0 +1,118 @@
+@model WebBanGiay.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+    var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+}
+<link rel="stylesheet" href="~/css/Customer/AuthModal.css" asp-append-version="true" />
+
+<section class="auth-overlay is-open">
+    <div class="auth-backdrop"></div>
+    <div class="auth-modal" role="dialog" aria-modal="true" aria-label="Đăng nhập và đăng ký">
+        <a class="auth-close" href="/" aria-label="Đóng">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+
+        <div class="auth-split">
+            <section class="auth-panel auth-panel--login">
+                <h2 class="auth-title">Đăng nhập</h2>
+                <p class="auth-subtitle">Nhập thông tin để tiếp tục mua sắm cùng LeeShoes.</p>
+
+                @if (TempData["RegisterSuccess"] != null)
+                {
+                    <div class="auth-alert auth-alert--success">@TempData["RegisterSuccess"]</div>
+                }
+
+                <form class="auth-form auth-form--login" method="post" asp-action="Index" asp-controller="Login" asp-area="Customer">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="ReturnUrl" value="@returnUrl" />
+
+                    <div class="auth-field">
+                        <label for="AuthLoginEmail">Email</label>
+                        <input id="AuthLoginEmail" name="Email" type="email" value="@Model.Email" required />
+                        <span class="field-error">@Html.ValidationMessageFor(m => m.Email)</span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="AuthLoginPassword">Mật khẩu</label>
+                        <input id="AuthLoginPassword" name="MatKhau" type="password" required />
+                        <span class="field-error">@Html.ValidationMessageFor(m => m.MatKhau)</span>
+                    </div>
+
+                    <div class="auth-error">@Html.ValidationSummary()</div>
+
+                    <button type="submit" class="auth-btn">Đăng nhập</button>
+                </form>
+            </section>
+
+            <section class="auth-panel auth-panel--register">
+               
+                <h2 class="auth-title">Đăng ký</h2>
+                <p class="auth-subtitle">Tạo tài khoản để nhận ưu đãi và theo dõi đơn hàng dễ dàng.</p>
+
+                <form class="auth-form auth-form--register" method="post" asp-action="Index" asp-controller="Register" asp-area="Customer">
+                    @Html.AntiForgeryToken()
+
+                    <div class="auth-field">
+                        <label for="AuthRegisterHoTen">Họ và tên</label>
+                        <input id="AuthRegisterHoTen" name="HoTen" type="text" required />
+                    </div>
+
+                    <div class="auth-row">
+                        <div class="auth-field">
+                            <label for="AuthRegisterGioiTinh">Giới tính</label>
+                            <select id="AuthRegisterGioiTinh" name="GioiTinh" required>
+                                <option value="">Chọn giới tính</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nu">Nữ</option>
+                                <option value="Khac">Khác</option>
+                            </select>
+                        </div>
+
+                        <div class="auth-field">
+                            <label for="AuthRegisterNgaySinh">Ngày sinh</label>
+                            <div class="auth-date">
+                                <input id="AuthRegisterNgaySinh" name="NgaySinh" type="text" inputmode="numeric" class="auth-date-input"
+                                       placeholder="dd/MM/yyyy" maxlength="10" autocomplete="bday" required />
+                                <button type="button" class="auth-date-btn" data-date-picker aria-label="Chọn ngày sinh">
+                                    <i class="fa-regular fa-calendar"></i>
+                                </button>
+                            </div>
+                            <input id="NgaySinhPicker" type="date" class="auth-date-picker" tabindex="-1" />
+                        </div>
+                    </div>
+
+                    <div class="auth-row">
+                        <div class="auth-field">
+                            <label for="AuthRegisterEmail">Email</label>
+                            <input id="AuthRegisterEmail" name="Email" type="email" required />
+                        </div>
+
+                        <div class="auth-field">
+                            <label for="AuthRegisterSdt">Số điện thoại</label>
+                            <input id="AuthRegisterSdt" name="Sdt" type="tel" required />
+                        </div>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="AuthRegisterMatKhau">Mật khẩu</label>
+                        <input id="AuthRegisterMatKhau" name="MatKhau" type="password" required />
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="AuthRegisterXacNhan">Xác nhận mật khẩu</label>
+                        <input id="AuthRegisterXacNhan" name="XacNhanMatKhau" type="password" required />
+                    </div>
+
+                    <button type="submit" class="auth-btn">Đăng ký ngay</button>
+                </form>
+
+              
+            </section>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/Customer/Login.js" asp-append-version="true"></script>
+    <script src="~/js/Customer/Register.js" asp-append-version="true"></script>
+}

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -12,8 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="~/css/Customer/_CustomerLayout.css" asp-append-version="true" />
-
-    <style>
+<style>
         @@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
@@ -38,7 +37,7 @@
             <nav class="hidden lg:flex items-center gap-8 font-medium">
 
                 <a href="/" class="nav-link hover:text-indigo-600 transition">Trang chủ</a>
-                <a href="#" class="nav-link hover:text-indigo-600 transition">Sản phẩm</a>
+                <a href="/Customer/SanPham" class="nav-link hover:text-indigo-600 transition">Sản phẩm</a>
 
                 <!-- DANH MỤC -->
                 <div class="relative group">
@@ -48,7 +47,7 @@
                     <div class="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-56 bg-white rounded-xl shadow-xl border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[9999]">
                         @if (ViewBag.DanhMuc != null) {
                             foreach (var dm in ViewBag.DanhMuc) {
-                                <a href="#"
+                                <a href="/Customer/SanPham?danhMuc=@dm.MaDanhMuc"
                                    class="nav-link block px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition">
                                     @dm.TenDanhMuc
                                 </a>
@@ -73,7 +72,7 @@
                         {
                             foreach (var th in ViewBag.ThuongHieu)
                             {
-                                <a href="#"
+                                <a href="/Customer/SanPham?thuongHieu=@th.MaThuongHieu"
                                    class="nav-link block px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition">
                                     @th.TenThuongHieu
                                 </a>
@@ -82,8 +81,8 @@
                     </div>
                 </div>
 
-                <a href="#" class="nav-link hover:text-indigo-600 transition">Nam</a>
-                <a href="#" class="nav-link hover:text-indigo-600 transition">Nữ</a>
+                <a href="/Customer/SanPham?gioiTinh=Nam" class="nav-link hover:text-indigo-600 transition">Nam</a>
+                <a href="/Customer/SanPham?gioiTinh=Nu" class="nav-link hover:text-indigo-600 transition">Nữ</a>
                 <a href="/Customer/GioiThieu" class="nav-link hover:text-indigo-600 transition">Về LeeShoes</a>
             </nav>
 
@@ -119,13 +118,36 @@
                                 opacity-0 invisible
                                 group-hover:opacity-100 group-hover:visible
                                 transition-all duration-200 z-[9999]">
-                        <a class="block px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition text-sm">
-                            <i class="fa-solid fa-right-to-bracket mr-2"></i> Đăng nhập
-                        </a>
+                        @if (User?.Identity?.IsAuthenticated ?? false)
+                        {
+                            <div class="px-5 pt-4 text-xs text-gray-500">
+                                Xin chào, <span class="font-semibold">@User.Identity?.Name</span>
+                            </div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="/Admin/Home/Index"
+                                   class="block px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition text-sm">
+                                    <i class="fa-solid fa-gauge-high mr-2"></i> Trang admin
+                                </a>
+                            }
+                            <form asp-area="Customer" asp-controller="Login" asp-action="Logout" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit"
+                                        class="w-full text-left px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition text-sm">
+                                    <i class="fa-solid fa-right-from-bracket mr-2"></i> Đăng xuất
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a href="/Customer/Login"`r`n                               data-auth-trigger="login"`r`n                               class="block px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition text-sm">
+                                <i class="fa-solid fa-right-to-bracket mr-2"></i> Đăng nhập
+                            </a>
 
-                        <a class="block px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition text-sm">
-                            <i class="fa-solid fa-user-plus mr-2"></i> Đăng ký
-                        </a>
+                            <a href="/Customer/Register"`r`n                               data-auth-trigger="register"`r`n                               class="block px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition text-sm">
+                                <i class="fa-solid fa-user-plus mr-2"></i> Đăng ký
+                            </a>
+                        }
                     </div>
                 </div>
 
@@ -309,6 +331,12 @@
         });
     });
 </script>
-
 </body>
 </html>
+
+
+
+
+
+
+

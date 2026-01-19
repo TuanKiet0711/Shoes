@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using WebBanGiay.Models;
 
@@ -14,6 +15,15 @@ builder.Services.AddDbContext<WebBanGiayContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Customer/Login";
+        options.AccessDeniedPath = "/Customer/Login?denied=1";
+    });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -36,6 +46,7 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 // 🔥🔥🔥 QUAN TRỌNG NHẤT – THIẾU LÀ 404 HẾT 🔥🔥🔥

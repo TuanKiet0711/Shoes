@@ -395,7 +395,6 @@ public partial class WebBanGiayContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.PhuongXa).HasMaxLength(100);
-            entity.Property(e => e.QuanHuyen).HasMaxLength(100);
             entity.Property(e => e.SdtnguoiNhan)
                 .HasMaxLength(20)
                 .HasColumnName("SDTNguoiNhan");

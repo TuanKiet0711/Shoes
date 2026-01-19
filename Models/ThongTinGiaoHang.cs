@@ -15,8 +15,6 @@ public partial class ThongTinGiaoHang
 
     public string? TinhThanh { get; set; }
 
-    public string? QuanHuyen { get; set; }
-
     public string? PhuongXa { get; set; }
 
     public string? DiaChiNguoiNhan { get; set; }
