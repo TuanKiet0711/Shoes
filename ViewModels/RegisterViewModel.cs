@@ -19,11 +19,11 @@ public class RegisterViewModel
     public string Email { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Vui lòng nhập số điện thoại.")]
-    [Phone(ErrorMessage = "Số điện thoại không đúng định dạng.")]
+    [RegularExpression(@"^\d{10}$", ErrorMessage = "Số điện thoại phải đủ 10 số.")]
     public string Sdt { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
-    [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự.")]
+    [MinLength(6, ErrorMessage = "Mật khẩu tối thiểu 6 ký tự.")]
     [DataType(DataType.Password)]
     public string MatKhau { get; set; } = string.Empty;
 
@@ -32,3 +32,6 @@ public class RegisterViewModel
     [DataType(DataType.Password)]
     public string XacNhanMatKhau { get; set; } = string.Empty;
 }
+
+
+

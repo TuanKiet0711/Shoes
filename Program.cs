@@ -8,7 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // =====================
 // SERVICES
 // =====================
-builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddControllersWithViews()
+    .AddSessionStateTempDataProvider();
 
 builder.Services.AddDbContext<WebBanGiayContext>(options =>
     options.UseSqlServer(
@@ -46,6 +55,7 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 

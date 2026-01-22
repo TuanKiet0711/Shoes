@@ -9,6 +9,49 @@
     --white:#ffffff;
 }
 
+.auth-page{
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:80px 18px 120px;
+    margin:-2.5rem -1.5rem;
+    width:calc(100% + 3rem);
+    background:linear-gradient(160deg, rgba(109,40,217,.78), rgba(196,181,253,.72));
+}
+
+.auth-card{
+    width:min(520px, 92vw);
+    background:var(--white);
+    border-radius:24px;
+    padding:32px 28px;
+    border:1px solid #e2e8f0;
+    box-shadow:0 24px 60px rgba(15, 23, 42, .18);
+}
+
+.auth-card--verify{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:12px;
+    animation:fadeUp .6s ease both;
+}
+
+.auth-badge{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    letter-spacing:.08em;
+    color:#fff;
+    background:linear-gradient(135deg, rgba(76,29,149,.92), rgba(139,92,246,.9));
+    box-shadow:0 12px 30px rgba(109,40,217,.35);
+}
+
 .auth-modal{
     min-height:100vh;
     display:flex;

@@ -2,8 +2,14 @@
 @{
     ViewData["Title"] = "Đăng nhập";
     var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+    var forgotEmail = TempData["ForgotPasswordEmail"] as string ?? string.Empty;
+    var isForgotOpen = !string.IsNullOrWhiteSpace(forgotEmail)
+        || TempData["ForgotPasswordError"] != null
+        || TempData["ForgotPasswordSuccess"] != null;
+    var forgotExpanded = isForgotOpen ? "true" : "false";
 }
 <link rel="stylesheet" href="~/css/Customer/AuthModal.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Customer/ForgotPassword.css" asp-append-version="true" />
 
 <section class="auth-overlay is-open">
     <div class="auth-backdrop"></div>
@@ -13,13 +19,17 @@
         </a>
 
         <div class="auth-split">
-            <section class="auth-panel auth-panel--login">
+            <section class="auth-panel auth-panel--login" id="login">
                 <h2 class="auth-title">Đăng nhập</h2>
                 <p class="auth-subtitle">Nhập thông tin để tiếp tục mua sắm cùng LeeShoes.</p>
 
                 @if (TempData["RegisterSuccess"] != null)
                 {
                     <div class="auth-alert auth-alert--success">@TempData["RegisterSuccess"]</div>
+                }
+                @if (TempData["ResetPasswordSuccess"] != null)
+                {
+                    <div class="auth-alert auth-alert--success">@TempData["ResetPasswordSuccess"]</div>
                 }
 
                 <form class="auth-form auth-form--login" method="post" asp-action="Index" asp-controller="Login" asp-area="Customer">
@@ -28,24 +38,56 @@
 
                     <div class="auth-field">
                         <label for="AuthLoginEmail">Email</label>
-                        <input id="AuthLoginEmail" name="Email" type="email" value="@Model.Email" required />
+                        <input id="AuthLoginEmail" name="Email" type="email" value="@Model.Email" placeholder="Nhập email" required />
                         <span class="field-error">@Html.ValidationMessageFor(m => m.Email)</span>
                     </div>
 
                     <div class="auth-field">
                         <label for="AuthLoginPassword">Mật khẩu</label>
-                        <input id="AuthLoginPassword" name="MatKhau" type="password" required />
+                        <div class="auth-input-wrap">
+                            <input id="AuthLoginPassword" name="MatKhau" type="password" placeholder="Nhập mật khẩu" minlength="6" required />
+                            <button type="button" class="auth-toggle" data-toggle-password="#AuthLoginPassword" aria-label="Hiển thị mật khẩu">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
                         <span class="field-error">@Html.ValidationMessageFor(m => m.MatKhau)</span>
                     </div>
 
-                    <div class="auth-error">@Html.ValidationSummary()</div>
+                    <div class="auth-error">@Html.ValidationSummary(true)</div>
 
                     <button type="submit" class="auth-btn">Đăng nhập</button>
                 </form>
+
+                <div class="auth-forgot-actions">
+                    <button type="button" class="auth-link" data-forgot-toggle aria-expanded="@forgotExpanded" aria-controls="ForgotPasswordForm">
+                        Quên mật khẩu?
+                    </button>
+                </div>
+
+                <div class="auth-divider @(isForgotOpen ? "is-open" : string.Empty)" data-forgot-divider></div>
+
+                <form class="auth-form auth-form--forgot @(isForgotOpen ? "is-open" : string.Empty)" id="ForgotPasswordForm" method="post" asp-action="Index" asp-controller="ForgotPassword" asp-area="Customer">
+                    @Html.AntiForgeryToken()
+
+                    <div class="auth-field">
+                        <label for="AuthForgotEmail">Email khôi phục</label>
+                        <input id="AuthForgotEmail" name="Email" type="email" value="@forgotEmail" placeholder="Nhập email để nhận link" required />
+                        @if (TempData["ForgotPasswordError"] != null)
+                        {
+                            <span class="field-error">@TempData["ForgotPasswordError"]</span>
+                        }
+                    </div>
+
+                    @if (TempData["ForgotPasswordSuccess"] != null)
+                    {
+                        <div class="auth-alert auth-alert--success">@TempData["ForgotPasswordSuccess"]</div>
+                    }
+
+                    <button type="submit" class="auth-btn auth-btn--ghost">Gửi liên kết</button>
+                </form>
             </section>
 
-            <section class="auth-panel auth-panel--register">
-               
+            <section class="auth-panel auth-panel--register" id="register">
                 <h2 class="auth-title">Đăng ký</h2>
                 <p class="auth-subtitle">Tạo tài khoản để nhận ưu đãi và theo dõi đơn hàng dễ dàng.</p>
 
@@ -54,7 +96,7 @@
 
                     <div class="auth-field">
                         <label for="AuthRegisterHoTen">Họ và tên</label>
-                        <input id="AuthRegisterHoTen" name="HoTen" type="text" required />
+                        <input id="AuthRegisterHoTen" name="HoTen" type="text" placeholder="Nhập họ và tên" required />
                     </div>
 
                     <div class="auth-row">
@@ -78,35 +120,51 @@
                                 </button>
                             </div>
                             <input id="NgaySinhPicker" type="date" class="auth-date-picker" tabindex="-1" />
+                            <span class="field-error" data-error-for="NgaySinh"></span>
                         </div>
                     </div>
 
                     <div class="auth-row">
                         <div class="auth-field">
                             <label for="AuthRegisterEmail">Email</label>
-                            <input id="AuthRegisterEmail" name="Email" type="email" required />
+                            <input id="AuthRegisterEmail" name="Email" type="email" placeholder="Nhập email" required />
                         </div>
 
                         <div class="auth-field">
                             <label for="AuthRegisterSdt">Số điện thoại</label>
-                            <input id="AuthRegisterSdt" name="Sdt" type="tel" required />
+                            <input id="AuthRegisterSdt" name="Sdt" type="tel" placeholder="Nhập số điện thoại" inputmode="numeric" pattern="\d{10}" minlength="10" maxlength="10" required />
+                            <span class="field-error" data-error-for="Sdt"></span>
                         </div>
                     </div>
 
                     <div class="auth-field">
                         <label for="AuthRegisterMatKhau">Mật khẩu</label>
-                        <input id="AuthRegisterMatKhau" name="MatKhau" type="password" required />
+                        <div class="auth-input-wrap">
+                            <input id="AuthRegisterMatKhau" name="MatKhau" type="password" placeholder="Tối thiểu 6 ký tự" minlength="6" required />
+                            <button type="button" class="auth-toggle" data-toggle-password="#AuthRegisterMatKhau" aria-label="Hiển thị mật khẩu">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="auth-strength" data-strength>
+                            <div class="auth-strength-bar" data-strength-bar></div>
+                            <span class="auth-strength-text" data-strength-text>Độ mạnh</span>
+                        </div>
+                        <span class="field-error" data-error-for="MatKhau"></span>
                     </div>
 
                     <div class="auth-field">
                         <label for="AuthRegisterXacNhan">Xác nhận mật khẩu</label>
-                        <input id="AuthRegisterXacNhan" name="XacNhanMatKhau" type="password" required />
+                        <div class="auth-input-wrap">
+                            <input id="AuthRegisterXacNhan" name="XacNhanMatKhau" type="password" placeholder="Nhập lại mật khẩu" minlength="6" required />
+                            <button type="button" class="auth-toggle" data-toggle-password="#AuthRegisterXacNhan" aria-label="Hiển thị mật khẩu">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <span class="field-error" data-error-for="XacNhanMatKhau"></span>
                     </div>
 
                     <button type="submit" class="auth-btn">Đăng ký ngay</button>
                 </form>
-
-              
             </section>
         </div>
     </div>
@@ -115,4 +173,5 @@
 @section Scripts{
     <script src="~/js/Customer/Login.js" asp-append-version="true"></script>
     <script src="~/js/Customer/Register.js" asp-append-version="true"></script>
+    <script src="~/js/Customer/ForgotPassword.js" asp-append-version="true"></script>
 }

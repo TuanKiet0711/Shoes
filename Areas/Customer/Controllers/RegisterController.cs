@@ -24,7 +24,7 @@ public class RegisterController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        return View(new RegisterViewModel());
+        return Redirect("/Customer/Login#register");
     }
 
     [HttpPost]
@@ -52,6 +52,11 @@ public class RegisterController : Controller
         day = Math.Clamp(day, 1, maxDay);
 
         var ngaySinh = new DateTime(year, month, day);
+        if (ngaySinh.Date > DateTime.Today)
+        {
+            ModelState.AddModelError(nameof(RegisterViewModel.NgaySinh), "Ngày sinh không được lớn hơn ngày hiện tại.");
+            return View(model);
+        }
 
         var existing = await _context.TaiKhoan.FirstOrDefaultAsync(x => x.Email == model.Email);
         var token = GenerateEmailToken();

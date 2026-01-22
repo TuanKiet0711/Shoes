@@ -23,12 +23,17 @@
 
                     <div class="auth-field">
                         <label for="AuthLoginEmail">Email</label>
-                        <input id="AuthLoginEmail" name="Email" type="email" required />
+                        <input id="AuthLoginEmail" name="Email" type="email" placeholder="Nhập email" required />
                     </div>
 
                     <div class="auth-field">
                         <label for="AuthLoginPassword">Mật khẩu</label>
-                        <input id="AuthLoginPassword" name="MatKhau" type="password" required />
+                        <div class="auth-input-wrap">
+                            <input id="AuthLoginPassword" name="MatKhau" type="password" placeholder="Nhập mật khẩu" minlength="6" required />
+                            <button type="button" class="auth-toggle" data-toggle-password="#AuthLoginPassword" aria-label="Hiển thị mật khẩu">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <button type="submit" class="auth-btn">Đăng nhập</button>
@@ -36,7 +41,6 @@
             </section>
 
             <section class="auth-panel auth-panel--register">
-             
                 <h2 class="auth-title">Đăng ký</h2>
                 <p class="auth-subtitle">Tạo tài khoản để nhận ưu đãi và theo dõi đơn hàng dễ dàng.</p>
 
@@ -45,7 +49,7 @@
 
                     <div class="auth-field">
                         <label for="AuthRegisterHoTen">Họ và tên</label>
-                        <input id="AuthRegisterHoTen" name="HoTen" type="text" value="@Model.HoTen" required />
+                        <input id="AuthRegisterHoTen" name="HoTen" type="text" value="@Model.HoTen" placeholder="Nhập họ tên" required />
                         <span class="field-error">@Html.ValidationMessageFor(m => m.HoTen)</span>
                     </div>
 
@@ -71,42 +75,56 @@
                                 </button>
                             </div>
                             <input id="NgaySinhPicker" type="date" class="auth-date-picker" tabindex="-1" />
-                            <span class="field-error">@Html.ValidationMessageFor(m => m.NgaySinh)</span>
+                            <span class="field-error" data-error-for="NgaySinh">@Html.ValidationMessageFor(m => m.NgaySinh)</span>
                         </div>
                     </div>
 
                     <div class="auth-row">
                         <div class="auth-field">
                             <label for="AuthRegisterEmail">Email</label>
-                            <input id="AuthRegisterEmail" name="Email" type="email" value="@Model.Email" required />
+                            <input id="AuthRegisterEmail" name="Email" type="email" value="@Model.Email" placeholder="Nhập email" required />
                             <span class="field-error">@Html.ValidationMessageFor(m => m.Email)</span>
                         </div>
 
                         <div class="auth-field">
                             <label for="AuthRegisterSdt">Số điện thoại</label>
-                            <input id="AuthRegisterSdt" name="Sdt" type="tel" value="@Model.Sdt" required />
+                            <input id="AuthRegisterSdt" name="Sdt" type="tel" value="@Model.Sdt" placeholder="Nhập số điện thoại" inputmode="numeric" pattern="\d{10}" minlength="10" maxlength="10" required />
+                            <span class="field-error" data-error-for="Sdt"></span>
                             <span class="field-error">@Html.ValidationMessageFor(m => m.Sdt)</span>
                         </div>
                     </div>
 
                     <div class="auth-field">
                         <label for="AuthRegisterMatKhau">Mật khẩu</label>
-                        <input id="AuthRegisterMatKhau" name="MatKhau" type="password" required />
+                        <div class="auth-input-wrap">
+                            <input id="AuthRegisterMatKhau" name="MatKhau" type="password" placeholder="Tối thiểu 6 ký tự" minlength="6" required />
+                            <button type="button" class="auth-toggle" data-toggle-password="#AuthRegisterMatKhau" aria-label="Hiển thị mật khẩu">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
                         <span class="field-error">@Html.ValidationMessageFor(m => m.MatKhau)</span>
+                        <div class="auth-strength" data-strength>
+                            <div class="auth-strength-bar" data-strength-bar></div>
+                            <span class="auth-strength-text" data-strength-text>Độ mạnh</span>
+                        </div>
+                        <span class="field-error" data-error-for="MatKhau"></span>
                     </div>
 
                     <div class="auth-field">
                         <label for="AuthRegisterXacNhan">Xác nhận mật khẩu</label>
-                        <input id="AuthRegisterXacNhan" name="XacNhanMatKhau" type="password" required />
-                        <span class="field-error">@Html.ValidationMessageFor(m => m.XacNhanMatKhau)</span>
+                        <div class="auth-input-wrap">
+                            <input id="AuthRegisterXacNhan" name="XacNhanMatKhau" type="password" placeholder="Nhập lại mật khẩu" minlength="6" required />
+                            <button type="button" class="auth-toggle" data-toggle-password="#AuthRegisterXacNhan" aria-label="Hiển thị mật khẩu">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <span class="field-error" data-error-for="XacNhanMatKhau">@Html.ValidationMessageFor(m => m.XacNhanMatKhau)</span>
                     </div>
 
-                    <div class="auth-error">@Html.ValidationSummary()</div>
+                    <div class="auth-error">@Html.ValidationSummary(true)</div>
 
                     <button type="submit" class="auth-btn">Đăng ký ngay</button>
                 </form>
-
-               
             </section>
         </div>
     </div>
@@ -116,3 +134,9 @@
     <script src="~/js/Customer/Login.js" asp-append-version="true"></script>
     <script src="~/js/Customer/Register.js" asp-append-version="true"></script>
 }
+
+
+
+
+
+

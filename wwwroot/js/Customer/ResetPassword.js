@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.auth-form--login');
+    const form = document.querySelector('.auth-form--reset');
     if (!form) return;
 
     const setupToggle = (button) => {
@@ -16,22 +16,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.querySelectorAll('[data-toggle-password]').forEach(setupToggle);
 
-    const passwordInput = form.querySelector('#AuthLoginPassword');
-    const validatePassword = () => {
-        if (!passwordInput) return true;
-        const isValid = passwordInput.value.length >= 6;
-        passwordInput.setCustomValidity(isValid ? '' : 'Mật khẩu tối thiểu 6 ký tự.');
-        return isValid;
+    const passwordInput = form.querySelector('#AuthResetPassword');
+    const confirmInput = form.querySelector('#AuthResetConfirm');
+
+    const validatePasswords = () => {
+        if (!passwordInput || !confirmInput) return true;
+        const lengthOk = passwordInput.value.length >= 6;
+        passwordInput.setCustomValidity(lengthOk ? '' : 'Mật khẩu tối thiểu 6 ký tự.');
+
+        const matchOk = confirmInput.value === passwordInput.value;
+        confirmInput.setCustomValidity(matchOk ? '' : 'Xác nhận mật khẩu không khớp.');
+        return lengthOk && matchOk;
     };
 
-    if (passwordInput) {
-        passwordInput.addEventListener('input', validatePassword);
-    }
+    if (passwordInput) passwordInput.addEventListener('input', validatePasswords);
+    if (confirmInput) confirmInput.addEventListener('input', validatePasswords);
 
     const button = form.querySelector('.auth-btn');
     form.addEventListener('submit', (event) => {
-        const passwordOk = validatePassword();
-        if (!passwordOk) {
+        const ok = validatePasswords();
+        if (!ok) {
             event.preventDefault();
             form.reportValidity();
             return;
@@ -42,6 +46,3 @@ document.addEventListener('DOMContentLoaded', () => {
         button.textContent = 'Đang xử lý...';
     });
 });
-
-
-

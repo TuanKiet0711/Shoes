@@ -1,0 +1,49 @@
+@model WebBanGiay.ViewModels.ForgotPasswordRequestViewModel
+@{
+    ViewData["Title"] = "Quên mật khẩu";
+}
+<link rel="stylesheet" href="~/css/Customer/AuthModal.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Customer/ForgotPassword.css" asp-append-version="true" />
+
+<section class="auth-overlay is-open">
+    <div class="auth-backdrop"></div>
+    <div class="auth-modal" role="dialog" aria-modal="true" aria-label="Quên mật khẩu">
+        <a class="auth-close" href="/" aria-label="Đóng">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+
+        <div class="auth-split auth-split--single">
+            <section class="auth-panel auth-panel--login">
+                <h2 class="auth-title">Quên mật khẩu</h2>
+                <p class="auth-subtitle">Nhập email để nhận liên kết đặt lại mật khẩu.</p>
+
+                @if (TempData["ForgotPasswordMessage"] != null)
+                {
+                    <div class="auth-alert auth-alert--success">@TempData["ForgotPasswordMessage"]</div>
+                }
+
+                <form class="auth-form auth-form--forgot" method="post" asp-action="Index" asp-controller="ForgotPassword" asp-area="Customer">
+                    @Html.AntiForgeryToken()
+
+                    <div class="auth-field">
+                        <label for="AuthForgotEmail">Email</label>
+                        <input id="AuthForgotEmail" name="Email" type="email" value="@Model.Email" placeholder="Nhập email" required />
+                        <span class="field-error">@Html.ValidationMessageFor(m => m.Email)</span>
+                    </div>
+
+                    <div class="auth-error">@Html.ValidationSummary(true)</div>
+
+                    <button type="submit" class="auth-btn">Gửi liên kết</button>
+                </form>
+
+                <div class="auth-switch">
+                    <a href="/Customer/Login">Quay lại đăng nhập</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/Customer/ForgotPassword.js" asp-append-version="true"></script>
+}

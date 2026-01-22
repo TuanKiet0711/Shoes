@@ -4,11 +4,9 @@
 <link rel="stylesheet" href="~/css/Customer/Login.css" asp-append-version="true" />
 
 <section class="auth-page">
-    <div class="auth-card">
+    <div class="auth-card auth-card--verify">
+        <span class="auth-badge" aria-hidden="true">OK</span>
         <h1 class="auth-title">Xác thực email</h1>
         <p class="auth-subtitle">@ViewBag.Message</p>
-        <div class="auth-switch">
-            <a href="/Customer/Login">Đăng nhập</a>
-        </div>
     </div>
 </section>
