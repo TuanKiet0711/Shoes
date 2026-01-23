@@ -1,0 +1,80 @@
+@model WebBanGiay.Models.TaiKhoan
+@{
+    ViewData["Title"] = "Xóa tài khoản";
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white fw-semibold d-flex align-items-center justify-content-between">
+        <div>
+            <i class="fa-solid fa-trash text-danger me-2"></i> Xóa tài khoản
+        </div>
+        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+            Hành động không thể hoàn tác
+        </span>
+    </div>
+
+    <div class="card-body">
+        <div class="alert alert-warning d-flex align-items-start gap-2" role="alert">
+            <i class="fa-solid fa-triangle-exclamation mt-1"></i>
+            <div>
+                Bạn có chắc muốn xóa tài khoản này không?
+                <div class="small text-muted">Nếu xóa, dữ liệu sẽ mất vĩnh viễn.</div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Mã tài khoản</label>
+                <div class="form-control bg-light">@Model.MaTaiKhoan</div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Họ và tên</label>
+                <div class="form-control bg-light">@(!string.IsNullOrWhiteSpace(Model.HoTen) ? Model.HoTen : "-")</div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Email</label>
+                <div class="form-control bg-light">@Model.Email</div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Vai trò</label>
+                <div class="form-control bg-light">
+                    @(
+                        string.Equals(Model.VaiTro, "Admin", StringComparison.OrdinalIgnoreCase)
+                            ? "Admin"
+                            : (string.Equals(Model.VaiTro, "TaiXe", StringComparison.OrdinalIgnoreCase) ? "Tài xế" : "Khách hàng")
+                    )
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Trạng thái</label>
+                <div class="form-control bg-light">
+                    @((string.Equals(Model.TrangThai, "Khoa", StringComparison.OrdinalIgnoreCase)) ? "Khóa" : "Hoạt động")
+                </div>
+            </div>
+        </div>
+
+        <form asp-area="Admin"
+              asp-controller="TaiKhoan"
+              asp-action="Delete"
+              asp-route-id="@Model.MaTaiKhoan"
+              method="post"
+              class="mt-4 d-flex gap-2">
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-trash me-1"></i> Xóa
+            </button>
+
+            <a asp-area="Admin"
+               asp-controller="TaiKhoan"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Hủy
+            </a>
+        </form>
+    </div>
+</div>

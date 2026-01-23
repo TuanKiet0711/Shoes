@@ -128,6 +128,10 @@
                                 <div class="px-5 pt-4 text-xs text-gray-500">
                                     Xin chào, <span class="font-semibold">@User.Identity?.Name</span>
                                 </div>
+                                <a href="/Customer/Account"
+                                   class="block px-5 py-3 hover:bg-indigo-50 hover:text-indigo-600 transition text-sm">
+                                    <i class="fa-solid fa-user-gear mr-2"></i> Cập nhật thông tin
+                                </a>
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <a href="/Admin/Home/Index"

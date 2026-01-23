@@ -4,6 +4,8 @@ namespace WebBanGiay.ViewModels;
 
 public class RegisterViewModel
 {
+    private const string EmailRegex = @"^[A-Za-z0-9](?:[A-Za-z0-9._%+-]{0,62}[A-Za-z0-9])?@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}$";
+
     [Required(ErrorMessage = "Vui lòng nhập họ và tên.")]
     public string HoTen { get; set; } = string.Empty;
 
@@ -16,6 +18,7 @@ public class RegisterViewModel
 
     [Required(ErrorMessage = "Vui lòng nhập email.")]
     [EmailAddress(ErrorMessage = "Email không đúng định dạng.")]
+    [RegularExpression(EmailRegex, ErrorMessage = "Email không đúng định dạng.")]
     public string Email { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Vui lòng nhập số điện thoại.")]

@@ -1,0 +1,147 @@
+@model WebBanGiay.ViewModels.Admin.TaiKhoanCreateViewModel
+@{
+    ViewData["Title"] = "Thêm tài khoản";
+}
+<link rel="stylesheet" href="~/css/Admin/SanPham/Create.css" />
+<link rel="stylesheet" href="~/css/Admin/TaiKhoan/Form.css" />
+
+<div class="bt-page">
+    <div class="card border-0 shadow-sm bt-form bt-form--hero">
+        <div class="card-header bt-hero">
+            <div class="bt-hero-content">
+                <div class="bt-hero-left">
+                    <span class="bt-icon">
+                        <i class="fa-solid fa-plus"></i>
+                    </span>
+                    <div>
+                        <div class="bt-title">Thêm tài khoản</div>
+                        <div class="bt-subtitle">Quản lý tài khoản người dùng</div>
+                    </div>
+                </div>
+
+                <a asp-area="Admin" asp-controller="TaiKhoan" asp-action="Index"
+                   class="btn btn-light btn-sm bt-back">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form asp-area="Admin" asp-controller="TaiKhoan" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="bt-section">
+                    <div class="row g-3 bt-stack">
+                        <div class="col-12">
+                            <label class="form-label">Họ và tên</label>
+                            <input asp-for="HoTen" class="form-control" placeholder="Nhập họ và tên" />
+                            <span asp-validation-for="HoTen" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" placeholder="Nhập email" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Số điện thoại</label>
+                            <input asp-for="Sdt" class="form-control" placeholder="Nhập số điện thoại" />
+                            <span asp-validation-for="Sdt" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Giới tính</label>
+                            <select asp-for="GioiTinh" class="form-select">
+                                <option value="">Chọn giới tính</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nu">Nữ</option>
+                                <option value="Khac">Khác</option>
+                            </select>
+                            <span asp-validation-for="GioiTinh" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Ngày sinh</label>
+                            <div class="tk-date">
+                                <input id="TaiKhoanNgaySinh" asp-for="NgaySinh" type="text" class="form-control"
+                                       placeholder="dd/MM/yyyy" data-date-input />
+                                <button type="button" class="tk-date-btn" data-date-picker aria-label="Chọn ngày sinh">
+                                    <i class="fa-regular fa-calendar"></i>
+                                </button>
+                            </div>
+                            <input id="TaiKhoanNgaySinhPicker" type="date" class="tk-date-picker" tabindex="-1" />
+                            <span asp-validation-for="NgaySinh" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Vai trò</label>
+                            <select asp-for="VaiTro" class="form-select">
+                                <option value="KhachHang">Khách hàng</option>
+                                <option value="TaiXe">Tài xế</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                            <span asp-validation-for="VaiTro" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Trạng thái</label>
+                            <select asp-for="TrangThai" class="form-select">
+                                <option value="HoatDong">Hoạt động</option>
+                                <option value="Khoa">Khóa</option>
+                            </select>
+                            <span asp-validation-for="TrangThai" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Mật khẩu</label>
+                            <div class="tk-input-wrap">
+                                <input id="TaiKhoanMatKhau" asp-for="MatKhau" class="form-control"
+                                       placeholder="Tối thiểu 6 ký tự" />
+                                <button type="button" class="tk-toggle" data-toggle-password="#TaiKhoanMatKhau"
+                                        aria-label="Hiển thị mật khẩu">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="tk-strength" data-strength>
+                                <div class="tk-strength-bar" data-strength-bar></div>
+                                <span class="tk-strength-text" data-strength-text>Độ mạnh</span>
+                            </div>
+                            <span asp-validation-for="MatKhau" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Xác nhận mật khẩu</label>
+                            <div class="tk-input-wrap">
+                                <input id="TaiKhoanXacNhan" asp-for="XacNhanMatKhau" class="form-control"
+                                       placeholder="Nhập lại mật khẩu" />
+                                <button type="button" class="tk-toggle" data-toggle-password="#TaiKhoanXacNhan"
+                                        aria-label="Hiển thị mật khẩu">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="XacNhanMatKhau" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-success btn-glow bt-primary">
+                        <i class="fa-solid fa-save me-1"></i> Lưu
+                    </button>
+                    <a asp-area="Admin" asp-controller="TaiKhoan" asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Admin/TaiKhoan/Form.js" asp-append-version="true"></script>
+}

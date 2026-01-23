@@ -1,0 +1,127 @@
+@model WebBanGiay.ViewModels.Customer.AccountProfileViewModel
+@{
+    ViewData["Title"] = "Cập nhật thông tin";
+}
+<link rel="stylesheet" href="~/css/Customer/AuthModal.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Customer/Account.css" asp-append-version="true" />
+
+<section class="auth-overlay is-open">
+    <div class="auth-backdrop"></div>
+    <div class="auth-modal" role="dialog" aria-modal="true" aria-label="Cập nhật thông tin tài khoản">
+        <a class="auth-close" href="/" aria-label="Đóng">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+
+        <form class="account-form" method="post" asp-area="Customer" asp-controller="Account" asp-action="Index">
+            @Html.AntiForgeryToken()
+
+            <div class="auth-split">
+                <section class="auth-panel auth-panel--login">
+                    <h2 class="auth-title">Thông tin cá nhân</h2>
+                    <p class="auth-subtitle">Cập nhật thông tin tài khoản của bạn.</p>
+
+                    <div class="auth-form">
+                        @if (TempData["AccountSuccess"] != null)
+                        {
+                            <div class="account-alert account-alert--success">@TempData["AccountSuccess"]</div>
+                        }
+
+                        <div asp-validation-summary="ModelOnly" class="text-sm text-red-400"></div>
+
+                        <div class="auth-field">
+                            <label>Email</label>
+                            <input asp-for="Email" class="account-input" readonly />
+                            <span asp-validation-for="Email" class="text-sm text-red-400"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label>Họ và tên</label>
+                            <input asp-for="HoTen" class="account-input" placeholder="Nhập họ và tên" />
+                            <span asp-validation-for="HoTen" class="text-sm text-red-400"></span>
+                        </div>
+
+                        <div class="auth-row">
+                            <div class="auth-field">
+                                <label>Giới tính</label>
+                                <select asp-for="GioiTinh" class="account-input">
+                                    <option value="">Chọn giới tính</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nu">Nữ</option>
+                                    <option value="Khac">Khác</option>
+                                </select>
+                                <span asp-validation-for="GioiTinh" class="text-sm text-red-400"></span>
+                            </div>
+
+                            <div class="auth-field">
+                                <label>Số điện thoại</label>
+                                <input asp-for="Sdt" class="account-input" placeholder="Nhập số điện thoại" inputmode="numeric" />
+                                <span asp-validation-for="Sdt" class="text-sm text-red-400"></span>
+                            </div>
+                        </div>
+
+                        <div class="auth-field">
+                            <label>Ngày sinh</label>
+                            <div class="account-date">
+                                <input id="AccountNgaySinh" asp-for="NgaySinh" class="account-input" placeholder="dd/MM/yyyy" data-date-input />
+                                <button type="button" class="account-date-btn" data-date-picker aria-label="Chọn ngày sinh">
+                                    <i class="fa-regular fa-calendar"></i>
+                                </button>
+                            </div>
+                            <input id="AccountNgaySinhPicker" type="date" class="account-date-picker" tabindex="-1" />
+                            <span asp-validation-for="NgaySinh" class="text-sm text-red-400"></span>
+                        </div>
+
+                        <div class="flex items-center gap-3 pt-2">
+                            <button type="submit" class="account-btn">Lưu thay đổi</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="auth-panel auth-panel--register">
+                    <h2 class="auth-title">Đổi mật khẩu</h2>
+                    <p class="auth-subtitle">Đặt mật khẩu mới để bảo mật tài khoản.</p>
+
+                    <div class="auth-form">
+                        <div class="auth-field">
+                            <label>Mật khẩu hiện tại</label>
+                            <div class="account-input-wrap">
+                                <input id="AccountMatKhauHienTai" asp-for="MatKhauHienTai" class="account-input" placeholder="Nhập mật khẩu hiện tại" />
+                                <button type="button" class="account-toggle" data-toggle-password="#AccountMatKhauHienTai" aria-label="Hiển thị mật khẩu">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="MatKhauHienTai" class="text-sm text-red-400"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label>Mật khẩu mới</label>
+                            <div class="account-input-wrap">
+                                <input id="AccountMatKhauMoi" asp-for="MatKhauMoi" class="account-input" placeholder="Tối thiểu 6 ký tự" />
+                                <button type="button" class="account-toggle" data-toggle-password="#AccountMatKhauMoi" aria-label="Hiển thị mật khẩu">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="MatKhauMoi" class="text-sm text-red-400"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label>Xác nhận mật khẩu</label>
+                            <div class="account-input-wrap">
+                                <input id="AccountXacNhanMatKhau" asp-for="XacNhanMatKhau" class="account-input" placeholder="Nhập lại mật khẩu" />
+                                <button type="button" class="account-toggle" data-toggle-password="#AccountXacNhanMatKhau" aria-label="Hiển thị mật khẩu">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="XacNhanMatKhau" class="text-sm text-red-400"></span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Customer/Account.js" asp-append-version="true"></script>
+}

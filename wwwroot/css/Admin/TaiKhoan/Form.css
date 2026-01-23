@@ -1,0 +1,84 @@
+.tk-date{
+    position: relative;
+}
+
+.tk-date-btn{
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0;
+}
+
+.tk-date-btn:hover{
+    color: #2563eb;
+}
+
+.tk-date-picker{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tk-input-wrap{
+    position: relative;
+}
+
+.tk-input-wrap .form-control{
+    padding-right: 44px;
+}
+
+.tk-toggle{
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0;
+}
+
+.tk-toggle:hover{
+    color: #2563eb;
+}
+
+.tk-strength{
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tk-strength-bar{
+    height: 6px;
+    flex: 1;
+    border-radius: 999px;
+    background: #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.tk-strength-bar::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: var(--strength-width, 0%);
+    background: var(--strength-color, #e2e8f0);
+    transition: width .2s ease, background .2s ease;
+}
+
+.tk-strength-text{
+    font-size: 0.85rem;
+    color: #64748b;
+    min-width: 110px;
+}

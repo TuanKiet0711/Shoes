@@ -1,0 +1,83 @@
+@model WebBanGiay.Models.TaiKhoan
+@{
+    ViewData["Title"] = "Chi tiết tài khoản";
+    var roleLabel = string.Equals(Model.VaiTro, "Admin", StringComparison.OrdinalIgnoreCase)
+        ? "Admin"
+        : (string.Equals(Model.VaiTro, "TaiXe", StringComparison.OrdinalIgnoreCase) ? "Tài xế" : "Khách hàng");
+    var roleBadge = string.Equals(Model.VaiTro, "Admin", StringComparison.OrdinalIgnoreCase)
+        ? "danger"
+        : (string.Equals(Model.VaiTro, "TaiXe", StringComparison.OrdinalIgnoreCase) ? "warning" : "primary");
+    var statusLabel = string.Equals(Model.TrangThai, "Khoa", StringComparison.OrdinalIgnoreCase) ? "Khóa" : "Hoạt động";
+    var statusBadge = string.Equals(Model.TrangThai, "Khoa", StringComparison.OrdinalIgnoreCase) ? "secondary" : "success";
+}
+
+<link rel="stylesheet" href="~/css/Admin/SanPham/Details.css" />
+<div class="bt-page">
+    <div class="card border-0 shadow-sm bt-form bt-form--hero">
+        <div class="card-header bt-hero">
+            <div class="bt-hero-content">
+                <div class="bt-hero-left">
+                    <span class="bt-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+                    <div>
+                        <div class="bt-title">Chi tiết tài khoản</div>
+                        <div class="bt-subtitle">Mã TK: @Model.MaTaiKhoan</div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a class="btn btn-light btn-sm bt-back"
+                       asp-area="Admin" asp-controller="TaiKhoan" asp-action="Index">
+                        <i class="fa-solid fa-arrow-left"></i> Quay lại
+                    </a>
+                    <a class="btn btn-success btn-sm bt-primary"
+                       asp-area="Admin" asp-controller="TaiKhoan" asp-action="Edit" asp-route-id="@Model.MaTaiKhoan">
+                        <i class="fa-solid fa-pen"></i> Sửa
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="bt-section">
+                <div class="row g-3 bt-stack">
+                    <div class="col-12">
+                        <div class="text-muted small">Họ và tên</div>
+                        <div class="fw-semibold">@(!string.IsNullOrWhiteSpace(Model.HoTen) ? Model.HoTen : "-")</div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="text-muted small">Email</div>
+                        <div class="fw-semibold">@Model.Email</div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="text-muted small">Số điện thoại</div>
+                        <div class="fw-semibold">@(!string.IsNullOrWhiteSpace(Model.Sdt) ? Model.Sdt : "-")</div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="text-muted small">Giới tính</div>
+                        <div class="fw-semibold">@(!string.IsNullOrWhiteSpace(Model.GioiTinh) ? Model.GioiTinh : "-")</div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="text-muted small">Ngày sinh</div>
+                        <div class="fw-semibold">@((Model.NgaySinh.HasValue) ? Model.NgaySinh.Value.ToString("dd/MM/yyyy") : "-")</div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="text-muted small">Vai trò</div>
+                        <span class="badge bg-@roleBadge px-3 py-2 rounded-pill">@roleLabel</span>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="text-muted small">Trạng thái</div>
+                        <span class="badge bg-@statusBadge px-3 py-2 rounded-pill">@statusLabel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

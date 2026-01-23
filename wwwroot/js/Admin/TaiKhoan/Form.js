@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.auth-form--register');
+    const form = document.querySelector('form');
     if (!form) return;
 
     const setupToggle = (button) => {
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.querySelectorAll('[data-toggle-password]').forEach(setupToggle);
 
-    const dateInput = form.querySelector('#AuthRegisterNgaySinh') || form.querySelector('#NgaySinh');
-    const datePicker = form.querySelector('#NgaySinhPicker');
+    const dateInput = form.querySelector('[data-date-input]');
+    const datePicker = form.querySelector('#TaiKhoanNgaySinhPicker');
     const dateButton = form.querySelector('[data-date-picker]');
 
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -54,23 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return yyyy ? `${dd}/${mm}/${yyyy}` : `${dd}/${mm}`;
     };
 
-    const getError = (name) => form.querySelector(`[data-error-for="${name}"]`);
-    const setError = (input, message) => {
-        if (!input) return;
-        const error = getError(input.name);
-        if (error) error.textContent = message || '';
-        input.setCustomValidity(message || '');
-    };
-
     const validateBirthDate = () => {
         if (!dateInput) return true;
         if (!dateInput.value) {
-            setError(dateInput, '');
+            dateInput.setCustomValidity('');
             return true;
         }
         const match = dateInput.value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
         if (!match) {
-            setError(dateInput, '');
+            dateInput.setCustomValidity('');
             return true;
         }
         const [, d, m, y] = match;
@@ -78,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const isValid = birthDate <= today;
-        setError(dateInput, isValid ? '' : 'Ngày sinh không được lớn hơn ngày hiện tại.');
+        dateInput.setCustomValidity(isValid ? '' : 'Ngày sinh không được lớn hơn ngày hiện tại.');
         return isValid;
     };
 
@@ -90,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         dateInput.addEventListener('blur', () => {
             if (!dateInput.value) {
-                setError(dateInput, '');
+                dateInput.setCustomValidity('');
                 return;
             }
             dateInput.value = normalizeDate(dateInput.value);
@@ -124,22 +116,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const strengthWrapper = form.querySelector('[data-strength]');
     const strengthBar = form.querySelector('[data-strength-bar]');
     const strengthText = form.querySelector('[data-strength-text]');
-    const passwordInput = form.querySelector('#AuthRegisterMatKhau');
-    const phoneInput = form.querySelector('#AuthRegisterSdt');
+    const passwordInput = form.querySelector('#TaiKhoanMatKhau');
+    const confirmInput = form.querySelector('#TaiKhoanXacNhan');
 
-    const validatePhone = () => {
-        if (!phoneInput) return true;
-        const digits = phoneInput.value.replace(/\D/g, '').slice(0, 10);
-        if (phoneInput.value !== digits) phoneInput.value = digits;
-        const isValid = digits.length === 10;
-        setError(phoneInput, isValid ? '' : 'Số điện thoại phải đủ 10 số.');
-        return isValid;
-    };
-
-    const validatePassword = () => {
-        if (!passwordInput) return true;
-        const isValid = passwordInput.value.length >= 6;
-        setError(passwordInput, isValid ? '' : 'Mật khẩu tối thiểu 6 ký tự.');
+    const validateConfirm = () => {
+        if (!confirmInput || !passwordInput) return true;
+        if (!confirmInput.value && !passwordInput.value) {
+            confirmInput.setCustomValidity('');
+            return true;
+        }
+        const isValid = confirmInput.value === passwordInput.value;
+        confirmInput.setCustomValidity(isValid ? '' : 'Xác nhận mật khẩu không khớp.');
         return isValid;
     };
 
@@ -178,32 +165,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (passwordInput) {
         passwordInput.addEventListener('input', () => {
-            validatePassword();
             updateStrength(passwordInput.value);
+            validateConfirm();
         });
     }
 
-    const button = form.querySelector('.auth-btn');
-    if (phoneInput) {
-        phoneInput.addEventListener('input', validatePhone);
-        phoneInput.addEventListener('blur', validatePhone);
+    if (confirmInput) {
+        confirmInput.addEventListener('input', validateConfirm);
     }
 
     form.addEventListener('submit', (event) => {
         const birthDateOk = validateBirthDate();
-        const phoneOk = validatePhone();
-        const passwordOk = validatePassword();
-        if (!birthDateOk || !phoneOk || !passwordOk) {
+        const confirmOk = validateConfirm();
+        if (!birthDateOk || !confirmOk) {
             event.preventDefault();
             form.reportValidity();
-            return;
         }
-        if (!button) return;
-        button.disabled = true;
-        button.dataset.loading = '1';
-        button.textContent = 'Đang xử lý...';
     });
-
 });
-
-
